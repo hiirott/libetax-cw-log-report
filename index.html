@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>加算候補業務 実態把握レポート - CWログ分析</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #2563eb; --primary-light: #dbeafe;
+  --success: #059669; --warning: #d97706; --danger: #dc2626;
+  --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+  --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
+  --cat1: #8b5cf6; --cat2: #ef4444; --cat3: #f59e0b; --cat4: #10b981;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Noto Sans JP', sans-serif; background: var(--gray-50); color: var(--gray-900); line-height: 1.7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
+header { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: white; padding: 3rem 2rem; margin-bottom: 2rem; border-radius: 12px; }
+header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+header p { opacity: 0.9; font-size: 0.95rem; }
+.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.summary-card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 4px solid var(--primary); }
+.summary-card.c1 { border-left-color: var(--cat1); }
+.summary-card.c2 { border-left-color: var(--cat2); }
+.summary-card.c3 { border-left-color: var(--cat3); }
+.summary-card.c4 { border-left-color: var(--cat4); }
+.summary-card .label { font-size: 0.82rem; color: var(--gray-500); margin-bottom: 0.3rem; }
+.summary-card .value { font-size: 2rem; font-weight: 700; }
+.summary-card.c1 .value { color: var(--cat1); }
+.summary-card.c2 .value { color: var(--cat2); }
+.summary-card.c3 .value { color: var(--cat3); }
+.summary-card.c4 .value { color: var(--cat4); }
+.summary-card .sub { font-size: 0.8rem; color: var(--gray-500); margin-top: 0.3rem; }
+.section { background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+.section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-light); }
+.section h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.8rem; color: var(--gray-700); }
+table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+th { background: var(--gray-100); padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; white-space: nowrap; position: sticky; top: 0; }
+td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--gray-200); }
+tr:hover td { background: #f0f4ff; }
+.num { text-align: center; font-variant-numeric: tabular-nums; }
+.num.high { background: #fee2e2; color: var(--danger); font-weight: 700; }
+.num.mid { background: #fef3c7; color: var(--warning); font-weight: 600; }
+.num.low { background: #f0fdf4; color: var(--success); }
+.num.zero { color: #d1d5db; }
+.tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
+.tag-high { background: #fee2e2; color: var(--danger); }
+.tag-mid { background: #fef3c7; color: var(--warning); }
+.tag-low { background: #d1fae5; color: var(--success); }
+.insight-box { background: #fffbeb; border-left: 4px solid var(--warning); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; font-size: 0.9rem; }
+.insight-box.primary { background: var(--primary-light); border-left-color: var(--primary); }
+.insight-box.success { background: #ecfdf5; border-left-color: var(--success); }
+.insight-box.danger { background: #fef2f2; border-left-color: var(--danger); }
+.insight-box strong { display: block; margin-bottom: 0.3rem; }
+.evidence { background: var(--gray-50); border-radius: 6px; padding: 0.8rem 1rem; margin: 0.5rem 0; font-size: 0.82rem; border: 1px solid var(--gray-200); }
+.evidence .date { color: var(--gray-500); font-size: 0.75rem; }
+.evidence .sender { color: var(--primary); font-weight: 500; }
+.evidence .quote { color: var(--gray-700); margin-top: 0.3rem; }
+.cat-header { display: flex; align-items: center; gap: 0.5rem; }
+.cat-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.copy-btn { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.3); z-index: 1000; font-family: 'Noto Sans JP', sans-serif; }
+.copy-btn:hover { background: #1d4ed8; }
+.copy-btn.copied { background: var(--success); }
+footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0.85rem; }
+.note { font-size: 0.82rem; color: var(--gray-500); font-style: italic; margin-bottom: 1rem; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <h1>加算候補業務 実態把握レポート</h1>
+  <p>CWログからの検出結果 | 対象: アクティブ31ルーム（2,760メッセージ）| 2026-04-05</p>
+  <p style="margin-top:0.3rem; opacity:0.8;">顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ</p>
+</header>
+
+<!-- Summary -->
+<div class="summary-grid">
+  <div class="summary-card c1">
+    <div class="label">①会計ソフト初期対応</div>
+    <div class="value">12</div>
+    <div class="sub">クライアントで検出</div>
+  </div>
+  <div class="summary-card c2">
+    <div class="label">②消費税（複雑）</div>
+    <div class="value">26</div>
+    <div class="sub">クライアントで検出</div>
+  </div>
+  <div class="summary-card c3">
+    <div class="label">③管理会計・多拠点・労務</div>
+    <div class="value">13</div>
+    <div class="sub">クライアントで検出</div>
+  </div>
+  <div class="summary-card c4">
+    <div class="label">④付加価値業務・リスク判定</div>
+    <div class="value">26</div>
+    <div class="sub">クライアントで検出</div>
+  </div>
+</div>
+
+<div class="insight-box primary">
+  <strong>読み方の注意</strong>
+  本レポートはCWログ（直近100件/ルーム）のキーワード検出に基づく補助データです。達人の申告データとは異なり、「チャットで話題に出た」ことを示すもので、実際に業務が発生したかどうかの最終判断には達人データとの突合が必要です。ヒット数は「件数」ではなく「検出メッセージ数」です。
+</div>
+
+<!-- Cross-tab Matrix -->
+<div class="section">
+  <h2>クライアント × 加算候補 マトリクス</h2>
+  <p class="note">数値 = 該当キーワードを含むメッセージ数。色: 赤=10件以上 / 黄=3件以上 / 緑=1件以上 / 灰=0</p>
+  <div style="overflow-x:auto;">
+  <table>
+    <thead>
+      <tr>
+        <th>クライアント</th>
+        <th class="num" style="background:#f3e8ff;">①会計ソフト</th>
+        <th class="num" style="background:#fee2e2;">②消費税</th>
+        <th class="num" style="background:#fef3c7;">③管理・拠点</th>
+        <th class="num" style="background:#d1fae5;">④付加価値</th>
+        <th class="num">合計</th>
+        <th>要注目ポイント</th>
+      </tr>
+    </thead>
+    <tbody id="matrix-body">
+    </tbody>
+  </table>
+  </div>
+</div>
+
+<!-- Category 1 -->
+<div class="section">
+  <h2><span class="cat-dot" style="background:var(--cat1);"></span> ①会計ソフト初期対応（12クライアント）</h2>
+  <p class="note">科目設定・初期構築・過年度データインポート・MF導入設定等のキーワードで検出</p>
+
+  <table>
+    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
+    <tbody>
+      <tr><td>伊藤さん</td><td class="num mid">5</td><td>初期設定の勘定科目名の変更相談、法人への売上移行</td></tr>
+      <tr><td>宮田さん</td><td class="num low">3</td><td>法人へ移行、権限移行操作、MF設定</td></tr>
+      <tr><td>上田さん</td><td class="num low">3</td><td>法人移行シミュレーション、マイクロ法人検討</td></tr>
+      <tr><td>照井さん</td><td class="num low">3</td><td>達人のデータ移行・環境移行</td></tr>
+      <tr><td>中村さん</td><td class="num low">3</td><td>法人移行検討、マイクロ法人検討</td></tr>
+      <tr><td>上野さん</td><td class="num low">1</td><td>ShopeeデータのMFインポート作業（6カ国分の円換算→転記）</td></tr>
+      <tr><td>真木さん</td><td class="num low">1</td><td>達人へのデータインポート方法の質問</td></tr>
+      <tr><td>小栗さん</td><td class="num low">1</td><td>法人への売上移行スキーム</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box">
+    <strong>分析ポイント</strong>
+    「初期対応」そのものよりも「法人成り・マイクロ法人への移行」に伴う設定作業が多い。上野さんのShopee→MFインポート（6カ国分）は継続的な工数発生の可能性あり。
+  </div>
+</div>
+
+<!-- Category 2 -->
+<div class="section">
+  <h2><span class="cat-dot" style="background:var(--cat2);"></span> ②消費税（複雑）（26/31クライアント）</h2>
+  <p class="note">個別対応方式・課税売上割合・簡易/本則判定・インボイス対応・2割特例・還付申告等</p>
+
+  <table>
+    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
+    <tbody>
+      <tr><td>酒巻さん</td><td class="num high">22</td><td>課税区分判定の質問多数、消費税届出書作成、課税期間短縮3月ごと、本則（還付）</td></tr>
+      <tr><td>権田さん</td><td class="num high">16</td><td>原則課税vs簡易課税のシミュレーション、法人成り時の消費税設計</td></tr>
+      <tr><td>陳さん</td><td class="num high">16</td><td>棚卸調整の計算、2割特例判定、課税区分の省略可否</td></tr>
+      <tr><td>宮田さん</td><td class="num high">12</td><td>課税事業者移行、簡易課税の試算、インボイス登録要否</td></tr>
+      <tr><td>海島さん</td><td class="num high">11</td><td>複数顧問先の消費税申告（簡易/本則混在）</td></tr>
+      <tr><td>大谷さん</td><td class="num high">10</td><td>原則課税（還付）、課税事業者の判定・届出書作成</td></tr>
+      <tr><td>照井さん</td><td class="num high">10</td><td>消費税計算方法の確認、簡易課税有利判定、課税期間短縮</td></tr>
+      <tr><td>伊藤さん</td><td class="num mid">8</td><td>原則課税、インボイス取消後の免税、不課税売上のみの0円申告</td></tr>
+      <tr><td>中谷さん</td><td class="num mid">8</td><td>簡易課税選択の届出ミス、原則課税・インボイス未登録の法人</td></tr>
+      <tr><td>西島さん</td><td class="num mid">8</td><td>本則課税、来期からの課税事業者、棚卸調整</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box danger">
+    <strong>注目: 31ルーム中26ルーム（84%）で検出</strong>
+    消費税関連はほぼ全クライアントで話題に。特に酒巻さん(22件)・権田さん(16件)・陳さん(16件)は課税区分の判定・シミュレーション・届出書作成が頻出しており、標準業務を超える工数が発生している可能性が高い。
+  </div>
+</div>
+
+<!-- Category 3 -->
+<div class="section">
+  <h2><span class="cat-dot" style="background:var(--cat3);"></span> ③管理会計・多拠点・労務付随（13クライアント）</h2>
+  <p class="note">部門別管理・地方税提出先・住民税異動届・法定調書・給与支払報告書等</p>
+
+  <table>
+    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
+    <tbody>
+      <tr><td>酒巻さん</td><td class="num mid">6</td><td>地方税（県・市）の提出先記載、複数自治体対応</td></tr>
+      <tr><td>Ryuさん</td><td class="num mid">5</td><td>事前確定届出給与の届出書・異動届を複数法人で作成</td></tr>
+      <tr><td>宮田さん</td><td class="num mid">5</td><td>本店移転の各種届出（税務署・都・市）、給与支払事務所の移転届</td></tr>
+      <tr><td>権田さん</td><td class="num mid">4</td><td>法定調書チェック</td></tr>
+      <tr><td>井上さん</td><td class="num low">3</td><td>従業員の異動届作成</td></tr>
+      <tr><td>引地さん</td><td class="num low">3</td><td>本店移転・代表者住所変更の異動届、労務相談（社労士への紹介）</td></tr>
+      <tr><td>中村さん</td><td class="num low">3</td><td>源泉所得税の0円提出、法定調書の提出要否確認</td></tr>
+      <tr><td>鎌田さん</td><td class="num low">2</td><td>年末調整、給与支払報告書、法定調書の提出</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box">
+    <strong>分析ポイント</strong>
+    CWログだけでは「部門別管理」の実態は見えにくい（達人データ側で把握が必要）。CWで検出できるのは主に異動届・法定調書・移転届など「付随手続き」の発生。宮田さんの本店移転は一時的な工数増だが、酒巻さんの複数自治体対応は継続的。
+  </div>
+</div>
+
+<!-- Category 4 -->
+<div class="section">
+  <h2><span class="cat-dot" style="background:var(--cat4);"></span> ④付加価値業務・リスク判定（26クライアント）</h2>
+  <p class="note">賃上げ税制・繰戻還付・源泉還付・シミュレーション・株価算定・組織再編・税務調査等</p>
+
+  <table>
+    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
+    <tbody>
+      <tr><td>髙本さん</td><td class="num high">43</td><td>法人化シミュレーション多数、不動産売却の税額試算、償却資産申告</td></tr>
+      <tr><td>柿島さん</td><td class="num high">21</td><td>個人・マイクロ法人のシミュレーション、家事按分の適正判断</td></tr>
+      <tr><td>中谷さん</td><td class="num high">21</td><td>繰越欠損金の控除判定（法人税法57条の2）、定款の事業目的確認</td></tr>
+      <tr><td>上田さん</td><td class="num high">18</td><td>法人成りシミュレーション（4パターン比較）、役員報酬最適化</td></tr>
+      <tr><td>照井さん</td><td class="num high">15</td><td>マイクロ法人設立シミュレーション、消費税シミュレーション</td></tr>
+      <tr><td>上野さん</td><td class="num high">14</td><td>源泉所得税の還付、役員報酬最適化シミュレーション</td></tr>
+      <tr><td>小栗さん</td><td class="num high">13</td><td>源泉所得税の還付請求、委任状作成</td></tr>
+      <tr><td>権田さん</td><td class="num high">12</td><td>法人成りシミュレーション、源泉還付</td></tr>
+      <tr><td>伊藤さん</td><td class="num high">12</td><td>賃上げ促進税制の適用判定（前年0円で不可）、所得拡大促進税制</td></tr>
+      <tr><td>中村さん</td><td class="num high">12</td><td>賃上げ税制の繰り越し、繰越欠損金と役員報酬の最適化</td></tr>
+      <tr><td>田路さん</td><td class="num high">12</td><td>法人成りの税額シミュレーション、棚卸資産の消費税調整</td></tr>
+      <tr><td>陳さん</td><td class="num high">12</td><td>繰越欠損金、創立費償却の判断、議事録作成</td></tr>
+      <tr><td>梅木さん</td><td class="num high">11</td><td>法人化シミュレーション、業務切り分け検討</td></tr>
+      <tr><td>鎌田さん</td><td class="num mid">9</td><td>法人成りシミュレーション</td></tr>
+      <tr><td>太田綾さん</td><td class="num mid">7</td><td>事業譲渡、消費税シミュレーション、課税選択して還付</td></tr>
+      <tr><td>西島さん</td><td class="num mid">7</td><td>償却資産申告、少額減価償却資産の特例、譲渡所得判定</td></tr>
+    </tbody>
+  </table>
+
+  <div class="insight-box danger">
+    <strong>注目: シミュレーション業務が圧倒的に多い</strong>
+    「法人成りシミュレーション」「マイクロ法人シミュレーション」「役員報酬最適化」が最頻出。髙本さん(43件)は法人化・不動産売却・償却資産と複数の付加価値業務が集中。賃上げ促進税制の適用判定も伊藤さん・中村さん・大谷さんで発生。
+  </div>
+</div>
+
+<!-- Top Priority Clients -->
+<div class="section">
+  <h2>加算検討 優先クライアント（合計スコア上位）</h2>
+  <p class="note">4カテゴリの検出数合計でソート。スコアが高いほど「標準を超える業務が多い可能性」が高い。</p>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>クライアント</th><th class="num">①会計</th><th class="num">②消費税</th><th class="num">③管理</th><th class="num">④付加</th><th class="num">合計</th><th>加算検討の所見</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td><strong>髙本さん</strong></td><td class="num zero">0</td><td class="num mid">5</td><td class="num zero">0</td><td class="num high">43</td><td class="num high">48</td><td>シミュレーション・不動産評価が突出。④で加算の可能性高</td></tr>
+      <tr><td>2</td><td><strong>権田さん</strong></td><td class="num zero">0</td><td class="num high">16</td><td class="num mid">4</td><td class="num high">12</td><td class="num high">32</td><td>消費税複雑+法人成りSIM+法定調書。②④で加算候補</td></tr>
+      <tr><td>3</td><td><strong>酒巻さん</strong></td><td class="num zero">0</td><td class="num high">22</td><td class="num mid">6</td><td class="num low">3</td><td class="num high">31</td><td>消費税が最多。課税期間短縮+複数自治体。②③で加算候補</td></tr>
+      <tr><td>4</td><td><strong>中谷さん</strong></td><td class="num low">1</td><td class="num mid">8</td><td class="num low">1</td><td class="num high">21</td><td class="num high">31</td><td>繰越欠損金の特殊判定+消費税届出ミスの修正。②④で加算候補</td></tr>
+      <tr><td>5</td><td><strong>陳さん</strong></td><td class="num low">1</td><td class="num high">16</td><td class="num low">1</td><td class="num high">12</td><td class="num high">30</td><td>棚卸調整・2割特例判定・創立費・議事録。②④で加算候補</td></tr>
+      <tr><td>6</td><td><strong>照井さん</strong></td><td class="num low">3</td><td class="num high">10</td><td class="num zero">0</td><td class="num high">15</td><td class="num high">28</td><td>消費税SIM+マイクロ法人SIM。②④で加算候補</td></tr>
+      <tr><td>7</td><td><strong>柿島さん</strong></td><td class="num zero">0</td><td class="num mid">6</td><td class="num zero">0</td><td class="num high">21</td><td class="num high">27</td><td>個人・マイクロ法人SIMが集中。④で加算候補</td></tr>
+      <tr><td>8</td><td><strong>上田さん</strong></td><td class="num low">3</td><td class="num mid">5</td><td class="num zero">0</td><td class="num high">18</td><td class="num high">26</td><td>法人成りSIM(4パターン)+役員報酬最適化。①④で加算候補</td></tr>
+      <tr><td>9</td><td><strong>伊藤さん</strong></td><td class="num mid">5</td><td class="num mid">8</td><td class="num zero">0</td><td class="num high">12</td><td class="num high">25</td><td>初期設定+原則課税+賃上げ税制。①②④で加算候補</td></tr>
+      <tr><td>10</td><td><strong>中村さん</strong></td><td class="num low">3</td><td class="num mid">7</td><td class="num low">3</td><td class="num high">12</td><td class="num high">25</td><td>賃上げ税制+繰越欠損金+法定調書。全カテゴリにまたがる</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Next Steps -->
+<div class="section">
+  <h2>Phase 1 次のアクション</h2>
+
+  <div class="insight-box success">
+    <strong>CWログで見えたこと / 見えないこと</strong>
+    <table style="margin-top:0.5rem; font-size:0.85rem;">
+      <tr><td style="width:50%; vertical-align:top; padding-right:1rem;">
+        <strong style="color:var(--success);">見えたこと</strong>
+        <ul style="padding-left:1.2rem; margin-top:0.3rem;">
+          <li>シミュレーション業務（法人成り・マイクロ法人・役員報酬最適化）が非常に多い → ④の加算対象として最有力</li>
+          <li>消費税関連は84%のクライアントで発生。特に原則/簡易の判定・届出・棚卸調整が工数を食っている</li>
+          <li>賃上げ促進税制の適用検討が複数クライアントで発生（適用不可のケースも含め判定工数がかかっている）</li>
+          <li>繰戻還付・源泉還付の請求がスポットで発生</li>
+        </ul>
+      </td><td style="vertical-align:top;">
+        <strong style="color:var(--danger);">見えないこと（達人データが必要）</strong>
+        <ul style="padding-left:1.2rem; margin-top:0.3rem;">
+          <li>部門別管理の実態（何部門か）</li>
+          <li>課税売上高5億超のクライアント特定</li>
+          <li>個別対応方式の採用有無</li>
+          <li>償却資産申告書の提出先自治体数</li>
+          <li>各クライアントの所得層・年間報酬との突合</li>
+        </ul>
+      </td></tr>
+    </table>
+  </div>
+
+  <h3>推奨アクション</h3>
+  <table>
+    <thead><tr><th>アクション</th><th>目的</th><th>期限目安</th></tr></thead>
+    <tbody>
+      <tr><td>達人データの書き出し（消費税申告書・別表）</td><td>②の精度向上：個別対応方式・課税売上割合の実数値を把握</td><td>4月中</td></tr>
+      <tr><td>シミュレーション実施件数の集計（スタッフヒアリング）</td><td>④の定量化：CW以外で実施したSIMも把握</td><td>4月中</td></tr>
+      <tr><td>上位10クライアントの担当スタッフに所見確認</td><td>CW検出結果の妥当性検証</td><td>5月上旬</td></tr>
+      <tr><td>このレポートをディレクターMTGで共有</td><td>Phase 2（基準・金額設計）への合意形成</td><td>5月中旬</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<footer>
+  Generated by HiROBOT AI | Source: Chatwork API (max 100 msgs/room) | 2026-04-05<br>
+  顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ
+</footer>
+
+</div>
+
+<button class="copy-btn" onclick="copyAll()">全てをコピー</button>
+
+<script>
+const matrix = [
+  {name:"髙本",c1:0,c2:5,c3:0,c4:43,note:"SIM・不動産評価が突出"},
+  {name:"権田",c1:0,c2:16,c3:4,c4:12,note:"消費税+法人成りSIM"},
+  {name:"酒巻",c1:0,c2:22,c3:6,c4:3,note:"消費税最多+複数自治体"},
+  {name:"中谷",c1:1,c2:8,c3:1,c4:21,note:"繰越欠損金+届出修正"},
+  {name:"陳",c1:1,c2:16,c3:1,c4:12,note:"棚調+2割特例+創立費"},
+  {name:"照井",c1:3,c2:10,c3:0,c4:15,note:"消費税SIM+マイクロSIM"},
+  {name:"柿島",c1:0,c2:6,c3:0,c4:21,note:"個人・マイクロSIM集中"},
+  {name:"上田",c1:3,c2:5,c3:0,c4:18,note:"法人成りSIM(4パターン)"},
+  {name:"伊藤",c1:5,c2:8,c3:0,c4:12,note:"初期設定+原則課税+賃上げ"},
+  {name:"中村",c1:3,c2:7,c3:3,c4:12,note:"賃上げ+欠損金+法定調��"},
+  {name:"宮田",c1:3,c2:12,c3:5,c4:4,note:"法人移行+本店移転届"},
+  {name:"田路",c1:1,c2:7,c3:1,c4:12,note:"法人成りSIM+棚卸調整"},
+  {name:"上野",c1:1,c2:7,c3:0,c4:14,note:"源泉還付+役員報酬SIM"},
+  {name:"小栗",c1:1,c2:4,c3:0,c4:13,note:"源泉還付請求"},
+  {name:"西島",c1:1,c2:8,c3:0,c4:7,note:"本則課税+償却資産"},
+  {name:"海島",c1:0,c2:11,c3:0,c4:5,note:"複数顧問先の消費税申告"},
+  {name:"Ryu",c1:0,c2:5,c3:5,c4:5,note:"複数法人の届出書"},
+  {name:"鎌田",c1:0,c2:3,c3:2,c4:9,note:"法人成りSIM+年末調整"},
+  {name:"引地",c1:0,c2:6,c3:3,c4:4,note:"本店移転+繰戻還付"},
+  {name:"梅木",c1:0,c2:2,c3:0,c4:11,note:"法人化SIM"},
+  {name:"大谷",c1:0,c2:10,c3:0,c4:2,note:"原則課税（還付）"},
+  {name:"太田綾",c1:0,c2:4,c3:1,c4:7,note:"事業譲渡+消費税SIM"},
+  {name:"谷",c1:0,c2:7,c3:0,c4:2,note:"消費税届出の修正"},
+  {name:"井上",c1:0,c2:2,c3:3,c4:2,note:"異動届+資金繰り"},
+  {name:"風巻",c1:0,c2:6,c3:0,c4:0,note:"課税期間短縮+本則還付"},
+  {name:"堀江",c1:0,c2:1,c3:0,c4:5,note:"不動産売却の税額SIM"},
+  {name:"岸田",c1:0,c2:0,c3:1,c4:3,note:"更正の請求・修正申告"},
+  {name:"真木",c1:1,c2:0,c3:0,c4:0,note:"達人データインポート"},
+  // 検出なしのクライアント
+  {name:"大嶋",c1:0,c2:0,c3:0,c4:0,note:"検出なし（メッセージ少）"},
+  {name:"坂口",c1:0,c2:0,c3:0,c4:0,note:"検出なし（メッセージ少）"},
+  {name:"小川",c1:0,c2:0,c3:0,c4:0,note:"検出なし（メッセージ少）"},
+];
+
+matrix.sort((a,b) => (b.c1+b.c2+b.c3+b.c4) - (a.c1+a.c2+a.c3+a.c4));
+
+const numClass = (v) => v >= 10 ? 'num high' : v >= 3 ? 'num mid' : v >= 1 ? 'num low' : 'num zero';
+const tbody = document.getElementById('matrix-body');
+matrix.forEach(r => {
+  const total = r.c1+r.c2+r.c3+r.c4;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `<td>${r.name}さん</td><td class="${numClass(r.c1)}">${r.c1||'-'}</td><td class="${numClass(r.c2)}">${r.c2||'-'}</td><td class="${numClass(r.c3)}">${r.c3||'-'}</td><td class="${numClass(r.c4)}">${r.c4||'-'}</td><td class="${numClass(total)}">${total}</td><td style="font-size:0.8rem; color:var(--gray-700);">${r.note}</td>`;
+  tbody.appendChild(tr);
+});
+
+function copyAll() {
+  const btn = document.querySelector('.copy-btn');
+  navigator.clipboard.writeText(document.body.innerText).then(() => {
+    btn.textContent = 'コピーしました!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = '全てをコピー'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+</script>
+</body>
+</html>
