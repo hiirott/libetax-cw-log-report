@@ -22,22 +22,18 @@ header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
 header p { opacity: 0.9; font-size: 0.95rem; }
 .summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
 .summary-card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 4px solid var(--primary); }
-.summary-card.c1 { border-left-color: var(--cat1); }
-.summary-card.c2 { border-left-color: var(--cat2); }
-.summary-card.c3 { border-left-color: var(--cat3); }
-.summary-card.c4 { border-left-color: var(--cat4); }
+.summary-card.c1 { border-left-color: var(--cat1); } .summary-card.c2 { border-left-color: var(--cat2); }
+.summary-card.c3 { border-left-color: var(--cat3); } .summary-card.c4 { border-left-color: var(--cat4); }
 .summary-card .label { font-size: 0.82rem; color: var(--gray-500); margin-bottom: 0.3rem; }
 .summary-card .value { font-size: 2rem; font-weight: 700; }
-.summary-card.c1 .value { color: var(--cat1); }
-.summary-card.c2 .value { color: var(--cat2); }
-.summary-card.c3 .value { color: var(--cat3); }
-.summary-card.c4 .value { color: var(--cat4); }
+.summary-card.c1 .value { color: var(--cat1); } .summary-card.c2 .value { color: var(--cat2); }
+.summary-card.c3 .value { color: var(--cat3); } .summary-card.c4 .value { color: var(--cat4); }
 .summary-card .sub { font-size: 0.8rem; color: var(--gray-500); margin-top: 0.3rem; }
 .section { background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 .section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-light); }
 .section h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.8rem; color: var(--gray-700); }
 table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-th { background: var(--gray-100); padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; white-space: nowrap; position: sticky; top: 0; }
+th { background: var(--gray-100); padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; white-space: nowrap; }
 td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--gray-200); }
 tr:hover td { background: #f0f4ff; }
 .num { text-align: center; font-variant-numeric: tabular-nums; }
@@ -46,9 +42,6 @@ tr:hover td { background: #f0f4ff; }
 .num.low { background: #f0fdf4; color: var(--success); }
 .num.zero { color: #d1d5db; }
 .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
-.tag-high { background: #fee2e2; color: var(--danger); }
-.tag-mid { background: #fef3c7; color: var(--warning); }
-.tag-low { background: #d1fae5; color: var(--success); }
 .insight-box { background: #fffbeb; border-left: 4px solid var(--warning); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; font-size: 0.9rem; }
 .insight-box.primary { background: var(--primary-light); border-left-color: var(--primary); }
 .insight-box.success { background: #ecfdf5; border-left-color: var(--success); }
@@ -58,11 +51,9 @@ tr:hover td { background: #f0f4ff; }
 .evidence .date { color: var(--gray-500); font-size: 0.75rem; }
 .evidence .sender { color: var(--primary); font-weight: 500; }
 .evidence .quote { color: var(--gray-700); margin-top: 0.3rem; }
-.cat-header { display: flex; align-items: center; gap: 0.5rem; }
 .cat-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
 .copy-btn { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.3); z-index: 1000; font-family: 'Noto Sans JP', sans-serif; }
-.copy-btn:hover { background: #1d4ed8; }
-.copy-btn.copied { background: var(--success); }
+.copy-btn:hover { background: #1d4ed8; } .copy-btn.copied { background: var(--success); }
 footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0.85rem; }
 .note { font-size: 0.82rem; color: var(--gray-500); font-style: italic; margin-bottom: 1rem; }
 </style>
@@ -72,37 +63,36 @@ footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0
 
 <header>
   <h1>加算候補業務 実態把握レポート</h1>
-  <p>CWログからの検出結果 | 対象: アクティブ31ルーム（2,760メッセージ）| 2026-04-05</p>
+  <p>CWログからの検出結果 | 対象: 38ルーム（15,002メッセージ）| 2026-04-06</p>
   <p style="margin-top:0.3rem; opacity:0.8;">顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ</p>
 </header>
 
-<!-- Summary -->
 <div class="summary-grid">
   <div class="summary-card c1">
     <div class="label">①会計ソフト初期対応</div>
-    <div class="value">12</div>
+    <div class="value">34</div>
     <div class="sub">クライアントで検出</div>
   </div>
   <div class="summary-card c2">
     <div class="label">②消費税（複雑）</div>
-    <div class="value">26</div>
+    <div class="value">34</div>
     <div class="sub">クライアントで検出</div>
   </div>
   <div class="summary-card c3">
     <div class="label">③管理会計・多拠点・労務</div>
-    <div class="value">13</div>
+    <div class="value">33</div>
     <div class="sub">クライアントで検出</div>
   </div>
   <div class="summary-card c4">
     <div class="label">④付加価値業務・リスク判定</div>
-    <div class="value">26</div>
+    <div class="value">32</div>
     <div class="sub">クライアントで検出</div>
   </div>
 </div>
 
 <div class="insight-box primary">
   <strong>読み方の注意</strong>
-  本レポートはCWログ（直近100件/ルーム）のキーワード検出に基づく補助データです。達人の申告データとは異なり、「チャットで話題に出た」ことを示すもので、実際に業務が発生したかどうかの最終判断には達人データとの突合が必要です。ヒット数は「件数」ではなく「検出メッセージ数」です。
+  本レポートはCWログのキーワード検出に基づく補助データです。「チャットで話題に出た」ことを示すもので、実際に業務が発生したかどうかの最終判断には達人データとの突合が必要です。ヒット数は「検出メッセージ数」です。
 </div>
 
 <!-- Cross-tab Matrix -->
@@ -122,248 +112,298 @@ footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0
         <th>要注目ポイント</th>
       </tr>
     </thead>
-    <tbody id="matrix-body">
-    </tbody>
+    <tbody id="matrix-body"></tbody>
   </table>
   </div>
 </div>
 
-<!-- Category 1 -->
+
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat1);"></span> ①会計ソフト初期対応（12クライアント）</h2>
-  <p class="note">科目設定・初期構築・過年度データインポート・MF導入設定等のキーワードで検出</p>
-
-  <table>
-    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
-    <tbody>
-      <tr><td>伊藤さん</td><td class="num mid">5</td><td>初期設定の勘定科目名の変更相談、法人への売上移行</td></tr>
-      <tr><td>宮田さん</td><td class="num low">3</td><td>法人へ移行、権限移行操作、MF設定</td></tr>
-      <tr><td>上田さん</td><td class="num low">3</td><td>法人移行シミュレーション、マイクロ法人検討</td></tr>
-      <tr><td>照井さん</td><td class="num low">3</td><td>達人のデータ移行・環境移行</td></tr>
-      <tr><td>中村さん</td><td class="num low">3</td><td>法人移行検討、マイクロ法人検討</td></tr>
-      <tr><td>上野さん</td><td class="num low">1</td><td>ShopeeデータのMFインポート作業（6カ国分の円換算→転記）</td></tr>
-      <tr><td>真木さん</td><td class="num low">1</td><td>達人へのデータインポート方法の質問</td></tr>
-      <tr><td>小栗さん</td><td class="num low">1</td><td>法人への売上移行スキーム</td></tr>
-    </tbody>
-  </table>
-
-  <div class="insight-box">
-    <strong>分析ポイント</strong>
-    「初期対応」そのものよりも「法人成り・マイクロ法人への移行」に伴う設定作業が多い。上野さんのShopee→MFインポート（6カ国分）は継続的な工数発生の可能性あり。
-  </div>
+  <h2><span class="cat-dot" style="background:var(--cat1);"></span> ①会計ソフト初期対応（34クライアント）</h2>
+  <p class="note">科目設定・初期構築・過年度データインポート・MF導入設定・法人化に伴うソフト移行等</p>
+  <table><thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead><tbody>
+<tr><td>引地さん</td><td class="num high">172</td><td style="font-size:0.82rem;">マネーフォワード（お疲れ様です 大変遅くなり申し訳ありません 合同会社SAKURA SPA株式会社 / お疲れ様です 大変遅くなり申し訳ありません 合同会社SAKURA SPA株式会社…）</td></tr>
+<tr><td>中谷さん</td><td class="num high">170</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、勘定科目（中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご / 前田先生、お疲れ様です。 桑原さんより、今後医療法人にした方がいいのか等ご意見聞…）</td></tr>
+<tr><td>上田さん</td><td class="num high">169</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、勘定科目（横尾先生お疲れ様です✨ （1月大変お疲れ様でございました）  浅沼大輝さんの数字 / ・決算帳簿チェック https://www.chatwork.com/#!rid…）</td></tr>
+<tr><td>柿島さん</td><td class="num high">70</td><td style="font-size:0.82rem;">マイクロ法人、勘定科目（お疲れ様です！ 古謝さんですが、社保加入サービスの件でマイクロ法人を進めています / おはようございます！  柿島圭貴2025年4月21日 16:16きゆな建材さんの…）</td></tr>
+<tr><td>中村さん</td><td class="num high">70</td><td style="font-size:0.82rem;">法人成り、マイクロ法人（中村誠泰さんですが、個人事業のMFチェック、消費税チェック、ふるさと納税試算、マ / 初めまして。 ぶるーむの梶原様の主担当になりました中村です。 よろしくお願いいた…）</td></tr>
+<tr><td>髙本さん</td><td class="num high">65</td><td style="font-size:0.82rem;">会計ソフト、マネーフォワード（CC引地伸嘉さん  お疲れ様です！ 下記、新規のお客様の担当振りをさせていただけ / お疲れ様です！  飯塚様ですが、問い合わせフォームにて、 「会計ソフト利用なし」…）</td></tr>
+<tr><td>小栗さん</td><td class="num high">51</td><td style="font-size:0.82rem;">帳簿、マネーフォワード（すみません、ちょっと分かり兼ねますので調べてみます。  現在、恐らく「今１ヶ月無 / 五月雨式に申し訳ございません。  ○ 仕入に関してですが、中村様「帳簿」をつけら…）</td></tr>
+<tr><td>太田綾さん</td><td class="num high">32</td><td style="font-size:0.82rem;">帳簿（エムケイケイ合同会社様を引き継ぐことになった太田です。 よろしくお願いいたします / 太田さん、お疲れ様です 返信が遅くなりましてすみません。  回答についてなのです…）</td></tr>
+<tr><td>宮田さん</td><td class="num high">29</td><td style="font-size:0.82rem;">マネーフォワード（お疲れ様です。 納期特例の納付書を作成しましたので、ご確認をお願いいたします 毎 / お疲れ様です  今月末をもってご解約となるお客様について、マネーフォワードを確認…）</td></tr>
+<tr><td>照井さん</td><td class="num high">17</td><td style="font-size:0.82rem;">法人成り、マネーフォワード（[To:8261316]中村悠希＠税理士さん 中村先生、お疲れ様です(bow)  / [rp aid=9000442 to=367383257-20863769433…）</td></tr>
+<tr><td>梅木さん</td><td class="num high">15</td><td style="font-size:0.82rem;">マイクロ法人（[rp aid=9469888 to=363934786-20851854394 / [rp aid=9556416 to=363934786-20851874890…）</td></tr>
+<tr><td>岡本さん</td><td class="num high">14</td><td style="font-size:0.82rem;">帳簿、マネーフォワード（消費税だけといえど、結局は帳簿の中身は全部見なきゃいけないし、太田さん言うように / [rp aid=232044 to=304192394-173603629818…）</td></tr>
+<tr><td>井上さん</td><td class="num high">11</td><td style="font-size:0.82rem;">マイクロ法人、帳簿（瀬川先生お疲れ様です 脇元さんですが、話が止まっていたマイクロ法人がすでに12月 / 井上さん、お疲れ様です  井上　敦史2025年4月9日 12:57話が止まってい…）</td></tr>
+<tr><td>谷さん</td><td class="num high">10</td><td style="font-size:0.82rem;">勘定科目（[To:2862006]納 浩一@税理士さん 納先生、お疲れ様です(coffee / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>鎌田さん</td><td class="num mid">9</td><td style="font-size:0.82rem;">法人成り（[To:10163232]綾野汰也@休日のご質問は翌営業日に対応いたします。さん / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>田路さん</td><td class="num mid">8</td><td style="font-size:0.82rem;">マイクロ法人、帳簿（[rp aid=5092192 to=397969438-20801882414 / [To:4181172]吉田　匡史さん お疲れ様です 西谷竜太郎様の法人化検討に…）</td></tr>
+<tr><td>西島さん</td><td class="num mid">8</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード（[To:5312810]前田幸勇さん お疲れさまです。 合同会社むさし心理教育研 / [To:3730421]杉山 雄司＠マイルくんさん お疲れさまです。（お久しぶり…）</td></tr>
+<tr><td>小倉さん</td><td class="num mid">7</td><td style="font-size:0.82rem;">帳簿、マネーフォワード（[To:2862006]納 浩一さん [To:8065398]小倉さん CC:[ / 帳簿保存を電子にすると紙で申告書等を保存しなくてもいい代わりに、調査の際にデータ…）</td></tr>
+<tr><td>田中さん</td><td class="num mid">6</td><td style="font-size:0.82rem;">マイクロ法人（[To:2807609]江口 博道さん お疲れ様です。 先日面談しました河野さん / [qt][qtmeta aid=7386671 time=1683716933]…）</td></tr>
+<tr><td>大谷さん</td><td class="num mid">6</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード（[To:4115870]ひろ(hiro)さん cc:[To:8261316]中村 / [To:8261316]中村悠希＠税理士さん 中村先生、お疲れ様です！  後藤様…）</td></tr>
+<tr><td>酒巻さん</td><td class="num mid">6</td><td style="font-size:0.82rem;">帳簿、勘定科目（[rp aid=9809939 to=378090258-20820533169 / [rp aid=4027943 to=378090258-20855644906…）</td></tr>
+<tr><td>Ryuさん</td><td class="num mid">4</td><td style="font-size:0.82rem;">帳簿（[rp aid=3593405 to=304192380-20839761894 / [To:7257085]大本　晋作さん お疲れさまです(bow) 1月決算の株式…）</td></tr>
+<tr><td>秋山さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">法人成り、マネーフォワード（[To:7687873]秋山 みずほさん お疲れ様です！ 田中光様の㈱フェイスピ / [rp aid=7687873 to=304192433-17404047796…）</td></tr>
+<tr><td>権田さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">マイクロ法人、帳簿、マネーフォワード（[To:1744233]大山智子さん お疲れ様です:) 吉崎さんのお父様の消費税 / [rp aid=7402771 to=342073021-20791178872…）</td></tr>
+<tr><td>伊藤さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">マイクロ法人、勘定科目（[rp aid=1744233 to=359231911-20685882061 / [rp aid=9320906 to=359231911-20685978413…）</td></tr>
+<tr><td>飯塚さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">マイクロ法人（[To:8261316]中村悠希さん CC[To:9386381]飯塚歩さん   / [To:9386381]飯塚歩※18日・19日返信遅めです。さん こちらこそ先日…）</td></tr>
+<tr><td>堀江さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード（[rp aid=7647679 to=412926765-20886764565 / [rp aid=10163232 to=412926765-2090659128…）</td></tr>
+<tr><td>風巻さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">勘定科目（[rp aid=9518934 to=423455559-20786938881 / [rp aid=2124830 to=423455559-20788476735…）</td></tr>
+<tr><td>海島さん</td><td class="num mid">3</td><td style="font-size:0.82rem;">帳簿（[info][title][dtext:task_added][/title][ / [info][title][dtext:task_done][/title][t…）</td></tr>
+<tr><td>上野さん</td><td class="num low">2</td><td style="font-size:0.82rem;">マイクロ法人、インポート（[To:4115870]ひろ(hiro)さん どなたにご相談したら良いか分からず / [To:4027943]瀬川 誠 @マロンくんさん 瀬川先生、お疲れ様です(bo…）</td></tr>
+<tr><td>岸田さん</td><td class="num low">2</td><td style="font-size:0.82rem;">法人成り（[To:6747212]岸田ゆうこさん [qt][qtmeta aid=1074 / [rp aid=6747212 to=304192423-20724904824…）</td></tr>
+<tr><td>陳さん</td><td class="num low">2</td><td style="font-size:0.82rem;">マイクロ法人、帳簿（[To:9556416]水谷亘さん お疲れ様です！ お休みのところ失礼いたします / [rp aid=9556416 to=407302655-20881414643…）</td></tr>
+<tr><td>真木さん</td><td class="num low">1</td><td style="font-size:0.82rem;">インポート（[rp aid=7442698 to=304192440-19450928867…）</td></tr>
+<tr><td>西城さん</td><td class="num low">1</td><td style="font-size:0.82rem;">freee（[To:2862006]納 浩一さん [To:4115870]ひろ(hiro)さ…）</td></tr>
+</tbody></table>
+  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date">2025-03-25</span> <span class="sender">引地伸嘉太田好昭＠税理士さん</span><div class="quote">お疲れ様です 大変遅くなり申し訳ありません 合同会社SAKURA SPA株式会社さま（1月決算、山本枝利さま）の数字を固めましたのでマネーフォワードのご確認をよ…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">タスクを編集しました。期限2025年7月21日中谷 成美2025年7月17日 11:48中村悠希さん</span><div class="quote">中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご確認よろしくお願いいたします顧問先名：050140_合同会社太田製作所様 事業者…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">横尾将司さん</span><div class="quote">横尾先生お疲れ様です✨ （1月大変お疲れ様でございました）  浅沼大輝さんの数字が固まりましたので、マネーフォワードのご確認をお願いいたしますMF事業者番号：7…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">タスクを追加しました。期限2026年3月28日柿島圭貴2026年3月28日 12:21村田 佑樹さん</span><div class="quote">お疲れ様です！ 古謝さんですが、社保加入サービスの件でマイクロ法人を進めています。 マイクロ法人化が適正なのか試算しましたので、ご確認をお願いします。  所得約…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">タスクを追加しました。期限2025年11月28日お疲れ様です。</span><div class="quote">中村誠泰さんですが、個人事業のMFチェック、消費税チェック、ふるさと納税試算、マイクロ法人の月次チェックの4つをお願いしたいと思います。 ただ現在、中村さんのお…</div></div></div>
 </div>
 
-<!-- Category 2 -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat2);"></span> ②消費税（複雑）（26/31クライアント）</h2>
+  <h2><span class="cat-dot" style="background:var(--cat2);"></span> ②消費税（複雑）（34クライアント）</h2>
   <p class="note">個別対応方式・課税売上割合・簡易/本則判定・インボイス対応・2割特例・還付申告等</p>
-
-  <table>
-    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
-    <tbody>
-      <tr><td>酒巻さん</td><td class="num high">22</td><td>課税区分判定の質問多数、消費税届出書作成、課税期間短縮3月ごと、本則（還付）</td></tr>
-      <tr><td>権田さん</td><td class="num high">16</td><td>原則課税vs簡易課税のシミュレーション、法人成り時の消費税設計</td></tr>
-      <tr><td>陳さん</td><td class="num high">16</td><td>棚卸調整の計算、2割特例判定、課税区分の省略可否</td></tr>
-      <tr><td>宮田さん</td><td class="num high">12</td><td>課税事業者移行、簡易課税の試算、インボイス登録要否</td></tr>
-      <tr><td>海島さん</td><td class="num high">11</td><td>複数顧問先の消費税申告（簡易/本則混在）</td></tr>
-      <tr><td>大谷さん</td><td class="num high">10</td><td>原則課税（還付）、課税事業者の判定・届出書作成</td></tr>
-      <tr><td>照井さん</td><td class="num high">10</td><td>消費税計算方法の確認、簡易課税有利判定、課税期間短縮</td></tr>
-      <tr><td>伊藤さん</td><td class="num mid">8</td><td>原則課税、インボイス取消後の免税、不課税売上のみの0円申告</td></tr>
-      <tr><td>中谷さん</td><td class="num mid">8</td><td>簡易課税選択の届出ミス、原則課税・インボイス未登録の法人</td></tr>
-      <tr><td>西島さん</td><td class="num mid">8</td><td>本則課税、来期からの課税事業者、棚卸調整</td></tr>
-    </tbody>
-  </table>
-
-  <div class="insight-box danger">
-    <strong>注目: 31ルーム中26ルーム（84%）で検出</strong>
-    消費税関連はほぼ全クライアントで話題に。特に酒巻さん(22件)・権田さん(16件)・陳さん(16件)は課税区分の判定・シミュレーション・届出書作成が頻出しており、標準業務を超える工数が発生している可能性が高い。
-  </div>
+  <table><thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead><tbody>
+<tr><td>引地さん</td><td class="num high">312</td><td style="font-size:0.82rem;">簡易課税、消費税（武藤様簡易課税選択オッケーです～117:56 / お疲れ様です 大変遅くなり申し訳ありません 合同会社SAKURA SPA株式会社…）</td></tr>
+<tr><td>中谷さん</td><td class="num high">307</td><td style="font-size:0.82rem;">消費税（中村先生、お疲れ様です。 下記の通り、会計データのご確認を宜しくお願いいたします / 中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご…）</td></tr>
+<tr><td>柿島さん</td><td class="num high">236</td><td style="font-size:0.82rem;">消費税（お疲れ様です！  須藤衣理さんの件でご相談です  https://www.cha / このたびの事業譲渡に関しまして、消費税の取扱いにつきまして。 今回の譲渡対象は、…）</td></tr>
+<tr><td>上田さん</td><td class="num high">213</td><td style="font-size:0.82rem;">消費税（中村先生お疲れ様です✨🏊  11月決算のPlus　Leadさんの消費税検討をマイ / マロン先生、あけましておめでとうございます✨ 今年もよろしくお願いします  株式…）</td></tr>
+<tr><td>太田綾さん</td><td class="num high">209</td><td style="font-size:0.82rem;">消費税（前田先生お疲れ様です。 以下のお客様の消費税シミュレーションを行いました。 ご確 / こちら、実務上は輸入許可証に記載された申告年月日に合わせて未払計上したりしますが…）</td></tr>
+<tr><td>宮田さん</td><td class="num high">205</td><td style="font-size:0.82rem;">消費税（ご確認ありがとうございます  納 浩一@税理士2025年5月15日 17:34な / お疲れ様です。 江川商運様の消費税予定申告書を作成しましたので、ご確認をお願いい…）</td></tr>
+<tr><td>髙本さん</td><td class="num high">167</td><td style="font-size:0.82rem;">消費税（納先生、お疲れ様です 祝日に申し訳ございません。急ぎの内容ではございません  泉 / 江口先生、お疲れ様です 祝日に申し訳ございません。急ぎの内容ではございません  …）</td></tr>
+<tr><td>中村さん</td><td class="num high">145</td><td style="font-size:0.82rem;">対象外、消費税（中村誠泰さんですが、個人事業のMFチェック、消費税チェック、ふるさと納税試算、マ / 伊藤晋吾さんの年末調整と下半期の源泉納付書作成しましたので、確認お願いいたします…）</td></tr>
+<tr><td>小栗さん</td><td class="num high">118</td><td style="font-size:0.82rem;">消費税（江口先生、お疲れ様です  阿部道さま消費税の件、お忙しい中ありがとうございます。 / 津軽醸造合同会社の消費税申告書を作成いたしましたので ご確認いただけますでしょう…）</td></tr>
+<tr><td>井上さん</td><td class="num high">107</td><td style="font-size:0.82rem;">消費税（また、ケイエヌサインからレキップへ請求額が変更になったため、 消費税額・買掛金・ / また、ケイエヌサインからレキップへ請求額が変更になったため、 消費税額・買掛金・…）</td></tr>
+<tr><td>谷さん</td><td class="num high">45</td><td style="font-size:0.82rem;">消費税（[To:2862006]納 浩一@税理士さん 納先生、お疲れ様です(coffee / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>照井さん</td><td class="num high">22</td><td style="font-size:0.82rem;">消費税（[To:9556416]水谷亘さん 水谷先生、お疲れ様です(bow) 下記、申告 / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>酒巻さん</td><td class="num high">22</td><td style="font-size:0.82rem;">消費税（[rp aid=4181172 to=378090258-20837293600 / [To:8261316]中村悠希＠税理士さん 中村先生、お疲れ様です(bow) …）</td></tr>
+<tr><td>権田さん</td><td class="num high">19</td><td style="font-size:0.82rem;">消費税、非課税（[To:1744233]大山智子さん お疲れ様です:) 吉崎さんのお父様の消費税 / [To:7402771]権田 智仁さん お疲れ様です！ 先ほど西山さんが事務所に…）</td></tr>
+<tr><td>秋山さん</td><td class="num high">18</td><td style="font-size:0.82rem;">インボイス、消費税、適格請求書（[To:2862006]納 浩一さん お疲れさまです(bow) 高野様のインボイ / [info][title][dtext:file_uploaded][/titl…）</td></tr>
+<tr><td>西島さん</td><td class="num high">18</td><td style="font-size:0.82rem;">消費税（[To:5312810]前田幸勇さん お疲れさまです。 合同会社むさし心理教育研 / [To:3730421]杉山 雄司＠マイルくんさん お疲れさまです。（お久しぶり…）</td></tr>
+<tr><td>小倉さん</td><td class="num high">16</td><td style="font-size:0.82rem;">消費税、免税（[To:2862006]納 浩一さん お疲れ様です。 吉田様のご対応ありがとうご / 吉田様確認用です。 売上は全額課税売上と伺っています。 TikTokが怪しいです…）</td></tr>
+<tr><td>田路さん</td><td class="num high">16</td><td style="font-size:0.82rem;">消費税（[rp aid=2862006 to=397969438-20784821058 / [To:4181172]吉田　匡史さん お疲れ様です(bow) 西谷様の申告書に…）</td></tr>
+<tr><td>上野さん</td><td class="num high">14</td><td style="font-size:0.82rem;">課税事業者、消費税（[rp aid=8261316 to=304192415-20835634702 / [rp aid=7402867 to=304192415-20837653007…）</td></tr>
+<tr><td>伊藤さん</td><td class="num high">14</td><td style="font-size:0.82rem;">消費税（[To:1744233]大山智子さん お疲れ様です:) 下記の通り、会計データの / [To:7526701]速水芹苗さん お疲れ様です。 下記の通り、会計データのご…）</td></tr>
+<tr><td>陳さん</td><td class="num high">14</td><td style="font-size:0.82rem;">消費税（[To:5312810]前田幸勇さん  前田先生、お疲れ様です(coffee)  / [To:4027943]瀬川 誠 @マロンくんさん  マロン先生、お疲れ様です(…）</td></tr>
+<tr><td>鎌田さん</td><td class="num high">13</td><td style="font-size:0.82rem;">対象外、消費税（[info][title][dtext:task_done][/title][t / [rp aid=10025797 to=383351984-2085650486…）</td></tr>
+<tr><td>風巻さん</td><td class="num high">13</td><td style="font-size:0.82rem;">消費税（[To:2124830]村田 佑樹さん 村田先生、お疲れ様です(bow)  下記 / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>梅木さん</td><td class="num high">12</td><td style="font-size:0.82rem;">消費税（[To:4181172]吉田　匡史さん お疲れ様です！ 松島さんのマイクロ法人の / [To:4181172]吉田　匡史さん お疲れ様です！ 株式会社みらいマネーラボ…）</td></tr>
+<tr><td>岡本さん</td><td class="num high">10</td><td style="font-size:0.82rem;">消費税（[To:2807609]江口 博道さん 江口先生 お疲れ様です。 全体チャットで / [qt][qtmeta aid=7430197 time=1690372196]…）</td></tr>
+<tr><td>海島さん</td><td class="num mid">9</td><td style="font-size:0.82rem;">対象外、消費税（[To:2862006]納 浩一@税理士さん お疲れ様です！  谷口哲也さまの会 / [To:2862006]納 浩一@税理士さん 続いて、WAKOH&CO.株式会社…）</td></tr>
+<tr><td>Ryuさん</td><td class="num mid">8</td><td style="font-size:0.82rem;">対象外、消費税、免税（[rp aid=4027943 to=304192380-20839876775 / [rp aid=3593405 to=304192380-20839025451…）</td></tr>
+<tr><td>大谷さん</td><td class="num mid">8</td><td style="font-size:0.82rem;">消費税（[rp aid=8903468 to=359231906-20836112558 / [To:9896519]岡田 裕子さん 岡田先生、お疲れ様です！  山縣さまです…）</td></tr>
+<tr><td>堀江さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">消費税（[rp aid=4027943 to=412926765-20791679155 / [rp aid=7647679 to=412926765-20792085677…）</td></tr>
+<tr><td>真木さん</td><td class="num mid">3</td><td style="font-size:0.82rem;">消費税（[To:4027943]瀬川 誠 @マロンくんさん [hr] お疲れ様です(co / [To:2807609]江口 博道さん [hr] お疲れ様です(coffee) …）</td></tr>
+<tr><td>岸田さん</td><td class="num low">2</td><td style="font-size:0.82rem;">消費税（[rp aid=2807609 to=304192423-20681760585 / [rp aid=4115870 to=304192423-20722785728…）</td></tr>
+<tr><td>Nagaiさん</td><td class="num low">1</td><td style="font-size:0.82rem;">消費税（[To:7809524]Nagai※1/24AM外出の為返信遅れますさん [qt…）</td></tr>
+<tr><td>田中さん</td><td class="num low">1</td><td style="font-size:0.82rem;">消費税（[qt][qtmeta aid=7386671 time=1683716933]…）</td></tr>
+<tr><td>西城さん</td><td class="num low">1</td><td style="font-size:0.82rem;">簡易課税（[To:5312810]前田幸勇さん [To:4115870]ひろ(hiro)さ…）</td></tr>
+</tbody></table>
+  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date"></span> <span class="sender">返信元引地伸嘉さん</span><div class="quote">武藤様簡易課税選択オッケーです～117:56…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">タスクを追加しました。期限2025年7月11日中谷 成美2025年7月4日 10:11中村悠希さん</span><div class="quote">中村先生、お疲れ様です。 下記の通り、会計データのご確認を宜しくお願いいたします顧問先名：050140_合同会社太田製作所様 事業者番号：7252-8220 決…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">柿島圭貴江口 博道さん</span><div class="quote">お疲れ様です！  須藤衣理さんの件でご相談です  https://www.chatwork.com/#!rid303231461-202284567248266…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">中村悠希＠税理士さん</span><div class="quote">中村先生お疲れ様です✨🏊  11月決算のPlus　Leadさんの消費税検討をマイコモンにて報告書作成いたしましたので お手すきの際にご確認いただけますと幸いです…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">前田幸勇さん</span><div class="quote">前田先生お疲れ様です。 以下のお客様の消費税シミュレーションを行いました。 ご確認のほどよろしくお願いいたします。  顧問先名：澤田慶子（302990） 事業者…</div></div></div>
 </div>
 
-<!-- Category 3 -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat3);"></span> ③管理会計・多拠点・労務付随（13クライアント）</h2>
+  <h2><span class="cat-dot" style="background:var(--cat3);"></span> ③管理会計・多拠点・労務（33クライアント）</h2>
   <p class="note">部門別管理・地方税提出先・住民税異動届・法定調書・給与支払報告書等</p>
-
-  <table>
-    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
-    <tbody>
-      <tr><td>酒巻さん</td><td class="num mid">6</td><td>地方税（県・市）の提出先記載、複数自治体対応</td></tr>
-      <tr><td>Ryuさん</td><td class="num mid">5</td><td>事前確定届出給与の届出書・異動届を複数法人で作成</td></tr>
-      <tr><td>宮田さん</td><td class="num mid">5</td><td>本店移転の各種届出（税務署・都・市）、給与支払事務所の移転届</td></tr>
-      <tr><td>権田さん</td><td class="num mid">4</td><td>法定調書チェック</td></tr>
-      <tr><td>井上さん</td><td class="num low">3</td><td>従業員の異動届作成</td></tr>
-      <tr><td>引地さん</td><td class="num low">3</td><td>本店移転・代表者住所変更の異動届、労務相談（社労士への紹介）</td></tr>
-      <tr><td>中村さん</td><td class="num low">3</td><td>源泉所得税の0円提出、法定調書の提出要否確認</td></tr>
-      <tr><td>鎌田さん</td><td class="num low">2</td><td>年末調整、給与支払報告書、法定調書の提出</td></tr>
-    </tbody>
-  </table>
-
-  <div class="insight-box">
-    <strong>分析ポイント</strong>
-    CWログだけでは「部門別管理」の実態は見えにくい（達人データ側で把握が必要）。CWで検出できるのは主に異動届・法定調書・移転届など「付随手続き」の発生。宮田さんの本店移転は一時的な工数増だが、酒巻さんの複数自治体対応は継続的。
-  </div>
+  <table><thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead><tbody>
+<tr><td>中谷さん</td><td class="num high">313</td><td style="font-size:0.82rem;">異動届、地方税、源泉所得税（中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご / ありがとうございます 源泉納付書は電子申告を進めます！ 異動届についてはドラフト…）</td></tr>
+<tr><td>引地さん</td><td class="num high">242</td><td style="font-size:0.82rem;">異動届、給与、社会保険（株式会社KTRコンサルティングさん事前確定届出給与確認オッケーです！122:31 / お疲れ様です 株式会社アキフリーさま（尾郷智史さま）が本店移転と代表者住所が変更…）</td></tr>
+<tr><td>上田さん</td><td class="num high">178</td><td style="font-size:0.82rem;">住民税、地方税、年末調整（中村先生お疲れ様です✨ 「源泉納付アリ」+「還付発生あり・納付0」の年末調整につ / 吉田先生お疲れ様です✨ 株式会社FAMILIARさん申告書作成完了いたしましたの…）</td></tr>
+<tr><td>柿島さん</td><td class="num high">169</td><td style="font-size:0.82rem;">異動届、届出書（法人の住所が変わっているため、異動届提出後に提出予定のため、 最新の住所で記載し / ご確認ありがとうございます 提出してあります 念のため、添付しておきます2025…）</td></tr>
+<tr><td>中村さん</td><td class="num high">140</td><td style="font-size:0.82rem;">届出書、年末調整（中村誠泰さんですが、個人事業のMFチェック、消費税チェック、ふるさと納税試算、マ / 伊藤晋吾さんの年末調整と下半期の源泉納付書作成しましたので、確認お願いいたします…）</td></tr>
+<tr><td>井上さん</td><td class="num high">127</td><td style="font-size:0.82rem;">社会保険、源泉税、給与（ケイエヌサインの申告書チェックをお願いします 内訳書の源泉税ですが、徴収税額で記 / 瀬川先生お疲れ様です 脇元さんのチェックをお願いします Dropbox：http…）</td></tr>
+<tr><td>太田綾さん</td><td class="num high">110</td><td style="font-size:0.82rem;">届出書、予算、給与支払報告書（松井涼様、合同会社松映様を引き継ぐことになった太田です。 よろしくお願いいたしま / Rabilion様についてもう一点ご相談です。  中国仕入れにかかる国際送料（計…）</td></tr>
+<tr><td>髙本さん</td><td class="num high">89</td><td style="font-size:0.82rem;">届出書、年末調整（綾野先生、お疲れ様です 先ほどはお時間を頂戴しありがとうございました  川本様の / お疲れ様です。 先ほどの飯塚さんとの初回面談について、議事録を作成しましたので …）</td></tr>
+<tr><td>宮田さん</td><td class="num high">88</td><td style="font-size:0.82rem;">届出書、給与（お疲れ様です。 納期特例の納付書を作成しましたので、ご確認をお願いいたします 毎 / 事業を休業して本業専念するんですよね 確定申告の必要がなくなるのなら仕方ないと思…）</td></tr>
+<tr><td>小栗さん</td><td class="num high">85</td><td style="font-size:0.82rem;">社会保険、住民税、給与（お疲れさまです 中村裕紀様ですが、令和6年は専従者の届出提出していなかったので経 / 吉岡先生、お疲れ様です ご多忙中に進士さんのご返信ありがとうございました。  進…）</td></tr>
+<tr><td>秋山さん</td><td class="num high">28</td><td style="font-size:0.82rem;">異動届、地方税、届出書（[To:7687873]秋山 みずほさん お疲れ様です！ 田中光様の㈱フェイスピ / [rp aid=7687873 to=304192433-17351221074…）</td></tr>
+<tr><td>酒巻さん</td><td class="num high">27</td><td style="font-size:0.82rem;">異動届（[To:5312810]前田幸勇さん 前田先生、お忙しいところ恐れ入ります(bo / [rp aid=9809939 to=378090258-20841962788…）</td></tr>
+<tr><td>谷さん</td><td class="num high">26</td><td style="font-size:0.82rem;">届出書（[To:4027943]瀬川 誠 @マロンくんさん マロン先生、お疲れ様です(c / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>鎌田さん</td><td class="num high">15</td><td style="font-size:0.82rem;">社会保険、源泉所得税（[rp aid=10025797 to=383351984-2083800119 / [rp aid=10163232 to=383351984-2084185899…）</td></tr>
+<tr><td>陳さん</td><td class="num high">15</td><td style="font-size:0.82rem;">年末調整、給与（[To:9556416]水谷亘さん お疲れ様です！ お休みのところ失礼いたします / [rp aid=9400475 to=407302655-20850230820…）</td></tr>
+<tr><td>岡本さん</td><td class="num high">14</td><td style="font-size:0.82rem;">地方税、年末調整（[rp aid=7430197 to=304192394-17356746418 / [rp aid=2807609 to=304192394-17356750054…）</td></tr>
+<tr><td>小倉さん</td><td class="num high">13</td><td style="font-size:0.82rem;">届出書（[rp aid=6137325 to=323333524-17641545630 / [To:2862006]納 浩一さん お疲れ様です。 吉田様のご対応ありがとうご…）</td></tr>
+<tr><td>権田さん</td><td class="num high">13</td><td style="font-size:0.82rem;">住民税、法定調書（[To:7402771]権田 智仁さん お疲れ様です！ 先ほど西山さんが事務所に / [To:1744233]大山智子さん お疲れ様です！  伊藤正盛さんの法定調書に…）</td></tr>
+<tr><td>梅木さん</td><td class="num high">12</td><td style="font-size:0.82rem;">社会保険、源泉税（[rp aid=9469888 to=363934786-20851854394 / [rp aid=9469888 to=363934786-20852085915…）</td></tr>
+<tr><td>Ryuさん</td><td class="num high">11</td><td style="font-size:0.82rem;">源泉徴収票、源泉税、地方税（[rp aid=3593405 to=304192380-20839025451 / [rp aid=2862006 to=304192380-20839104102…）</td></tr>
+<tr><td>上野さん</td><td class="num high">11</td><td style="font-size:0.82rem;">社会保険、給与（[To:8261316]中村悠希＠税理士さん 長島さんから、国民年金の還付請求は / [rp aid=7402867 to=304192415-20841296045…）</td></tr>
+<tr><td>海島さん</td><td class="num high">11</td><td style="font-size:0.82rem;">社会保険、届出書（[To:7956008]海島 賢志さん WAKOH＆CO.さんです。急ぎ先方に決 / [rp aid=2862006 to=359231903-20780148799…）</td></tr>
+<tr><td>照井さん</td><td class="num high">10</td><td style="font-size:0.82rem;">届出書、源泉所得税（[info][title][dtext:task_done][/title][t / [To:9556416]水谷亘さん 水谷先生、お疲れ様です(bow) 2月決算法…）</td></tr>
+<tr><td>田中さん</td><td class="num mid">9</td><td style="font-size:0.82rem;">予算（[rp aid=5753128 to=309565453-16822164007 / [rp aid=6203854 to=309565453-16822771565…）</td></tr>
+<tr><td>田路さん</td><td class="num mid">7</td><td style="font-size:0.82rem;">給与支払報告書、年末調整、給与（[rp aid=2862006 to=397969438-20784821058 / [rp aid=5092192 to=397969438-20785055552…）</td></tr>
+<tr><td>西城さん</td><td class="num mid">6</td><td style="font-size:0.82rem;">住民税、源泉徴収票（[To:2862006]納 浩一さん [To:4115870]ひろ(hiro)さ / [To:5312810]前田幸勇さん [To:4115870]ひろ(hiro)さ…）</td></tr>
+<tr><td>大谷さん</td><td class="num mid">6</td><td style="font-size:0.82rem;">住民税、給与（[rp aid=8903468 to=359231906-20835438274 / 年間160万円って住民税普通にかかりそう…）</td></tr>
+<tr><td>飯塚さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">社会保険、給与（[To:8859471]後藤あゆみさん [To:9386381]飯塚歩さん お疲 / [To:9386381]飯塚歩さん シミュレーションありがとうございました！少し…）</td></tr>
+<tr><td>西島さん</td><td class="num mid">4</td><td style="font-size:0.82rem;">届出書（[To:5312810]前田幸勇さん 井口智博様の消費税課税事業者届出書を作成し / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>Nagaiさん</td><td class="num mid">3</td><td style="font-size:0.82rem;">給与、年末調整（[To:7809524]Nagai※1/24AM外出の為返信遅れますさん [qt / [To:4027943]瀬川 誠さん 後藤崇（ゴッピー）様の質問についてご相談が…）</td></tr>
+<tr><td>伊藤さん</td><td class="num mid">3</td><td style="font-size:0.82rem;">源泉税、給与（[To:8261316]中村悠希＠税理士さん お疲れ様です:) 申告確認のお忙し / [rp aid=9320906 to=359231911-20729765287…）</td></tr>
+<tr><td>堀江さん</td><td class="num low">2</td><td style="font-size:0.82rem;">給与（[rp aid=7647679 to=412926765-20888542757 / [To:7647679]堀江 由華さん 先ほどは大変ありがとうございました。いと…）</td></tr>
+<tr><td>真木さん</td><td class="num low">1</td><td style="font-size:0.82rem;">社会保険（すみません、どなたかご教示いただけないでしょうか(bow)  北岡力哉様が、MF…）</td></tr>
+</tbody></table>
+  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date"></span> <span class="sender">タスクを編集しました。期限2025年7月21日中谷 成美2025年7月17日 11:48中村悠希さん</span><div class="quote">中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご確認よろしくお願いいたします顧問先名：050140_合同会社太田製作所様 事業者…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">返信元引地伸嘉さん</span><div class="quote">株式会社KTRコンサルティングさん事前確定届出給与確認オッケーです！122:31…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">中村悠希＠税理士さん</span><div class="quote">中村先生お疲れ様です✨ 「源泉納付アリ」+「還付発生あり・納付0」の年末調整について、作成完了しておりますので 御忙しい中でお手間おかけし申し訳ございませんが、…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">柿島圭貴2026年1月11日 12:37EGBF㈱さんの償却資産申告書のチェックをお願いします。</span><div class="quote">法人の住所が変わっているため、異動届提出後に提出予定のため、 最新の住所で記載しています。okです113:19…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">タスクを追加しました。期限2025年11月28日お疲れ様です。</span><div class="quote">中村誠泰さんですが、個人事業のMFチェック、消費税チェック、ふるさと納税試算、マイクロ法人の月次チェックの4つをお願いしたいと思います。 ただ現在、中村さんのお…</div></div></div>
 </div>
 
-<!-- Category 4 -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat4);"></span> ④付加価値業務・リスク判定（26クライアント）</h2>
+  <h2><span class="cat-dot" style="background:var(--cat4);"></span> ④付加価値業務・リスク判定（32クライアント）</h2>
   <p class="note">賃上げ税制・繰戻還付・源泉還付・シミュレーション・株価算定・組織再編・税務調査等</p>
-
-  <table>
-    <thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead>
-    <tbody>
-      <tr><td>髙本さん</td><td class="num high">43</td><td>法人化シミュレーション多数、不動産売却の税額試算、償却資産申告</td></tr>
-      <tr><td>柿島さん</td><td class="num high">21</td><td>個人・マイクロ法人のシミュレーション、家事按分の適正判断</td></tr>
-      <tr><td>中谷さん</td><td class="num high">21</td><td>繰越欠損金の控除判定（法人税法57条の2）、定款の事業目的確認</td></tr>
-      <tr><td>上田さん</td><td class="num high">18</td><td>法人成りシミュレーション（4パターン比較）、役員報酬最適化</td></tr>
-      <tr><td>照井さん</td><td class="num high">15</td><td>マイクロ法人設立シミュレーション、消費税シミュレーション</td></tr>
-      <tr><td>上野さん</td><td class="num high">14</td><td>源泉所得税の還付、役員報酬最適化シミュレーション</td></tr>
-      <tr><td>小栗さん</td><td class="num high">13</td><td>源泉所得税の還付請求、委任状作成</td></tr>
-      <tr><td>権田さん</td><td class="num high">12</td><td>法人成りシミュレーション、源泉還付</td></tr>
-      <tr><td>伊藤さん</td><td class="num high">12</td><td>賃上げ促進税制の適用判定（前年0円で不可）、所得拡大促進税制</td></tr>
-      <tr><td>中村さん</td><td class="num high">12</td><td>賃上げ税制の繰り越し、繰越欠損金と役員報酬の最適化</td></tr>
-      <tr><td>田路さん</td><td class="num high">12</td><td>法人成りの税額シミュレーション、棚卸資産の消費税調整</td></tr>
-      <tr><td>陳さん</td><td class="num high">12</td><td>繰越欠損金、創立費償却の判断、議事録作成</td></tr>
-      <tr><td>梅木さん</td><td class="num high">11</td><td>法人化シミュレーション、業務切り分け検討</td></tr>
-      <tr><td>鎌田さん</td><td class="num mid">9</td><td>法人成りシミュレーション</td></tr>
-      <tr><td>太田綾さん</td><td class="num mid">7</td><td>事業譲渡、消費税シミュレーション、課税選択して還付</td></tr>
-      <tr><td>西島さん</td><td class="num mid">7</td><td>償却資産申告、少額減価償却資産の特例、譲渡所得判定</td></tr>
-    </tbody>
-  </table>
-
-  <div class="insight-box danger">
-    <strong>注目: シミュレーション業務が圧倒的に多い</strong>
-    「法人成りシミュレーション」「マイクロ法人シミュレーション」「役員報酬最適化」が最頻出。髙本さん(43件)は法人化・不動産売却・償却資産と複数の付加価値業務が集中。賃上げ促進税制の適用判定も伊藤さん・中村さん・大谷さんで発生。
-  </div>
+  <table><thead><tr><th>クライアント</th><th class="num">検出数</th><th>主な検出内容</th></tr></thead><tbody>
+<tr><td>中谷さん</td><td class="num high">251</td><td style="font-size:0.82rem;">議事録、減価償却、償却資産（中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご / ではなくて、単に定時社員総会議事録の1号議が第1期になっていたので第2期でお願い…）</td></tr>
+<tr><td>上田さん</td><td class="num high">207</td><td style="font-size:0.82rem;">試算、役員報酬（お忙しい中ご確認ありがとうございます✨  基礎控除失礼いたしました！ 上記修正と / 私も認識が浅く申し訳ございません  外国税額控除がとれるので申告したほうがよいの…）</td></tr>
+<tr><td>髙本さん</td><td class="num high">147</td><td style="font-size:0.82rem;">議事録、税務調査、シミュレーション（その場合、複合的な論点になるため、1週間ほどお時間を頂戴できればと存じます。 （ / お疲れ様です 新規よろしくお願いします 最初、数件の初回Zoomは進行役を私が担…）</td></tr>
+<tr><td>柿島さん</td><td class="num high">146</td><td style="font-size:0.82rem;">試算、事業譲渡（お疲れ様です！  須藤衣理さんの件でご相談です  https://www.cha / このたびの事業譲渡に関しまして、消費税の取扱いにつきまして。 今回の譲渡対象は、…）</td></tr>
+<tr><td>太田綾さん</td><td class="num high">127</td><td style="font-size:0.82rem;">試算、償却資産、シミュレーション（前田先生お疲れ様です。 以下のお客様の消費税シミュレーションを行いました。 ご確 / 吉田先生、お疲れ様です。 農業の橋本様の過年度償却資産税申告書を作成しました。 …）</td></tr>
+<tr><td>小栗さん</td><td class="num high">110</td><td style="font-size:0.82rem;">試算、減価償却（お疲れさまです 中村様チェックしたのですが、 小栗さんの確認作業大変でしたよね💦 / 個人の場合は強制償却になるので、令和5年は通常通り償却したと考えて、令和6年の期…）</td></tr>
+<tr><td>引地さん</td><td class="num high">108</td><td style="font-size:0.82rem;">繰越欠損金、償却資産（お時間いただきました！磯部ビルさん確認しました。 1点だけ 一括償却資産 台帳  / お疲れ様です 大変遅くなり申し訳ありません 合同会社SAKURA SPA株式会社…）</td></tr>
+<tr><td>井上さん</td><td class="num high">89</td><td style="font-size:0.82rem;">賃上げ、役員報酬（めぐり夢㈱の申告書をお願いします！ 事業者番号：1698-3598 チャット：h / 井上さん、お疲れ様です  脇元さん確認しました！井上　敦史2025年3月2日 1…）</td></tr>
+<tr><td>中村さん</td><td class="num high">89</td><td style="font-size:0.82rem;">試算、償却資産（中村誠泰さんですが、個人事業のMFチェック、消費税チェック、ふるさと納税試算、マ / 合同会社ハルツキリンクの法定調書と給与支払報告書チェックお願いします。 昨年償却…）</td></tr>
+<tr><td>宮田さん</td><td class="num high">56</td><td style="font-size:0.82rem;">役員報酬、相続（お疲れ様です。 納期特例の納付書を作成しましたので、ご確認をお願いいたします 毎 / 小西優輝@こにたんさん お疲れ様です 以前、相続税のご相談のあった由城弘和様より…）</td></tr>
+<tr><td>田路さん</td><td class="num high">15</td><td style="font-size:0.82rem;">シミュレーション（[To:4181172]吉田　匡史さん お疲れ様です 西谷竜太郎様の法人化検討に / [rp aid=5092192 to=397969438-20809842437…）</td></tr>
+<tr><td>陳さん</td><td class="num high">14</td><td style="font-size:0.82rem;">議事録、役員報酬（[To:9556416]水谷亘さん お疲れ様です！ お休みのところ失礼いたします / [To:9556416]水谷亘さん また、頂いたご連絡で恐縮ですが、ちょうど羽鳥…）</td></tr>
+<tr><td>上野さん</td><td class="num high">12</td><td style="font-size:0.82rem;">償却資産、シミュレーション（[rp aid=8261316 to=304192415-20835634702 / [To:8261316]中村悠希＠税理士さん 中村先生、お疲れ様です(bow) …）</td></tr>
+<tr><td>伊藤さん</td><td class="num high">12</td><td style="font-size:0.82rem;">定款、シミュレーション（[To:9896519]岡田 裕子さん お疲れ様です:)  昨日リベ経と永山様が / [To:8261316]中村悠希＠税理士さん お疲れ様です:) 申告確認のお忙し…）</td></tr>
+<tr><td>照井さん</td><td class="num high">12</td><td style="font-size:0.82rem;">シミュレーション（[To:9556416]水谷亘さん 水谷先生、お疲れ様です(bow) 庭山さんよ / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>大谷さん</td><td class="num high">10</td><td style="font-size:0.82rem;">賃上げ、減価償却（[rp aid=8903468 to=359231906-20828308875 / [To:8903468]大谷 美保@日中返信遅くなりますさん お疲れ様です。金子…）</td></tr>
+<tr><td>飯塚さん</td><td class="num high">10</td><td style="font-size:0.82rem;">試算、議事録、シミュレーション（[rp aid=9386381 to=361182893-18468100777 / [To:9386381]飯塚歩※18日・19日返信遅めです。さん おはようござい…）</td></tr>
+<tr><td>鎌田さん</td><td class="num mid">9</td><td style="font-size:0.82rem;">シミュレーション（[To:10163232]綾野汰也@休日のご質問は翌営業日に対応いたします。さん / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>西島さん</td><td class="num mid">9</td><td style="font-size:0.82rem;">役員報酬、償却資産（[info][title][dtext:task_added][/title][ / [info][title][dtext:task_done][/title][t…）</td></tr>
+<tr><td>権田さん</td><td class="num mid">7</td><td style="font-size:0.82rem;">事業承継、減価償却（[To:1744233]大山智子さん お疲れ様です:) 吉崎さんのお父様の消費税 / [To:1744233]大山智子さん お疲れ様です:) 以前ご相談させていただい…）</td></tr>
+<tr><td>堀江さん</td><td class="num mid">7</td><td style="font-size:0.82rem;">シミュレーション（[To:4027943]瀬川 誠 @マロンくんさん 瀬川先生、お疲れ様です(pl / [info][title][dtext:task_added][/title][…）</td></tr>
+<tr><td>海島さん</td><td class="num mid">6</td><td style="font-size:0.82rem;">役員報酬、減価償却、償却資産（[To:7956008]海島 賢志さん WAKOH＆CO.さんです。急ぎ先方に決 / [rp aid=2862006 to=359231903-20780148799…）</td></tr>
+<tr><td>田中さん</td><td class="num mid">5</td><td style="font-size:0.82rem;">定款、役員報酬（[To:2807609]江口 博道さん お疲れ様です。 先日面談しました河野さん / [info][title][dtext:file_uploaded][/titl…）</td></tr>
+<tr><td>梅木さん</td><td class="num mid">5</td><td style="font-size:0.82rem;">試算、定款、シミュレーション（[rp aid=9469888 to=363934786-20851854394 / [rp aid=9556416 to=363934786-20851874890…）</td></tr>
+<tr><td>Ryuさん</td><td class="num low">2</td><td style="font-size:0.82rem;">繰戻還付、相続（[rp aid=3593405 to=304192380-20839025451 / [rp aid=3593405 to=304192380-20842813999…）</td></tr>
+<tr><td>谷さん</td><td class="num low">2</td><td style="font-size:0.82rem;">役員報酬（[rp aid=2124830 to=309565449-20797808824 / [info][title][dtext:task_done][/title][t…）</td></tr>
+<tr><td>小倉さん</td><td class="num low">2</td><td style="font-size:0.82rem;">定款、議事録（[info][title][dtext:file_uploaded][/titl / 日曜日の夜に失礼いたします。 10月末をもってリベ税との契約解除となりました。 …）</td></tr>
+<tr><td>酒巻さん</td><td class="num low">2</td><td style="font-size:0.82rem;">委任状、減価償却（[To:4027943]瀬川 誠 @マロンくんさん 瀬川先生、お疲れ様です(bo / [To:4181172]吉田　匡史さん 吉田先生、お疲れ様です(bow)  以下…）</td></tr>
+<tr><td>風巻さん</td><td class="num low">2</td><td style="font-size:0.82rem;">試算（[rp aid=9518934 to=423455559-20780679380 / [To:2124830]村田 佑樹さん CC[To:7442698]柿島圭貴さん…）</td></tr>
+<tr><td>岡本さん</td><td class="num low">1</td><td style="font-size:0.82rem;">役員報酬（[rp aid=232044 to=304192394-173603036388…）</td></tr>
+<tr><td>Nagaiさん</td><td class="num low">1</td><td style="font-size:0.82rem;">償却資産（[To:7809524]Nagai※1/24AM外出の為返信遅れますさん [qt…）</td></tr>
+<tr><td>西城さん</td><td class="num low">1</td><td style="font-size:0.82rem;">減価償却（[To:5312810]前田幸勇さん [To:4115870]ひろ(hiro)さ…）</td></tr>
+</tbody></table>
+  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date"></span> <span class="sender">タスクを編集しました。期限2025年7月21日中谷 成美2025年7月17日 11:48中村悠希さん</span><div class="quote">中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご確認よろしくお願いいたします顧問先名：050140_合同会社太田製作所様 事業者…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">返信元中村悠希＠税理士さん</span><div class="quote">お忙しい中ご確認ありがとうございます✨  基礎控除失礼いたしました！ 上記修正と 利益分役員報酬増額バージョンを4として追加致します  週明けになってしまいそう…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">髙本 和希2026年3月31日 22:12ご共有いただいた4,680~4,480万円を使う形で、売却時にどの程度の税負担が発生しそうかシミュレーションさせていただくことも可能です。</span><div class="quote">その場合、複合的な論点になるため、1週間ほどお時間を頂戴できればと存じます。 （事業割合10%超に変更することに伴う、特別控除適用額への影響に加えて、消費税負担…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">柿島圭貴江口 博道さん</span><div class="quote">お疲れ様です！  須藤衣理さんの件でご相談です  https://www.chatwork.com/#!rid303231461-202284567248266…</div></div>
+<div class="evidence"><span class="date"></span> <span class="sender">前田幸勇さん</span><div class="quote">前田先生お疲れ様です。 以下のお客様の消費税シミュレーションを行いました。 ご確認のほどよろしくお願いいたします。  顧問先名：澤田慶子（302990） 事業者…</div></div></div>
 </div>
 
-<!-- Top Priority Clients -->
+
+<!-- Top 10 -->
 <div class="section">
   <h2>加算検討 優先クライアント（合計スコア上位）</h2>
   <p class="note">4カテゴリの検出数合計でソート。スコアが高いほど「標準を超える業務が多い可能性」が高い。</p>
-
   <table>
-    <thead>
-      <tr><th>#</th><th>クライアント</th><th class="num">①会計</th><th class="num">②消費税</th><th class="num">③管理</th><th class="num">④付加</th><th class="num">合計</th><th>加算検討の所見</th></tr>
-    </thead>
-    <tbody>
-      <tr><td>1</td><td><strong>髙本さん</strong></td><td class="num zero">0</td><td class="num mid">5</td><td class="num zero">0</td><td class="num high">43</td><td class="num high">48</td><td>シミュレーション・不動産評価が突出。④で加算の可能性高</td></tr>
-      <tr><td>2</td><td><strong>権田さん</strong></td><td class="num zero">0</td><td class="num high">16</td><td class="num mid">4</td><td class="num high">12</td><td class="num high">32</td><td>消費税複雑+法人成りSIM+法定調書。②④で加算候補</td></tr>
-      <tr><td>3</td><td><strong>酒巻さん</strong></td><td class="num zero">0</td><td class="num high">22</td><td class="num mid">6</td><td class="num low">3</td><td class="num high">31</td><td>消費税が最多。課税期間短縮+複数自治体。②③で加算候補</td></tr>
-      <tr><td>4</td><td><strong>中谷さん</strong></td><td class="num low">1</td><td class="num mid">8</td><td class="num low">1</td><td class="num high">21</td><td class="num high">31</td><td>繰越欠損金の特殊判定+消費税届出ミスの修正。②④で加算候補</td></tr>
-      <tr><td>5</td><td><strong>陳さん</strong></td><td class="num low">1</td><td class="num high">16</td><td class="num low">1</td><td class="num high">12</td><td class="num high">30</td><td>棚卸調整・2割特例判定・創立費・議事録。②④で加算候補</td></tr>
-      <tr><td>6</td><td><strong>照井さん</strong></td><td class="num low">3</td><td class="num high">10</td><td class="num zero">0</td><td class="num high">15</td><td class="num high">28</td><td>消費税SIM+マイクロ法人SIM。②④で加算候補</td></tr>
-      <tr><td>7</td><td><strong>柿島さん</strong></td><td class="num zero">0</td><td class="num mid">6</td><td class="num zero">0</td><td class="num high">21</td><td class="num high">27</td><td>個人・マイクロ法人SIMが集中。④で加算候補</td></tr>
-      <tr><td>8</td><td><strong>上田さん</strong></td><td class="num low">3</td><td class="num mid">5</td><td class="num zero">0</td><td class="num high">18</td><td class="num high">26</td><td>法人成りSIM(4パターン)+役員報酬最適化。①④で加算候補</td></tr>
-      <tr><td>9</td><td><strong>伊藤さん</strong></td><td class="num mid">5</td><td class="num mid">8</td><td class="num zero">0</td><td class="num high">12</td><td class="num high">25</td><td>初期設定+原則課税+賃上げ税制。①②④で加算候補</td></tr>
-      <tr><td>10</td><td><strong>中村さん</strong></td><td class="num low">3</td><td class="num mid">7</td><td class="num low">3</td><td class="num high">12</td><td class="num high">25</td><td>賃上げ税制+繰越欠損金+法定調書。全カテゴリにまたがる</td></tr>
-    </tbody>
-  </table>
+<thead>
+  <tr><th>#</th><th>クライアント</th><th class="num">①会計</th><th class="num">②消費税</th><th class="num">③管理</th><th class="num">④付加</th><th class="num">合計</th><th>所見</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td><strong>中谷さん</strong></td><td class="num high">170</td><td class="num high">307</td><td class="num high">313</td><td class="num high">251</td><td class="num high">1041</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>2</td><td><strong>引地さん</strong></td><td class="num high">172</td><td class="num high">312</td><td class="num high">242</td><td class="num high">108</td><td class="num high">834</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>3</td><td><strong>上田さん</strong></td><td class="num high">169</td><td class="num high">213</td><td class="num high">178</td><td class="num high">207</td><td class="num high">767</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>4</td><td><strong>柿島さん</strong></td><td class="num high">70</td><td class="num high">236</td><td class="num high">169</td><td class="num high">146</td><td class="num high">621</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>5</td><td><strong>太田綾さん</strong></td><td class="num high">32</td><td class="num high">209</td><td class="num high">110</td><td class="num high">127</td><td class="num high">478</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>6</td><td><strong>髙本さん</strong></td><td class="num high">65</td><td class="num high">167</td><td class="num high">89</td><td class="num high">147</td><td class="num high">468</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>7</td><td><strong>中村さん</strong></td><td class="num high">70</td><td class="num high">145</td><td class="num high">140</td><td class="num high">89</td><td class="num high">444</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>8</td><td><strong>宮田さん</strong></td><td class="num high">29</td><td class="num high">205</td><td class="num high">88</td><td class="num high">56</td><td class="num high">378</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>9</td><td><strong>小栗さん</strong></td><td class="num high">51</td><td class="num high">118</td><td class="num high">85</td><td class="num high">110</td><td class="num high">364</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+<tr><td>10</td><td><strong>井上さん</strong></td><td class="num high">11</td><td class="num high">107</td><td class="num high">127</td><td class="num high">89</td><td class="num high">334</td><td style="font-size:0.82rem;">④シミュレーション多、②消費税複雑、①会計ソフト対応、③届出・労務付随</td></tr>
+</tbody></table>
 </div>
 
 <!-- Next Steps -->
 <div class="section">
-  <h2>Phase 1 次のアクション</h2>
-
-  <div class="insight-box success">
-    <strong>CWログで見えたこと / 見えないこと</strong>
-    <table style="margin-top:0.5rem; font-size:0.85rem;">
-      <tr><td style="width:50%; vertical-align:top; padding-right:1rem;">
-        <strong style="color:var(--success);">見えたこと</strong>
-        <ul style="padding-left:1.2rem; margin-top:0.3rem;">
-          <li>シミュレーション業務（法人成り・マイクロ法人・役員報酬最適化）が非常に多い → ④の加算対象として最有力</li>
-          <li>消費税関連は84%のクライアントで発生。特に原則/簡易の判定・届出・棚卸調整が工数を食っている</li>
-          <li>賃上げ促進税制の適用検討が複数クライアントで発生（適用不可のケースも含め判定工数がかかっている）</li>
-          <li>繰戻還付・源泉還付の請求がスポットで発生</li>
-        </ul>
-      </td><td style="vertical-align:top;">
-        <strong style="color:var(--danger);">見えないこと（達人データが必要）</strong>
-        <ul style="padding-left:1.2rem; margin-top:0.3rem;">
-          <li>部門別管理の実態（何部門か）</li>
-          <li>課税売上高5億超のクライアント特定</li>
-          <li>個別対応方式の採用有無</li>
-          <li>償却資産申告書の提出先自治体数</li>
-          <li>各クライアントの所得層・年間報酬との突合</li>
-        </ul>
-      </td></tr>
-    </table>
+  <h2>データ整備状況 / 次のアクション</h2>
+  <div class="insight-box">
+    <strong>現在のデータ状況</strong>
+    対象 38ルーム中 38ルームのテキストデータを取得済み（15,002メッセージ）。残りのルームのCWエクスポートが揃い次第、<code>python3 parse-cw-export.py</code> → <code>python3 generate-report.py</code> で自動更新。
   </div>
-
-  <h3>推奨アクション</h3>
-  <table>
-    <thead><tr><th>アクション</th><th>目的</th><th>期限目安</th></tr></thead>
-    <tbody>
-      <tr><td>達人データの書き出し（消費税申告書・別表）</td><td>②の精度向上：個別対応方式・課税売上割合の実数値を把握</td><td>4月中</td></tr>
-      <tr><td>シミュレーション実施件数の集計（スタッフヒアリング）</td><td>④の定量化：CW以外で実施したSIMも把握</td><td>4月中</td></tr>
-      <tr><td>上位10クライアントの担当スタッフに所見確認</td><td>CW検出結果の妥当性検証</td><td>5月上旬</td></tr>
-      <tr><td>このレポートをディレクターMTGで共有</td><td>Phase 2（基準・金額設計）への合意形成</td><td>5月中旬</td></tr>
-    </tbody>
-  </table>
+  <div class="insight-box success">
+    <strong>CWログで見えること / 見えないこと</strong>
+    <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem;">
+      <li>✅ シミュレーション・消費税判定・異動届等の発生事実（チャットで話題になったか）</li>
+      <li>✅ 頻出トピックの傾向把握・優先順位付け</li>
+      <li>❌ 部門別管理の実態（達人データが必要）</li>
+      <li>❌ 各クライアントの所得層・報酬との突合</li>
+      <li>❌ 課税売上高・個別対応方式の採用有無（申告書データが必要）</li>
+    </ul>
+  </div>
 </div>
 
 <footer>
-  Generated by HiROBOT AI | Source: Chatwork API (max 100 msgs/room) | 2026-04-05<br>
+  Generated by HiROBOT AI | Source: Chatwork export + API | 2026-04-06<br>
   顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ
 </footer>
 
 </div>
-
 <button class="copy-btn" onclick="copyAll()">全てをコピー</button>
 
 <script>
 const matrix = [
-  {name:"髙本",c1:0,c2:5,c3:0,c4:43,note:"SIM・不動産評価が突出"},
-  {name:"権田",c1:0,c2:16,c3:4,c4:12,note:"消費税+法人成りSIM"},
-  {name:"酒巻",c1:0,c2:22,c3:6,c4:3,note:"消費税最多+複数自治体"},
-  {name:"中谷",c1:1,c2:8,c3:1,c4:21,note:"繰越欠損金+届出修正"},
-  {name:"陳",c1:1,c2:16,c3:1,c4:12,note:"棚調+2割特例+創立費"},
-  {name:"照井",c1:3,c2:10,c3:0,c4:15,note:"消費税SIM+マイクロSIM"},
-  {name:"柿島",c1:0,c2:6,c3:0,c4:21,note:"個人・マイクロSIM集中"},
-  {name:"上田",c1:3,c2:5,c3:0,c4:18,note:"法人成りSIM(4パターン)"},
-  {name:"伊藤",c1:5,c2:8,c3:0,c4:12,note:"初期設定+原則課税+賃上げ"},
-  {name:"中村",c1:3,c2:7,c3:3,c4:12,note:"賃上げ+欠損金+法定調��"},
-  {name:"宮田",c1:3,c2:12,c3:5,c4:4,note:"法人移行+本店移転届"},
-  {name:"田路",c1:1,c2:7,c3:1,c4:12,note:"法人成りSIM+棚卸調整"},
-  {name:"上野",c1:1,c2:7,c3:0,c4:14,note:"源泉還付+役員報酬SIM"},
-  {name:"小栗",c1:1,c2:4,c3:0,c4:13,note:"源泉還付請求"},
-  {name:"西島",c1:1,c2:8,c3:0,c4:7,note:"本則課税+償却資産"},
-  {name:"海島",c1:0,c2:11,c3:0,c4:5,note:"複数顧問先の消費税申告"},
-  {name:"Ryu",c1:0,c2:5,c3:5,c4:5,note:"複数法人の届出書"},
-  {name:"鎌田",c1:0,c2:3,c3:2,c4:9,note:"法人成りSIM+年末調整"},
-  {name:"引地",c1:0,c2:6,c3:3,c4:4,note:"本店移転+繰戻還付"},
-  {name:"梅木",c1:0,c2:2,c3:0,c4:11,note:"法人化SIM"},
-  {name:"大谷",c1:0,c2:10,c3:0,c4:2,note:"原則課税（還付）"},
-  {name:"太田綾",c1:0,c2:4,c3:1,c4:7,note:"事業譲渡+消費税SIM"},
-  {name:"谷",c1:0,c2:7,c3:0,c4:2,note:"消費税届出の修正"},
-  {name:"井上",c1:0,c2:2,c3:3,c4:2,note:"異動届+資金繰り"},
-  {name:"風巻",c1:0,c2:6,c3:0,c4:0,note:"課税期間短縮+本則還付"},
-  {name:"堀江",c1:0,c2:1,c3:0,c4:5,note:"不動産売却の税額SIM"},
-  {name:"岸田",c1:0,c2:0,c3:1,c4:3,note:"更正の請求・修正申告"},
-  {name:"真木",c1:1,c2:0,c3:0,c4:0,note:"達人データインポート"},
-  // 検出なしのクライアント
-  {name:"大嶋",c1:0,c2:0,c3:0,c4:0,note:"検出なし（メッセージ少）"},
-  {name:"坂口",c1:0,c2:0,c3:0,c4:0,note:"検出なし（メッセージ少）"},
-  {name:"小川",c1:0,c2:0,c3:0,c4:0,note:"検出なし（メッセージ少）"},
+  {name:"中谷",c1:170,c2:307,c3:313,c4:251,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"引地",c1:172,c2:312,c3:242,c4:108,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"上田",c1:169,c2:213,c3:178,c4:207,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"柿島",c1:70,c2:236,c3:169,c4:146,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"太田綾",c1:32,c2:209,c3:110,c4:127,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"髙本",c1:65,c2:167,c3:89,c4:147,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"中村",c1:70,c2:145,c3:140,c4:89,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"宮田",c1:29,c2:205,c3:88,c4:56,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"小栗",c1:51,c2:118,c3:85,c4:110,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"井上",c1:11,c2:107,c3:127,c4:89,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"谷",c1:10,c2:45,c3:26,c4:2,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"照井",c1:17,c2:22,c3:10,c4:12,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"酒巻",c1:6,c2:22,c3:27,c4:2,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"秋山",c1:4,c2:18,c3:28,c4:0,note:"消費税複雑・届出・労務付随"},
+  {name:"鎌田",c1:9,c2:13,c3:15,c4:9,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"田路",c1:8,c2:16,c3:7,c4:15,note:"シミュレーション多・消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"陳",c1:2,c2:14,c3:15,c4:14,note:"シミュレーション多・消費税複雑・届出・労務付随"},
+  {name:"梅木",c1:15,c2:12,c3:12,c4:5,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"権田",c1:4,c2:19,c3:13,c4:7,note:"消費税複雑・届出・労務付随"},
+  {name:"岡本",c1:14,c2:10,c3:14,c4:1,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"上野",c1:2,c2:14,c3:11,c4:12,note:"シミュレーション多・消費税複雑・届出・労務付随"},
+  {name:"西島",c1:8,c2:18,c3:4,c4:9,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"小倉",c1:7,c2:16,c3:13,c4:2,note:"消費税複雑・ソフト初期対応・届出・労務付随"},
+  {name:"伊藤",c1:4,c2:14,c3:3,c4:12,note:"シミュレーション多・消費税複雑"},
+  {name:"大谷",c1:6,c2:8,c3:6,c4:10,note:"シミュレーション多・ソフト初期対応・届出・労務付随"},
+  {name:"海島",c1:3,c2:9,c3:11,c4:6,note:"届出・労務付随"},
+  {name:"Ryu",c1:4,c2:8,c3:11,c4:2,note:"届出・労務付随"},
+  {name:"田中",c1:6,c2:1,c3:9,c4:5,note:"ソフト初期対応・届出・労務付随"},
+  {name:"風巻",c1:4,c2:13,c3:0,c4:2,note:"消費税複雑"},
+  {name:"飯塚",c1:4,c2:0,c3:4,c4:10,note:"シミュレーション多・届出・労務付随"},
+  {name:"堀江",c1:4,c2:4,c3:2,c4:7,note:"検出あり"},
+  {name:"西城",c1:1,c2:1,c3:6,c4:1,note:"届出・労務付随"},
+  {name:"真木",c1:1,c2:3,c3:1,c4:0,note:"検出あり"},
+  {name:"Nagai",c1:0,c2:1,c3:3,c4:1,note:"検出あり"},
+  {name:"岸田",c1:2,c2:2,c3:0,c4:0,note:"検出あり"},
+  {name:"小川",c1:0,c2:0,c3:0,c4:0,note:"検出なし"},
+  {name:"坂口",c1:0,c2:0,c3:0,c4:0,note:"検出なし"},
+  {name:"大嶋",c1:0,c2:0,c3:0,c4:0,note:"検出なし"}
 ];
-
-matrix.sort((a,b) => (b.c1+b.c2+b.c3+b.c4) - (a.c1+a.c2+a.c3+a.c4));
-
-const numClass = (v) => v >= 10 ? 'num high' : v >= 3 ? 'num mid' : v >= 1 ? 'num low' : 'num zero';
+matrix.sort((a,b) => (b.c1+b.c2+b.c3+b.c4)-(a.c1+a.c2+a.c3+a.c4));
+const numClass = v => v>=10?'num high':v>=3?'num mid':v>=1?'num low':'num zero';
 const tbody = document.getElementById('matrix-body');
 matrix.forEach(r => {
   const total = r.c1+r.c2+r.c3+r.c4;
   const tr = document.createElement('tr');
-  tr.innerHTML = `<td>${r.name}さん</td><td class="${numClass(r.c1)}">${r.c1||'-'}</td><td class="${numClass(r.c2)}">${r.c2||'-'}</td><td class="${numClass(r.c3)}">${r.c3||'-'}</td><td class="${numClass(r.c4)}">${r.c4||'-'}</td><td class="${numClass(total)}">${total}</td><td style="font-size:0.8rem; color:var(--gray-700);">${r.note}</td>`;
+  tr.innerHTML = `<td>${r.name}さん</td><td class="${numClass(r.c1)}">${r.c1||'-'}</td><td class="${numClass(r.c2)}">${r.c2||'-'}</td><td class="${numClass(r.c3)}">${r.c3||'-'}</td><td class="${numClass(r.c4)}">${r.c4||'-'}</td><td class="${numClass(total)}">${total}</td><td style="font-size:0.8rem;color:#374151;">${r.note}</td>`;
   tbody.appendChild(tr);
 });
-
 function copyAll() {
   const btn = document.querySelector('.copy-btn');
   navigator.clipboard.writeText(document.body.innerText).then(() => {
-    btn.textContent = 'コピーしました!';
-    btn.classList.add('copied');
-    setTimeout(() => { btn.textContent = '全てをコピー'; btn.classList.remove('copied'); }, 2000);
+    btn.textContent = 'コピーしました!'; btn.classList.add('copied');
+    setTimeout(()=>{btn.textContent='全てをコピー';btn.classList.remove('copied');},2000);
   });
 }
 </script>
