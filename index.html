@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>加算候補業務 実態把握レポート - CWログ分析</title>
+<title>加算候補業務 実態把握レポート - CWログ分析（全25チャット）</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -63,47 +63,47 @@ footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0
 
 <header>
   <h1>加算候補業務 実態把握レポート</h1>
-  <p>CWログからの検出結果 | 対象: 38ルーム（15,002メッセージ）| 2026-04-06</p>
+  <p>主担当×税理士チームCWチャット全25ルーム（27,323メッセージ）を再分析 | 2026-04-17</p>
   <p style="margin-top:0.3rem; opacity:0.8;">顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ</p>
 </header>
 
 <div class="summary-grid">
   <div class="summary-card c1">
     <div class="label">①会計ソフト初期対応</div>
-    <div class="value">34</div>
-    <div class="sub">クライアントで検出</div>
+    <div class="value">25</div>
+    <div class="sub">全ルームで検出（最大: 引地19.2%）</div>
   </div>
   <div class="summary-card c2">
     <div class="label">②消費税（複雑）</div>
-    <div class="value">34</div>
-    <div class="sub">クライアントで検出</div>
+    <div class="value">25</div>
+    <div class="sub">全ルームで検出（最大: 谷41.9%）</div>
   </div>
   <div class="summary-card c3">
     <div class="label">③管理会計・多拠点・労務</div>
-    <div class="value">33</div>
-    <div class="sub">クライアントで検出</div>
+    <div class="value">25</div>
+    <div class="sub">全ルームで検出（最大: 谷28.6%）</div>
   </div>
   <div class="summary-card c4">
     <div class="label">④付加価値業務・リスク判定</div>
-    <div class="value">32</div>
-    <div class="sub">クライアントで検出</div>
+    <div class="value">25</div>
+    <div class="sub">全ルームで検出（最大: 太田綾17.8%）</div>
   </div>
 </div>
 
 <div class="insight-box primary">
   <strong>読み方の注意</strong>
-  本レポートはCWログのキーワード検出に基づく補助データです。「チャットで話題に出た」ことを示すもので、実際に業務が発生したかどうかの最終判断には達人データとの突合が必要です。ヒット数は「検出メッセージ数」です。
+  本レポートはCWチャットのキーワード検出に基づく補助データです。「チャットで話題に出た」ことを示すもので、実際に業務が発生したかどうかの最終判断には達人データとの突合が必要です。ヒット率 = 該当キーワードを含むメッセージ数 ÷ 総メッセージ数。色: 赤=20%以上 / 黄=8%以上 / 緑=2%以上。
 </div>
 
 <!-- Cross-tab Matrix -->
 <div class="section">
-  <h2>クライアント × 加算候補 マトリクス</h2>
-  <p class="note">数値 = ヒット率（該当キーワードを含むメッセージ数 ÷ 総メッセージ数）。色: 赤=20%以上 / 黄=8%以上 / 緑=2%以上 / 灰=2%未満。メッセージ数の多寡によらず比較可能。</p>
+  <h2>主担当 × 加算候補 マトリクス</h2>
+  <p class="note">数値 = ヒット率（該当キーワードを含むメッセージ数 ÷ 総メッセージ数）。合計スコア降順で表示。</p>
   <div style="overflow-x:auto;">
   <table>
     <thead>
       <tr>
-        <th>クライアント</th>
+        <th>主担当</th>
         <th class="num" style="background:#f3e8ff;">①会計ソフト</th>
         <th class="num" style="background:#fee2e2;">②消費税</th>
         <th class="num" style="background:#fef3c7;">③管理・拠点</th>
@@ -117,234 +117,198 @@ footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0
   </div>
 </div>
 
-
+<!-- Category ① -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat1);"></span> ①会計ソフト初期対応（34クライアント）</h2>
-  <p class="note">科目設定・初期構築・過年度データインポート・MF導入設定・法人化に伴うソフト移行等</p>
-  <table><thead><tr><th>クライアント</th><th class="num">ヒット率</th><th class="num">月平均</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>照井さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">17.0%</td><td class="num mid">17.0</td><td style="text-align:center;color:#6b7280;">17</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード、法人成り</td></tr>
-<tr><td>梅木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">15.0%</td><td class="num mid">15.0</td><td style="text-align:center;color:#6b7280;">15</td><td style="font-size:0.82rem;">マイクロ法人、帳簿</td></tr>
-<tr><td>岡本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num mid">14.0%</td><td class="num zero">0.4</td><td style="text-align:center;color:#6b7280;">14</td><td style="font-size:0.82rem;">マネーフォワード、帳簿</td></tr>
-<tr><td>引地さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">11.0%</td><td class="num mid">13.6</td><td style="text-align:center;color:#6b7280;">172</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、勘定科目</td></tr>
-<tr><td>上田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">10.2%</td><td class="num mid">12.7</td><td style="text-align:center;color:#6b7280;">169</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、マイクロ法人</td></tr>
-<tr><td>谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">10.0%</td><td class="num mid">10.0</td><td style="text-align:center;color:#6b7280;">10</td><td style="font-size:0.82rem;">勘定科目、マネーフォワード</td></tr>
-<tr><td>風巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">9.3%</td><td class="num low">3.1</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">勘定科目、マネーフォワード</td></tr>
-<tr><td>鎌田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">9.0%</td><td class="num low">9.0</td><td style="text-align:center;color:#6b7280;">9</td><td style="font-size:0.82rem;">法人成り、帳簿</td></tr>
-<tr><td>中谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">8.8%</td><td class="num mid">13.3</td><td style="text-align:center;color:#6b7280;">170</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、勘定科目</td></tr>
-<tr><td>田路さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">8.0%</td><td class="num low">6.3</td><td style="text-align:center;color:#6b7280;">8</td><td style="font-size:0.82rem;">法人成り、帳簿、マイクロ法人</td></tr>
-<tr><td>西島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">8.0%</td><td class="num low">3.6</td><td style="text-align:center;color:#6b7280;">8</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード、法人成り</td></tr>
-<tr><td>中村さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num low">7.6%</td><td class="num low">5.8</td><td style="text-align:center;color:#6b7280;">70</td><td style="font-size:0.82rem;">マイクロ法人、勘定科目、マネーフォワード</td></tr>
-<tr><td>小倉さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(29ヶ月)</span></td><td class="num low">7.0%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">7</td><td style="font-size:0.82rem;">帳簿、マイクロ法人、マネーフォワード</td></tr>
-<tr><td>髙本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(8ヶ月)</span></td><td class="num low">6.2%</td><td class="num low">8.3</td><td style="text-align:center;color:#6b7280;">65</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、法人成り</td></tr>
-<tr><td>田中さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(37ヶ月)</span></td><td class="num low">6.0%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">6</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード</td></tr>
-<tr><td>大谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">6.0%</td><td class="num low">6.0</td><td style="text-align:center;color:#6b7280;">6</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード</td></tr>
-<tr><td>酒巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">6.0%</td><td class="num low">6.0</td><td style="text-align:center;color:#6b7280;">6</td><td style="font-size:0.82rem;">勘定科目、帳簿</td></tr>
-<tr><td>小栗さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num low">5.3%</td><td class="num low">3.8</td><td style="text-align:center;color:#6b7280;">51</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、帳簿</td></tr>
-<tr><td>飯塚さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(22ヶ月)</span></td><td class="num low">4.4%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">マイクロ法人</td></tr>
-<tr><td>柿島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num low">4.1%</td><td class="num low">5.5</td><td style="text-align:center;color:#6b7280;">70</td><td style="font-size:0.82rem;">マイクロ法人、マネーフォワード、勘定科目</td></tr>
-<tr><td>Ryuさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">4.0%</td><td class="num low">4.0</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">帳簿</td></tr>
-<tr><td>秋山さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">0.1</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">マネーフォワード、法人成り、freee</td></tr>
-<tr><td>権田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(3ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">1.4</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、マイクロ法人</td></tr>
-<tr><td>伊藤さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">1.7</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">勘定科目、マイクロ法人</td></tr>
-<tr><td>堀江さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">2.8</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人</td></tr>
-<tr><td>太田綾さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(6ヶ月)</span></td><td class="num low">3.3%</td><td class="num low">5.6</td><td style="text-align:center;color:#6b7280;">32</td><td style="font-size:0.82rem;">帳簿、マイクロ法人、勘定科目</td></tr>
-<tr><td>海島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num low">3.0%</td><td class="num zero">1.8</td><td style="text-align:center;color:#6b7280;">3</td><td style="font-size:0.82rem;">帳簿</td></tr>
-<tr><td>宮田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num low">2.8%</td><td class="num zero">2.3</td><td style="text-align:center;color:#6b7280;">29</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、帳簿</td></tr>
-<tr><td>上野さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">2.0</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">インポート、マイクロ法人</td></tr>
-<tr><td>岸田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(3ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">0.7</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">法人成り</td></tr>
-<tr><td>陳さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">2.0</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">帳簿、マイクロ法人</td></tr>
-<tr><td>西城さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(26ヶ月)</span></td><td class="num zero">1.8%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">freee</td></tr>
-<tr><td>井上さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num zero">1.2%</td><td class="num zero">0.8</td><td style="text-align:center;color:#6b7280;">11</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、帳簿</td></tr>
-<tr><td>真木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(14ヶ月)</span></td><td class="num zero">1.0%</td><td class="num zero">0.1</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">インポート</td></tr>
+  <h2><span class="cat-dot" style="background:var(--cat1);"></span> ①会計ソフト初期対応（全25ルーム）</h2>
+  <p class="note">科目設定・初期構築・仕訳確認・マイクロ法人設立・マネーフォワード導入・法人成り対応等</p>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
+<tr><td>引地さん</td><td class="num high">19.2%</td><td class="num">281</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、仕訳</td></tr>
+<tr><td>上田さん</td><td class="num mid">12.2%</td><td class="num">189</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、仕訳</td></tr>
+<tr><td>谷さん</td><td class="num mid">11.6%</td><td class="num">110</td><td style="font-size:0.82rem;">勘定科目、仕訳、法人成り</td></tr>
+<tr><td>髙本さん</td><td class="num mid">11.3%</td><td class="num">107</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、マネーフォワード</td></tr>
+<tr><td>Ryuさん</td><td class="num mid">10.3%</td><td class="num">123</td><td style="font-size:0.82rem;">帳簿、仕訳、マネーフォワード</td></tr>
+<tr><td>酒巻さん</td><td class="num mid">10.1%</td><td class="num">124</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、勘定科目</td></tr>
+<tr><td>中谷さん</td><td class="num mid">10.0%</td><td class="num">182</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、仕訳</td></tr>
+<tr><td>梅木さん</td><td class="num mid">9.9%</td><td class="num">216</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、帳簿</td></tr>
+<tr><td>海島さん</td><td class="num mid">9.7%</td><td class="num">31</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、法人成り</td></tr>
+<tr><td>中村さん</td><td class="num mid">9.5%</td><td class="num">78</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、法人成り</td></tr>
+<tr><td>田路さん</td><td class="num mid">9.1%</td><td class="num">74</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
+<tr><td>西島さん</td><td class="num mid">9.1%</td><td class="num">18</td><td style="font-size:0.82rem;">マイクロ法人、仕訳、法人成り</td></tr>
+<tr><td>陳さん</td><td class="num mid">8.9%</td><td class="num">87</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
+<tr><td>権田さん</td><td class="num mid">8.4%</td><td class="num">22</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、仕訳</td></tr>
+<tr><td>小栗さん</td><td class="num low">7.7%</td><td class="num">66</td><td style="font-size:0.82rem;">マネーフォワード、仕訳、マイクロ法人</td></tr>
+<tr><td>太田綾さん</td><td class="num low">7.5%</td><td class="num">65</td><td style="font-size:0.82rem;">仕訳、帳簿、マイクロ法人</td></tr>
+<tr><td>大谷さん</td><td class="num low">7.4%</td><td class="num">74</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、帳簿</td></tr>
+<tr><td>鎌田さん</td><td class="num low">6.6%</td><td class="num">123</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、仕訳</td></tr>
+<tr><td>照井さん</td><td class="num low">6.4%</td><td class="num">166</td><td style="font-size:0.82rem;">マイクロ法人、法人成り、勘定科目</td></tr>
+<tr><td>岸田さん</td><td class="num low">5.4%</td><td class="num">27</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
+<tr><td>柿島さん</td><td class="num low">5.1%</td><td class="num">83</td><td style="font-size:0.82rem;">マイクロ法人、仕訳、マネーフォワード</td></tr>
+<tr><td>上野さん</td><td class="num low">4.3%</td><td class="num">44</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、帳簿</td></tr>
+<tr><td>宮田さん</td><td class="num low">4.0%</td><td class="num">37</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
+<tr><td>伊藤さん</td><td class="num mid">10.5%</td><td class="num">58</td><td style="font-size:0.82rem;">マイクロ法人、仕訳、マネーフォワード</td></tr>
+<tr><td>井上さん</td><td class="num low">3.3%</td><td class="num">26</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
 </tbody></table>
-  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date">2026-03-19</span> <span class="sender">照井 崇</span><div class="quote">[To:8261316]中村悠希＠税理士さん 中村先生、お疲れ様です(bow) 去年法人成りした吉田さん、蓬田さんの個人事業のマネーフォワードですが今後使用しな…</div></div>
-<div class="evidence"><span class="date">2026-03-16</span> <span class="sender">水谷亘</span><div class="quote">[rp aid=9469888 to=363934786-2085185439437946880]梅木 真也さん 修正点、確認しました！ こちらで進めていただけ…</div></div>
-<div class="evidence"><span class="date">2023-07-26</span> <span class="sender">杉山 雄司＠マイルくん</span><div class="quote">消費税だけといえど、結局は帳簿の中身は全部見なきゃいけないし、太田さん言うように所得税とリンクする訳で、片方の税目だけやるってのは、あんまりですよね。 ただ、今…</div></div>
-<div class="evidence"><span class="date">2025-03-25</span> <span class="sender">引地伸嘉太田好昭＠税理士さん</span><div class="quote">お疲れ様です 大変遅くなり申し訳ありません 合同会社SAKURA SPA株式会社さま（1月決算、山本枝利さま）の数字を固めましたのでマネーフォワードのご確認をよ…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">横尾将司さん</span><div class="quote">横尾先生お疲れ様です✨ （1月大変お疲れ様でございました）  浅沼大輝さんの数字が固まりましたので、マネーフォワードのご確認をお願いいたしますMF事業者番号：7…</div></div></div>
+  <div class="insight-box" style="margin-top:1rem;">
+    <div class="evidence"><span class="sender">梅木さん → 税理士チーム</span><div class="quote">3月決算のアオゲバさんの会計が固まりましたので、MFチェックをお願いいたします</div></div>
+    <div class="evidence"><span class="sender">中村さん → 税理士チーム</span><div class="quote">今の一番の懸念点は、マネーフォワードに全く触れたことがないことです</div></div>
+  </div>
 </div>
 
+<!-- Category ② -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat2);"></span> ②消費税（複雑）（34クライアント）</h2>
-  <p class="note">個別対応方式・課税売上割合・簡易/本則判定・インボイス対応・2割特例・還付申告等</p>
-  <table><thead><tr><th>クライアント</th><th class="num">ヒット率</th><th class="num">月平均</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num high">45.0%</td><td class="num high">44.9</td><td style="text-align:center;color:#6b7280;">45</td><td style="font-size:0.82rem;">消費税、免税、課税売上</td></tr>
-<tr><td>風巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num high">30.2%</td><td class="num mid">10.0</td><td style="text-align:center;color:#6b7280;">13</td><td style="font-size:0.82rem;">消費税、課税区分、還付申告</td></tr>
-<tr><td>照井さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num high">22.0%</td><td class="num mid">22.0</td><td style="text-align:center;color:#6b7280;">22</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>酒巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num high">22.0%</td><td class="num mid">22.0</td><td style="text-align:center;color:#6b7280;">22</td><td style="font-size:0.82rem;">消費税、課税区分、インボイス</td></tr>
-<tr><td>太田綾さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(6ヶ月)</span></td><td class="num high">21.5%</td><td class="num high">36.3</td><td style="text-align:center;color:#6b7280;">209</td><td style="font-size:0.82rem;">消費税、インボイス、対象外</td></tr>
-<tr><td>宮田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num high">20.1%</td><td class="num mid">16.4</td><td style="text-align:center;color:#6b7280;">205</td><td style="font-size:0.82rem;">消費税、非課税、対象外</td></tr>
-<tr><td>引地さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">19.9%</td><td class="num mid">24.7</td><td style="text-align:center;color:#6b7280;">312</td><td style="font-size:0.82rem;">消費税、インボイス、非課税</td></tr>
-<tr><td>権田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(3ヶ月)</span></td><td class="num mid">19.0%</td><td class="num low">6.6</td><td style="text-align:center;color:#6b7280;">19</td><td style="font-size:0.82rem;">消費税、非課税</td></tr>
-<tr><td>秋山さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num mid">18.0%</td><td class="num zero">0.6</td><td style="text-align:center;color:#6b7280;">18</td><td style="font-size:0.82rem;">インボイス、消費税、適格請求書</td></tr>
-<tr><td>西島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">18.0%</td><td class="num low">8.1</td><td style="text-align:center;color:#6b7280;">18</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>小倉さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(29ヶ月)</span></td><td class="num mid">16.0%</td><td class="num zero">0.5</td><td style="text-align:center;color:#6b7280;">16</td><td style="font-size:0.82rem;">消費税、インボイス、免税</td></tr>
-<tr><td>田路さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">16.0%</td><td class="num mid">12.7</td><td style="text-align:center;color:#6b7280;">16</td><td style="font-size:0.82rem;">消費税、インボイス</td></tr>
-<tr><td>中谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">15.9%</td><td class="num mid">24.0</td><td style="text-align:center;color:#6b7280;">307</td><td style="font-size:0.82rem;">消費税、対象外、免税</td></tr>
-<tr><td>髙本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(8ヶ月)</span></td><td class="num mid">15.9%</td><td class="num mid">21.3</td><td style="text-align:center;color:#6b7280;">167</td><td style="font-size:0.82rem;">消費税、インボイス、簡易課税</td></tr>
-<tr><td>中村さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num mid">15.7%</td><td class="num mid">11.9</td><td style="text-align:center;color:#6b7280;">145</td><td style="font-size:0.82rem;">消費税、対象外、インボイス</td></tr>
-<tr><td>上野さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">14.0%</td><td class="num mid">14.0</td><td style="text-align:center;color:#6b7280;">14</td><td style="font-size:0.82rem;">消費税、課税事業者、還付申告</td></tr>
-<tr><td>伊藤さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">14.0%</td><td class="num low">5.8</td><td style="text-align:center;color:#6b7280;">14</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>陳さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">14.0%</td><td class="num mid">14.0</td><td style="text-align:center;color:#6b7280;">14</td><td style="font-size:0.82rem;">消費税、対象外</td></tr>
-<tr><td>柿島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">13.7%</td><td class="num mid">18.4</td><td style="text-align:center;color:#6b7280;">236</td><td style="font-size:0.82rem;">消費税、インボイス、非課税</td></tr>
-<tr><td>鎌田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">13.0%</td><td class="num mid">13.0</td><td style="text-align:center;color:#6b7280;">13</td><td style="font-size:0.82rem;">消費税、対象外</td></tr>
-<tr><td>上田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">12.9%</td><td class="num mid">16.1</td><td style="text-align:center;color:#6b7280;">213</td><td style="font-size:0.82rem;">消費税、非課税、インボイス</td></tr>
-<tr><td>小栗さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">12.3%</td><td class="num low">8.9</td><td style="text-align:center;color:#6b7280;">118</td><td style="font-size:0.82rem;">消費税、簡易課税、非課税</td></tr>
-<tr><td>井上さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">12.2%</td><td class="num low">8.2</td><td style="text-align:center;color:#6b7280;">107</td><td style="font-size:0.82rem;">消費税、非課税、軽減税率</td></tr>
-<tr><td>梅木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">12.0%</td><td class="num mid">12.0</td><td style="text-align:center;color:#6b7280;">12</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>岡本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num mid">10.0%</td><td class="num zero">0.3</td><td style="text-align:center;color:#6b7280;">10</td><td style="font-size:0.82rem;">消費税、インボイス</td></tr>
-<tr><td>海島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">9.0%</td><td class="num low">5.4</td><td style="text-align:center;color:#6b7280;">9</td><td style="font-size:0.82rem;">消費税、対象外</td></tr>
-<tr><td>Ryuさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">8.0%</td><td class="num low">8.0</td><td style="text-align:center;color:#6b7280;">8</td><td style="font-size:0.82rem;">消費税、対象外、免税</td></tr>
-<tr><td>大谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">8.0%</td><td class="num low">8.0</td><td style="text-align:center;color:#6b7280;">8</td><td style="font-size:0.82rem;">消費税、インボイス、課税売上</td></tr>
-<tr><td>Nagaiさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(38ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>堀江さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">2.8</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">消費税、免税</td></tr>
-<tr><td>真木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(14ヶ月)</span></td><td class="num low">3.0%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">3</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>岸田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(3ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">0.7</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">消費税</td></tr>
-<tr><td>西城さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(26ヶ月)</span></td><td class="num zero">1.8%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">簡易課税</td></tr>
-<tr><td>田中さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(37ヶ月)</span></td><td class="num zero">1.0%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">消費税</td></tr>
+  <h2><span class="cat-dot" style="background:var(--cat2);"></span> ②消費税（複雑）（全25ルーム）</h2>
+  <p class="note">課税方式検討（2割特例・簡易・本則）・インボイス対応・課税事業者判定・還付申告・課税売上割合等</p>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
+<tr><td>谷さん</td><td class="num high">41.9%</td><td class="num">396</td><td style="font-size:0.82rem;">消費税、免税、2割特例</td></tr>
+<tr><td>太田綾さん</td><td class="num high">25.8%</td><td class="num">225</td><td style="font-size:0.82rem;">消費税、免税、簡易課税</td></tr>
+<tr><td>梅木さん</td><td class="num high">22.3%</td><td class="num">486</td><td style="font-size:0.82rem;">消費税、インボイス、免税</td></tr>
+<tr><td>宮田さん</td><td class="num high">21.6%</td><td class="num">198</td><td style="font-size:0.82rem;">消費税、免税、課税事業者</td></tr>
+<tr><td>引地さん</td><td class="num high">21.1%</td><td class="num">309</td><td style="font-size:0.82rem;">消費税、免税、本則課税</td></tr>
+<tr><td>髙本さん</td><td class="num mid">19.6%</td><td class="num">186</td><td style="font-size:0.82rem;">消費税、インボイス、課税事業者</td></tr>
+<tr><td>西島さん</td><td class="num mid">18.7%</td><td class="num">37</td><td style="font-size:0.82rem;">消費税、免税、課税事業者</td></tr>
+<tr><td>酒巻さん</td><td class="num mid">17.9%</td><td class="num">220</td><td style="font-size:0.82rem;">消費税、インボイス、課税事業者</td></tr>
+<tr><td>田路さん</td><td class="num mid">16.6%</td><td class="num">135</td><td style="font-size:0.82rem;">消費税、インボイス、免税</td></tr>
+<tr><td>権田さん</td><td class="num mid">16.1%</td><td class="num">42</td><td style="font-size:0.82rem;">消費税、課税事業者、簡易課税</td></tr>
+<tr><td>中谷さん</td><td class="num mid">16.0%</td><td class="num">292</td><td style="font-size:0.82rem;">消費税、免税、インボイス</td></tr>
+<tr><td>中村さん</td><td class="num mid">16.0%</td><td class="num">131</td><td style="font-size:0.82rem;">消費税、インボイス、簡易課税</td></tr>
+<tr><td>照井さん</td><td class="num mid">15.6%</td><td class="num">405</td><td style="font-size:0.82rem;">消費税、免税、2割特例</td></tr>
+<tr><td>上野さん</td><td class="num mid">14.7%</td><td class="num">152</td><td style="font-size:0.82rem;">消費税、課税事業者、免税</td></tr>
+<tr><td>柿島さん</td><td class="num mid">14.7%</td><td class="num">239</td><td style="font-size:0.82rem;">消費税、簡易課税、インボイス</td></tr>
+<tr><td>小栗さん</td><td class="num mid">14.0%</td><td class="num">120</td><td style="font-size:0.82rem;">消費税、簡易課税、課税事業者</td></tr>
+<tr><td>海島さん</td><td class="num mid">13.8%</td><td class="num">44</td><td style="font-size:0.82rem;">消費税、対象外、簡易課税</td></tr>
+<tr><td>伊藤さん</td><td class="num mid">13.3%</td><td class="num">74</td><td style="font-size:0.82rem;">消費税、免税、2割特例</td></tr>
+<tr><td>井上さん</td><td class="num mid">13.2%</td><td class="num">103</td><td style="font-size:0.82rem;">消費税、インボイス、非課税</td></tr>
+<tr><td>上田さん</td><td class="num mid">12.9%</td><td class="num">199</td><td style="font-size:0.82rem;">消費税、免税、課税売上</td></tr>
+<tr><td>Ryuさん</td><td class="num mid">11.3%</td><td class="num">135</td><td style="font-size:0.82rem;">消費税、インボイス、課税事業者</td></tr>
+<tr><td>大谷さん</td><td class="num mid">11.2%</td><td class="num">111</td><td style="font-size:0.82rem;">消費税、免税、簡易課税</td></tr>
+<tr><td>陳さん</td><td class="num mid">9.6%</td><td class="num">94</td><td style="font-size:0.82rem;">消費税、課税事業者、免税</td></tr>
+<tr><td>鎌田さん</td><td class="num mid">9.4%</td><td class="num">176</td><td style="font-size:0.82rem;">消費税、課税事業者、免税</td></tr>
+<tr><td>岸田さん</td><td class="num low">2.0%</td><td class="num">10</td><td style="font-size:0.82rem;">消費税、課税事業者、インボイス</td></tr>
 </tbody></table>
-  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date">2026-03-04</span> <span class="sender">谷 まり@土日祝返信遅め</span><div class="quote">[To:2862006]納 浩一@税理士さん 納先生、お疲れ様です(coffee) 下記の通り、ご確認宜しくお願いいたします(bow) [info] 顧問先名：…</div></div>
-<div class="evidence"><span class="date">2026-02-24</span> <span class="sender">風巻 さち子</span><div class="quote">[To:2124830]村田 佑樹さん 村田先生、お疲れ様です(bow)  下記、消費税申告書の作成いたしました。 お手数ですがご確認のほどよろしくお願いいたし…</div></div>
-<div class="evidence"><span class="date">2026-03-23</span> <span class="sender">照井 崇</span><div class="quote">[To:9556416]水谷亘さん 水谷先生、お疲れ様です(bow) 下記、申告書の作成完了しました。 お忙しいところ恐れ入りますがご確認のほどよろしくお願いい…</div></div>
-<div class="evidence"><span class="date">2026-03-12</span> <span class="sender">酒巻明子</span><div class="quote">[rp aid=4181172 to=378090258-2083729360032108544]吉田　匡史さん 吉田先生、ご確認ありがとうございました(bow…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">前田幸勇さん</span><div class="quote">前田先生お疲れ様です。 以下のお客様の消費税シミュレーションを行いました。 ご確認のほどよろしくお願いいたします。  顧問先名：澤田慶子（302990） 事業者…</div></div></div>
+  <div class="insight-box" style="margin-top:1rem;">
+    <div class="evidence"><span class="sender">主担当 → 税理士チーム（複数ルームで同様の相談）</span><div class="quote">農家＋輸出物販の方の消費税検討なのですが、来期から簡易課税で計算した方が消費税少なくできるのかなと思い相談させていただきたいです</div></div>
+    <div class="evidence"><span class="sender">主担当 → 税理士チーム</span><div class="quote">令和8年から消費税課税事業者になります。インボイス登録の予定は無いでしょうか？簡易課税の選択するかどうかの検討が必要なので、消費税関係のタイミングが重要です</div></div>
+  </div>
 </div>
 
+<!-- Category ③ -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat3);"></span> ③管理会計・多拠点・労務（33クライアント）</h2>
-  <p class="note">部門別管理・地方税提出先・住民税異動届・法定調書・給与支払報告書等</p>
-  <table><thead><tr><th>クライアント</th><th class="num">ヒット率</th><th class="num">月平均</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>秋山さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num high">28.0%</td><td class="num zero">0.9</td><td style="text-align:center;color:#6b7280;">28</td><td style="font-size:0.82rem;">届出書、異動届、地方税</td></tr>
-<tr><td>酒巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num high">27.0%</td><td class="num mid">27.0</td><td style="text-align:center;color:#6b7280;">27</td><td style="font-size:0.82rem;">届出書、地方税、給与</td></tr>
-<tr><td>谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num high">26.0%</td><td class="num mid">26.0</td><td style="text-align:center;color:#6b7280;">26</td><td style="font-size:0.82rem;">届出書、地方税、給与</td></tr>
-<tr><td>中谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">16.2%</td><td class="num mid">24.5</td><td style="text-align:center;color:#6b7280;">313</td><td style="font-size:0.82rem;">給与、源泉所得税、地方税</td></tr>
-<tr><td>引地さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">15.4%</td><td class="num mid">19.1</td><td style="text-align:center;color:#6b7280;">242</td><td style="font-size:0.82rem;">届出書、源泉所得税、異動届</td></tr>
-<tr><td>中村さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num mid">15.2%</td><td class="num mid">11.5</td><td style="text-align:center;color:#6b7280;">140</td><td style="font-size:0.82rem;">給与、法定調書、届出書</td></tr>
-<tr><td>鎌田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">15.0%</td><td class="num mid">15.0</td><td style="text-align:center;color:#6b7280;">15</td><td style="font-size:0.82rem;">給与、社会保険、源泉所得税</td></tr>
-<tr><td>陳さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">15.0%</td><td class="num mid">15.0</td><td style="text-align:center;color:#6b7280;">15</td><td style="font-size:0.82rem;">給与、年末調整、社会保険</td></tr>
-<tr><td>井上さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">14.4%</td><td class="num low">9.7</td><td style="text-align:center;color:#6b7280;">127</td><td style="font-size:0.82rem;">給与、年末調整、住民税</td></tr>
-<tr><td>岡本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num mid">14.0%</td><td class="num zero">0.4</td><td style="text-align:center;color:#6b7280;">14</td><td style="font-size:0.82rem;">年末調整、社会保険、地方税</td></tr>
-<tr><td>小倉さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(29ヶ月)</span></td><td class="num mid">13.0%</td><td class="num zero">0.4</td><td style="text-align:center;color:#6b7280;">13</td><td style="font-size:0.82rem;">届出書、給与、地方税</td></tr>
-<tr><td>権田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(3ヶ月)</span></td><td class="num mid">13.0%</td><td class="num low">4.5</td><td style="text-align:center;color:#6b7280;">13</td><td style="font-size:0.82rem;">法定調書、住民税、年末調整</td></tr>
-<tr><td>Nagaiさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(38ヶ月)</span></td><td class="num mid">12.0%</td><td class="num zero">0.1</td><td style="text-align:center;color:#6b7280;">3</td><td style="font-size:0.82rem;">給与、年末調整</td></tr>
-<tr><td>梅木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">12.0%</td><td class="num mid">12.0</td><td style="text-align:center;color:#6b7280;">12</td><td style="font-size:0.82rem;">源泉徴収票、源泉税、社会保険</td></tr>
-<tr><td>太田綾さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(6ヶ月)</span></td><td class="num mid">11.3%</td><td class="num mid">19.1</td><td style="text-align:center;color:#6b7280;">110</td><td style="font-size:0.82rem;">年末調整、給与、届出書</td></tr>
-<tr><td>Ryuさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">11.0%</td><td class="num mid">11.0</td><td style="text-align:center;color:#6b7280;">11</td><td style="font-size:0.82rem;">異動届、源泉税、源泉徴収票</td></tr>
-<tr><td>上野さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">11.0%</td><td class="num mid">11.0</td><td style="text-align:center;color:#6b7280;">11</td><td style="font-size:0.82rem;">給与、届出書、社会保険</td></tr>
-<tr><td>海島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">11.0%</td><td class="num low">6.6</td><td style="text-align:center;color:#6b7280;">11</td><td style="font-size:0.82rem;">届出書、住民税、社会保険</td></tr>
-<tr><td>上田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">10.8%</td><td class="num mid">13.4</td><td style="text-align:center;color:#6b7280;">178</td><td style="font-size:0.82rem;">給与、年末調整、届出書</td></tr>
-<tr><td>西城さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(26ヶ月)</span></td><td class="num mid">10.7%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">6</td><td style="font-size:0.82rem;">源泉徴収票、住民税、年末調整</td></tr>
-<tr><td>照井さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">10.0%</td><td class="num mid">10.0</td><td style="text-align:center;color:#6b7280;">10</td><td style="font-size:0.82rem;">源泉所得税、源泉税、届出書</td></tr>
-<tr><td>柿島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">9.8%</td><td class="num mid">13.2</td><td style="text-align:center;color:#6b7280;">169</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
-<tr><td>田中さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(37ヶ月)</span></td><td class="num mid">9.0%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">9</td><td style="font-size:0.82rem;">予算、届出書、給与</td></tr>
-<tr><td>小栗さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">8.9%</td><td class="num low">6.4</td><td style="text-align:center;color:#6b7280;">85</td><td style="font-size:0.82rem;">年末調整、給与、源泉所得税</td></tr>
-<tr><td>宮田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num mid">8.6%</td><td class="num low">7.0</td><td style="text-align:center;color:#6b7280;">88</td><td style="font-size:0.82rem;">届出書、異動届、給与</td></tr>
-<tr><td>髙本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(8ヶ月)</span></td><td class="num mid">8.5%</td><td class="num mid">11.4</td><td style="text-align:center;color:#6b7280;">89</td><td style="font-size:0.82rem;">住民税、給与、年末調整</td></tr>
-<tr><td>田路さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">7.0%</td><td class="num low">5.5</td><td style="text-align:center;color:#6b7280;">7</td><td style="font-size:0.82rem;">給与、社会保険、年末調整</td></tr>
-<tr><td>大谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">6.0%</td><td class="num low">6.0</td><td style="text-align:center;color:#6b7280;">6</td><td style="font-size:0.82rem;">給与、住民税、年末調整</td></tr>
-<tr><td>飯塚さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(22ヶ月)</span></td><td class="num low">4.4%</td><td class="num zero">0.2</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">社会保険、給与</td></tr>
-<tr><td>西島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">1.8</td><td style="text-align:center;color:#6b7280;">4</td><td style="font-size:0.82rem;">届出書、社会保険</td></tr>
-<tr><td>伊藤さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num low">3.0%</td><td class="num zero">1.3</td><td style="text-align:center;color:#6b7280;">3</td><td style="font-size:0.82rem;">給与、源泉税</td></tr>
-<tr><td>堀江さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">1.4</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">給与</td></tr>
-<tr><td>真木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(14ヶ月)</span></td><td class="num zero">1.0%</td><td class="num zero">0.1</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">社会保険</td></tr>
+  <h2><span class="cat-dot" style="background:var(--cat3);"></span> ③管理会計・多拠点・労務（全25ルーム）</h2>
+  <p class="note">給与計算・年末調整・源泉徴収・社会保険・届出書作成・住民税異動届・法定調書等</p>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
+<tr><td>谷さん</td><td class="num high">28.6%</td><td class="num">270</td><td style="font-size:0.82rem;">給与、地方税、届出書</td></tr>
+<tr><td>引地さん</td><td class="num mid">19.8%</td><td class="num">290</td><td style="font-size:0.82rem;">届出書、源泉所得税、給与</td></tr>
+<tr><td>酒巻さん</td><td class="num mid">19.8%</td><td class="num">244</td><td style="font-size:0.82rem;">給与、年末調整、届出書</td></tr>
+<tr><td>伊藤さん</td><td class="num mid">18.6%</td><td class="num">103</td><td style="font-size:0.82rem;">給与、源泉徴収、年末調整</td></tr>
+<tr><td>中谷さん</td><td class="num mid">17.4%</td><td class="num">317</td><td style="font-size:0.82rem;">給与、源泉所得税、届出書</td></tr>
+<tr><td>田路さん</td><td class="num mid">17.3%</td><td class="num">140</td><td style="font-size:0.82rem;">給与、法定調書、年末調整</td></tr>
+<tr><td>海島さん</td><td class="num mid">17.3%</td><td class="num">55</td><td style="font-size:0.82rem;">社会保険、給与、届出書</td></tr>
+<tr><td>井上さん</td><td class="num mid">17.3%</td><td class="num">135</td><td style="font-size:0.82rem;">給与、年末調整、住民税</td></tr>
+<tr><td>中村さん</td><td class="num mid">17.1%</td><td class="num">140</td><td style="font-size:0.82rem;">給与、法定調書、届出書</td></tr>
+<tr><td>大谷さん</td><td class="num mid">17.1%</td><td class="num">170</td><td style="font-size:0.82rem;">給与、社会保険、届出書</td></tr>
+<tr><td>照井さん</td><td class="num mid">15.9%</td><td class="num">413</td><td style="font-size:0.82rem;">給与、源泉税、年末調整</td></tr>
+<tr><td>Ryuさん</td><td class="num mid">15.4%</td><td class="num">184</td><td style="font-size:0.82rem;">届出書、給与、源泉所得税</td></tr>
+<tr><td>上野さん</td><td class="num mid">14.7%</td><td class="num">152</td><td style="font-size:0.82rem;">給与、源泉徴収、年末調整</td></tr>
+<tr><td>宮田さん</td><td class="num mid">13.9%</td><td class="num">128</td><td style="font-size:0.82rem;">届出書、給与、年末調整</td></tr>
+<tr><td>太田綾さん</td><td class="num mid">13.9%</td><td class="num">121</td><td style="font-size:0.82rem;">年末調整、給与、届出書</td></tr>
+<tr><td>権田さん</td><td class="num mid">13.4%</td><td class="num">35</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
+<tr><td>柿島さん</td><td class="num mid">13.3%</td><td class="num">216</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
+<tr><td>梅木さん</td><td class="num mid">12.4%</td><td class="num">270</td><td style="font-size:0.82rem;">届出書、給与、源泉徴収</td></tr>
+<tr><td>西島さん</td><td class="num mid">12.6%</td><td class="num">25</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
+<tr><td>上田さん</td><td class="num mid">12.1%</td><td class="num">188</td><td style="font-size:0.82rem;">給与、源泉徴収、年末調整</td></tr>
+<tr><td>小栗さん</td><td class="num mid">10.6%</td><td class="num">91</td><td style="font-size:0.82rem;">給与、年末調整、源泉所得税</td></tr>
+<tr><td>陳さん</td><td class="num mid">10.2%</td><td class="num">100</td><td style="font-size:0.82rem;">給与、年末調整、源泉徴収</td></tr>
+<tr><td>髙本さん</td><td class="num mid">10.1%</td><td class="num">96</td><td style="font-size:0.82rem;">給与、社会保険、届出書</td></tr>
+<tr><td>鎌田さん</td><td class="num mid">9.1%</td><td class="num">171</td><td style="font-size:0.82rem;">給与、届出書、源泉所得税</td></tr>
+<tr><td>岸田さん</td><td class="num low">2.2%</td><td class="num">11</td><td style="font-size:0.82rem;">年末調整、給与、地方税</td></tr>
 </tbody></table>
-  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date">2023-07-22</span> <span class="sender">江口 博道</span><div class="quote">[To:7687873]秋山 みずほさん お疲れ様です！ 田中光様の㈱フェイスピーチの設立届等を確認しました。 気になったところは、法人設立届（国税）と（地方税…</div></div>
-<div class="evidence"><span class="date">2026-03-13</span> <span class="sender">酒巻明子</span><div class="quote">[To:5312810]前田幸勇さん 前田先生、お忙しいところ恐れ入ります(bow)  下記でご相談させていただきました件、異動届を作成しましたのでご確認をお願…</div></div>
-<div class="evidence"><span class="date">2026-03-08</span> <span class="sender">谷 まり@土日祝返信遅め</span><div class="quote">[To:4027943]瀬川 誠 @マロンくんさん マロン先生、お疲れ様です(coffee) 下記の通り、ご確認宜しくお願いいたします(bow) [info]顧…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">タスクを編集しました。期限2025年7月21日中谷 成美2025年7月17日 11:48中村悠希さん</span><div class="quote">中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご確認よろしくお願いいたします顧問先名：050140_合同会社太田製作所様 事業者…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">返信元引地伸嘉さん</span><div class="quote">株式会社KTRコンサルティングさん事前確定届出給与確認オッケーです！122:31…</div></div></div>
+  <div class="insight-box" style="margin-top:1rem;">
+    <div class="evidence"><span class="sender">酒巻さん → 税理士チーム</span><div class="quote">下記、異動届を作成しましたのでご確認をお願いいたします</div></div>
+    <div class="evidence"><span class="sender">中谷さん → 税理士チーム</span><div class="quote">合同会社太田製作所さんの決算申告書を作成しました。ご確認よろしくお願いいたします</div></div>
+  </div>
 </div>
 
+<!-- Category ④ -->
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat4);"></span> ④付加価値業務・リスク判定（32クライアント）</h2>
-  <p class="note">賃上げ税制・繰戻還付・源泉還付・シミュレーション・株価算定・組織再編・税務調査等</p>
-  <table><thead><tr><th>クライアント</th><th class="num">ヒット率</th><th class="num">月平均</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>田路さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">15.0%</td><td class="num mid">11.9</td><td style="text-align:center;color:#6b7280;">15</td><td style="font-size:0.82rem;">シミュレーション、減価償却、税務調査</td></tr>
-<tr><td>陳さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">14.0%</td><td class="num mid">14.0</td><td style="text-align:center;color:#6b7280;">14</td><td style="font-size:0.82rem;">役員報酬、議事録、税務調査</td></tr>
-<tr><td>髙本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(8ヶ月)</span></td><td class="num mid">14.0%</td><td class="num mid">18.8</td><td style="text-align:center;color:#6b7280;">147</td><td style="font-size:0.82rem;">シミュレーション、議事録、役員報酬</td></tr>
-<tr><td>太田綾さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(6ヶ月)</span></td><td class="num mid">13.1%</td><td class="num mid">22.1</td><td style="text-align:center;color:#6b7280;">127</td><td style="font-size:0.82rem;">償却資産、シミュレーション、試算</td></tr>
-<tr><td>中谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">13.0%</td><td class="num mid">19.7</td><td style="text-align:center;color:#6b7280;">251</td><td style="font-size:0.82rem;">シミュレーション、償却資産、減価償却</td></tr>
-<tr><td>上田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">12.6%</td><td class="num mid">15.6</td><td style="text-align:center;color:#6b7280;">207</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、償却資産</td></tr>
-<tr><td>上野さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">12.0%</td><td class="num mid">12.0</td><td style="text-align:center;color:#6b7280;">12</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、減価償却</td></tr>
-<tr><td>伊藤さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">12.0%</td><td class="num low">5.0</td><td style="text-align:center;color:#6b7280;">12</td><td style="font-size:0.82rem;">シミュレーション、賃上げ、償却資産</td></tr>
-<tr><td>照井さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">12.0%</td><td class="num mid">12.0</td><td style="text-align:center;color:#6b7280;">12</td><td style="font-size:0.82rem;">シミュレーション、最適化、繰欠</td></tr>
-<tr><td>小栗さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">11.5%</td><td class="num low">8.3</td><td style="text-align:center;color:#6b7280;">110</td><td style="font-size:0.82rem;">役員報酬、議事録、償却資産</td></tr>
-<tr><td>飯塚さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(22ヶ月)</span></td><td class="num mid">11.1%</td><td class="num zero">0.5</td><td style="text-align:center;color:#6b7280;">10</td><td style="font-size:0.82rem;">シミュレーション、議事録、試算</td></tr>
-<tr><td>井上さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">10.1%</td><td class="num low">6.8</td><td style="text-align:center;color:#6b7280;">89</td><td style="font-size:0.82rem;">役員報酬、試算、賃上げ</td></tr>
-<tr><td>大谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">10.0%</td><td class="num mid">10.0</td><td style="text-align:center;color:#6b7280;">10</td><td style="font-size:0.82rem;">相続、減価償却、賃上げ</td></tr>
-<tr><td>中村さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num mid">9.7%</td><td class="num low">7.3</td><td style="text-align:center;color:#6b7280;">89</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、償却資産</td></tr>
-<tr><td>鎌田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num mid">9.0%</td><td class="num low">9.0</td><td style="text-align:center;color:#6b7280;">9</td><td style="font-size:0.82rem;">シミュレーション</td></tr>
-<tr><td>西島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num mid">9.0%</td><td class="num low">4.1</td><td style="text-align:center;color:#6b7280;">9</td><td style="font-size:0.82rem;">償却資産、役員報酬</td></tr>
-<tr><td>柿島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num mid">8.5%</td><td class="num mid">11.4</td><td style="text-align:center;color:#6b7280;">146</td><td style="font-size:0.82rem;">償却資産、シミュレーション、役員報酬</td></tr>
-<tr><td>権田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(3ヶ月)</span></td><td class="num low">7.0%</td><td class="num zero">2.4</td><td style="text-align:center;color:#6b7280;">7</td><td style="font-size:0.82rem;">シミュレーション、事業承継、減価償却</td></tr>
-<tr><td>堀江さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">7.0%</td><td class="num low">4.9</td><td style="text-align:center;color:#6b7280;">7</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、不動産売却</td></tr>
-<tr><td>引地さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(13ヶ月)</span></td><td class="num low">6.9%</td><td class="num low">8.5</td><td style="text-align:center;color:#6b7280;">108</td><td style="font-size:0.82rem;">役員報酬、償却資産、相続</td></tr>
-<tr><td>海島さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(2ヶ月)</span></td><td class="num low">6.0%</td><td class="num low">3.6</td><td style="text-align:center;color:#6b7280;">6</td><td style="font-size:0.82rem;">役員報酬、減価償却、償却資産</td></tr>
-<tr><td>宮田さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(12ヶ月)</span></td><td class="num low">5.5%</td><td class="num low">4.5</td><td style="text-align:center;color:#6b7280;">56</td><td style="font-size:0.82rem;">試算、役員報酬、償却資産</td></tr>
-<tr><td>田中さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(37ヶ月)</span></td><td class="num low">5.0%</td><td class="num zero">0.1</td><td style="text-align:center;color:#6b7280;">5</td><td style="font-size:0.82rem;">定款、役員報酬、繰欠</td></tr>
-<tr><td>梅木さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">5.0%</td><td class="num low">5.0</td><td style="text-align:center;color:#6b7280;">5</td><td style="font-size:0.82rem;">定款、シミュレーション、試算</td></tr>
-<tr><td>風巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">4.7%</td><td class="num zero">1.5</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">試算</td></tr>
-<tr><td>Nagaiさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(38ヶ月)</span></td><td class="num low">4.0%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">償却資産</td></tr>
-<tr><td>Ryuさん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">2.0</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">相続、繰戻還付</td></tr>
-<tr><td>谷さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">2.0</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">役員報酬</td></tr>
-<tr><td>小倉さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(29ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">0.1</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">定款、議事録</td></tr>
-<tr><td>酒巻さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(1ヶ月)</span></td><td class="num low">2.0%</td><td class="num zero">2.0</td><td style="text-align:center;color:#6b7280;">2</td><td style="font-size:0.82rem;">減価償却、委任状</td></tr>
-<tr><td>西城さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(26ヶ月)</span></td><td class="num zero">1.8%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">減価償却</td></tr>
-<tr><td>岡本さん<span style="color:#9ca3af;font-size:0.75rem;margin-left:4px;">(32ヶ月)</span></td><td class="num zero">1.0%</td><td class="num zero">0.0</td><td style="text-align:center;color:#6b7280;">1</td><td style="font-size:0.82rem;">役員報酬</td></tr>
+  <h2><span class="cat-dot" style="background:var(--cat4);"></span> ④付加価値業務・リスク判定（全25ルーム）</h2>
+  <p class="note">節税シミュレーション・役員報酬設計・議事録作成・償却資産・相続・税務調査・賃上げ税制・繰戻還付等</p>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
+<tr><td>太田綾さん</td><td class="num mid">17.8%</td><td class="num">155</td><td style="font-size:0.82rem;">シミュレーション、償却資産、減価償却</td></tr>
+<tr><td>大谷さん</td><td class="num mid">15.0%</td><td class="num">149</td><td style="font-size:0.82rem;">シミュレーション、減価償却、役員報酬</td></tr>
+<tr><td>髙本さん</td><td class="num mid">13.5%</td><td class="num">128</td><td style="font-size:0.82rem;">シミュレーション、議事録、役員報酬</td></tr>
+<tr><td>権田さん</td><td class="num mid">13.4%</td><td class="num">35</td><td style="font-size:0.82rem;">議事録、減価償却、税務調査</td></tr>
+<tr><td>伊藤さん</td><td class="num mid">13.3%</td><td class="num">74</td><td style="font-size:0.82rem;">役員報酬、シミュレーション、償却資産</td></tr>
+<tr><td>Ryuさん</td><td class="num mid">13.0%</td><td class="num">155</td><td style="font-size:0.82rem;">償却資産、試算、議事録</td></tr>
+<tr><td>上野さん</td><td class="num mid">12.3%</td><td class="num">127</td><td style="font-size:0.82rem;">償却資産、役員報酬、減価償却</td></tr>
+<tr><td>田路さん</td><td class="num mid">12.1%</td><td class="num">98</td><td style="font-size:0.82rem;">役員報酬、シミュレーション、議事録</td></tr>
+<tr><td>上田さん</td><td class="num mid">11.6%</td><td class="num">180</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、試算</td></tr>
+<tr><td>井上さん</td><td class="num mid">11.6%</td><td class="num">90</td><td style="font-size:0.82rem;">減価償却、役員報酬、試算</td></tr>
+<tr><td>酒巻さん</td><td class="num mid">11.6%</td><td class="num">143</td><td style="font-size:0.82rem;">償却資産、減価償却、試算</td></tr>
+<tr><td>中谷さん</td><td class="num mid">11.3%</td><td class="num">206</td><td style="font-size:0.82rem;">償却資産、シミュレーション、減価償却</td></tr>
+<tr><td>小栗さん</td><td class="num mid">10.9%</td><td class="num">93</td><td style="font-size:0.82rem;">議事録、役員報酬、償却資産</td></tr>
+<tr><td>照井さん</td><td class="num mid">10.8%</td><td class="num">280</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、償却資産</td></tr>
+<tr><td>陳さん</td><td class="num mid">9.5%</td><td class="num">93</td><td style="font-size:0.82rem;">役員報酬、償却資産、議事録</td></tr>
+<tr><td>柿島さん</td><td class="num mid">9.3%</td><td class="num">152</td><td style="font-size:0.82rem;">償却資産、シミュレーション、役員報酬</td></tr>
+<tr><td>梅木さん</td><td class="num mid">8.9%</td><td class="num">194</td><td style="font-size:0.82rem;">減価償却、償却資産、役員報酬</td></tr>
+<tr><td>中村さん</td><td class="num mid">8.8%</td><td class="num">72</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、償却資産</td></tr>
+<tr><td>西島さん</td><td class="num mid">8.1%</td><td class="num">16</td><td style="font-size:0.82rem;">償却資産、役員報酬、試算</td></tr>
+<tr><td>海島さん</td><td class="num low">7.5%</td><td class="num">24</td><td style="font-size:0.82rem;">役員報酬、減価償却、償却資産</td></tr>
+<tr><td>引地さん</td><td class="num low">6.8%</td><td class="num">99</td><td style="font-size:0.82rem;">役員報酬、償却資産、相続</td></tr>
+<tr><td>宮田さん</td><td class="num low">6.1%</td><td class="num">56</td><td style="font-size:0.82rem;">償却資産、役員報酬、試算</td></tr>
+<tr><td>岸田さん</td><td class="num low">4.4%</td><td class="num">22</td><td style="font-size:0.82rem;">税務調査、相続、試算</td></tr>
+<tr><td>鎌田さん</td><td class="num low">4.3%</td><td class="num">81</td><td style="font-size:0.82rem;">役員報酬、償却資産、シミュレーション</td></tr>
+<tr><td>谷さん</td><td class="num low">3.4%</td><td class="num">32</td><td style="font-size:0.82rem;">減価償却、償却資産、役員報酬</td></tr>
 </tbody></table>
-  <div class="insight-box" style="margin-top:1rem;"><div class="evidence"><span class="date">2026-03-04</span> <span class="sender">田路(とうじ）　優香</span><div class="quote">[To:4181172]吉田　匡史さん お疲れ様です 西谷竜太郎様の法人化検討について、方向性のご相談です(bow)  西谷様は現在、個人事業で「不動産」と「物…</div></div>
-<div class="evidence"><span class="date">2026-03-14</span> <span class="sender">陳 伊娜 / ちん いな</span><div class="quote">[To:9556416]水谷亘さん お疲れ様です！ お休みのところ失礼いたします(bow)  羽鳥さんより、再度出産手当金について問い合わせがありました。 [q…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">髙本 和希2026年3月31日 22:12ご共有いただいた4,680~4,480万円を使う形で、売却時にどの程度の税負担が発生しそうかシミュレーションさせていただくことも可能です。</span><div class="quote">その場合、複合的な論点になるため、1週間ほどお時間を頂戴できればと存じます。 （事業割合10%超に変更することに伴う、特別控除適用額への影響に加えて、消費税負担…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">前田幸勇さん</span><div class="quote">前田先生お疲れ様です。 以下のお客様の消費税シミュレーションを行いました。 ご確認のほどよろしくお願いいたします。  顧問先名：澤田慶子（302990） 事業者…</div></div>
-<div class="evidence"><span class="date"></span> <span class="sender">タスクを編集しました。期限2025年7月21日中谷 成美2025年7月17日 11:48中村悠希さん</span><div class="quote">中村先生、お疲れ様です。 合同会社太田製作所さんの決算申告書を作成しました。 ご確認よろしくお願いいたします顧問先名：050140_合同会社太田製作所様 事業者…</div></div></div>
+  <div class="insight-box" style="margin-top:1rem;">
+    <div class="evidence"><span class="sender">髙本さん → 税理士チーム</span><div class="quote">売却時にどの程度の税負担が発生しそうかシミュレーションさせていただくことも可能です。その場合、複合的な論点になるため、1週間ほどお時間を頂戴できればと存じます</div></div>
+    <div class="evidence"><span class="sender">田路さん → 税理士チーム</span><div class="quote">西谷竜太郎様の法人化検討について、方向性のご相談です。西谷様は現在、個人事業で「不動産」と「物販」を営んでいらっしゃいます</div></div>
+  </div>
 </div>
-
 
 <!-- Top 10 -->
 <div class="section">
-  <h2>加算検討 優先クライアント（合計スコア上位）</h2>
-  <p class="note">4カテゴリの検出数合計でソート。スコアが高いほど「標準を超える業務が多い可能性」が高い。</p>
+  <h2>加算検討 優先ルーム（合計スコア上位10）</h2>
+  <p class="note">4カテゴリのヒット率合計でソート。スコアが高いほど「標準を超える業務が多い可能性」が高い。</p>
   <table>
 <thead>
-  <tr><th>#</th><th>クライアント</th><th class="num">①会計<br><small>率%</small></th><th class="num">②消費税<br><small>率%</small></th><th class="num">③管理<br><small>率%</small></th><th class="num">④付加<br><small>率%</small></th><th class="num">総合率%</th><th class="num">月平均</th><th>所見</th></tr>
+  <tr><th>#</th><th>主担当</th><th class="num">①会計<br><small>率%</small></th><th class="num">②消費税<br><small>率%</small></th><th class="num">③管理<br><small>率%</small></th><th class="num">④付加<br><small>率%</small></th><th class="num">総合率%</th><th class="num">総件数</th><th>所見</th></tr>
 </thead>
 <tbody>
-<tr><td>1</td><td><strong>谷さん</strong><br><small style="color:#9ca3af;">1ヶ月/100件</small></td><td class="num mid">10.0%</td><td class="num high">45.0%</td><td class="num high">26.0%</td><td class="num low">2.0%</td><td class="num high">83.0%</td><td class="num high">82.9</td><td style="font-size:0.8rem;">②消費税（複(45.0%) [消費税・免税] / ③管理会計・(26.0%) [届出書・地方税]</td></tr>
-<tr><td>2</td><td><strong>照井さん</strong><br><small style="color:#9ca3af;">1ヶ月/100件</small></td><td class="num mid">17.0%</td><td class="num high">22.0%</td><td class="num mid">10.0%</td><td class="num mid">12.0%</td><td class="num high">61.0%</td><td class="num high">61.0</td><td style="font-size:0.8rem;">②消費税（複(22.0%) [消費税] / ①会計ソフト(17.0%) [マイクロ法人・マネーフォワード]</td></tr>
-<tr><td>3</td><td><strong>酒巻さん</strong><br><small style="color:#9ca3af;">1ヶ月/100件</small></td><td class="num low">6.0%</td><td class="num high">22.0%</td><td class="num high">27.0%</td><td class="num low">2.0%</td><td class="num high">57.0%</td><td class="num high">57.0</td><td style="font-size:0.8rem;">③管理会計・(27.0%) [届出書・地方税] / ②消費税（複(22.0%) [消費税・課税区分]</td></tr>
-<tr><td>4</td><td><strong>中谷さん</strong><br><small style="color:#9ca3af;">13ヶ月/1927件</small></td><td class="num mid">8.8%</td><td class="num mid">15.9%</td><td class="num mid">16.2%</td><td class="num mid">13.0%</td><td class="num high">54.0%</td><td class="num high">81.5</td><td style="font-size:0.8rem;">③管理会計・(16.2%) [給与・源泉所得税] / ②消費税（複(15.9%) [消費税・対象外]</td></tr>
-<tr><td>5</td><td><strong>引地さん</strong><br><small style="color:#9ca3af;">13ヶ月/1567件</small></td><td class="num mid">11.0%</td><td class="num mid">19.9%</td><td class="num mid">15.4%</td><td class="num low">6.9%</td><td class="num high">53.2%</td><td class="num high">65.9</td><td style="font-size:0.8rem;">②消費税（複(19.9%) [消費税・インボイス] / ③管理会計・(15.4%) [届出書・源泉所得税]</td></tr>
-<tr><td>6</td><td><strong>秋山さん</strong><br><small style="color:#9ca3af;">32ヶ月/100件</small></td><td class="num low">4.0%</td><td class="num mid">18.0%</td><td class="num high">28.0%</td><td class="num zero">0.0%</td><td class="num high">50.0%</td><td class="num zero">1.6</td><td style="font-size:0.8rem;">③管理会計・(28.0%) [届出書・異動届] / ②消費税（複(18.0%) [インボイス・消費税]</td></tr>
-<tr><td>7</td><td><strong>太田綾さん</strong><br><small style="color:#9ca3af;">6ヶ月/973件</small></td><td class="num low">3.3%</td><td class="num high">21.5%</td><td class="num mid">11.3%</td><td class="num mid">13.1%</td><td class="num high">49.1%</td><td class="num high">83.1</td><td style="font-size:0.8rem;">②消費税（複(21.5%) [消費税・インボイス] / ④付加価値業(13.1%) [償却資産・シミュレーション]</td></tr>
-<tr><td>8</td><td><strong>中村さん</strong><br><small style="color:#9ca3af;">12ヶ月/921件</small></td><td class="num low">7.6%</td><td class="num mid">15.7%</td><td class="num mid">15.2%</td><td class="num mid">9.7%</td><td class="num high">48.2%</td><td class="num high">36.5</td><td style="font-size:0.8rem;">②消費税（複(15.7%) [消費税・対象外] / ③管理会計・(15.2%) [給与・法定調書]</td></tr>
-<tr><td>9</td><td><strong>上田さん</strong><br><small style="color:#9ca3af;">13ヶ月/1649件</small></td><td class="num mid">10.2%</td><td class="num mid">12.9%</td><td class="num mid">10.8%</td><td class="num mid">12.6%</td><td class="num high">46.5%</td><td class="num high">57.8</td><td style="font-size:0.8rem;">②消費税（複(12.9%) [消費税・非課税] / ④付加価値業(12.6%) [シミュレーション・役員報酬]</td></tr>
-<tr><td>10</td><td><strong>鎌田さん</strong><br><small style="color:#9ca3af;">1ヶ月/100件</small></td><td class="num mid">9.0%</td><td class="num mid">13.0%</td><td class="num mid">15.0%</td><td class="num mid">9.0%</td><td class="num high">46.0%</td><td class="num high">46.0</td><td style="font-size:0.8rem;">③管理会計・(15.0%) [給与・社会保険] / ②消費税（複(13.0%) [消費税・対象外]</td></tr>
+<tr><td>1</td><td><strong>谷さん</strong><br><small style="color:#9ca3af;">945件</small></td><td class="num mid">11.6%</td><td class="num high">41.9%</td><td class="num high">28.6%</td><td class="num low">3.4%</td><td class="num high">85.5%</td><td class="num">808</td><td style="font-size:0.8rem;">②消費税(41.9%) [消費税・免税] / ③管理会計(28.6%) [給与・地方税]</td></tr>
+<tr><td>2</td><td><strong>引地さん</strong><br><small style="color:#9ca3af;">1,466件</small></td><td class="num high">19.2%</td><td class="num high">21.1%</td><td class="num mid">19.8%</td><td class="num low">6.8%</td><td class="num high">66.9%</td><td class="num">979</td><td style="font-size:0.8rem;">②消費税(21.1%) [消費税・免税] / ③管理会計(19.8%) [届出書・源泉所得税]</td></tr>
+<tr><td>3</td><td><strong>太田綾さん</strong><br><small style="color:#9ca3af;">872件</small></td><td class="num low">7.5%</td><td class="num high">25.8%</td><td class="num mid">13.9%</td><td class="num mid">17.8%</td><td class="num high">65.0%</td><td class="num">566</td><td style="font-size:0.8rem;">②消費税(25.8%) [消費税・免税] / ④付加価値(17.8%) [シミュレーション・償却資産]</td></tr>
+<tr><td>4</td><td><strong>酒巻さん</strong><br><small style="color:#9ca3af;">1,230件</small></td><td class="num mid">10.1%</td><td class="num mid">17.9%</td><td class="num mid">19.8%</td><td class="num mid">11.6%</td><td class="num high">59.4%</td><td class="num">731</td><td style="font-size:0.8rem;">③管理会計(19.8%) [給与・年末調整] / ②消費税(17.9%) [消費税・インボイス]</td></tr>
+<tr><td>5</td><td><strong>伊藤さん</strong><br><small style="color:#9ca3af;">555件</small></td><td class="num mid">10.5%</td><td class="num mid">13.3%</td><td class="num mid">18.6%</td><td class="num mid">13.3%</td><td class="num high">55.7%</td><td class="num">309</td><td style="font-size:0.8rem;">③管理会計(18.6%) [給与・源泉徴収] / ②消費税(13.3%) [消費税・免税]</td></tr>
+<tr><td>6</td><td><strong>田路さん</strong><br><small style="color:#9ca3af;">811件</small></td><td class="num mid">9.1%</td><td class="num mid">16.6%</td><td class="num mid">17.3%</td><td class="num mid">12.1%</td><td class="num high">55.1%</td><td class="num">447</td><td style="font-size:0.8rem;">③管理会計(17.3%) [給与・法定調書] / ②消費税(16.6%) [消費税・インボイス]</td></tr>
+<tr><td>7</td><td><strong>中谷さん</strong><br><small style="color:#9ca3af;">1,826件</small></td><td class="num mid">10.0%</td><td class="num mid">16.0%</td><td class="num mid">17.4%</td><td class="num mid">11.3%</td><td class="num high">54.7%</td><td class="num">997</td><td style="font-size:0.8rem;">③管理会計(17.4%) [給与・源泉所得税] / ②消費税(16.0%) [消費税・免税]</td></tr>
+<tr><td>8</td><td><strong>髙本さん</strong><br><small style="color:#9ca3af;">951件</small></td><td class="num mid">11.3%</td><td class="num mid">19.6%</td><td class="num mid">10.1%</td><td class="num mid">13.5%</td><td class="num high">54.5%</td><td class="num">517</td><td style="font-size:0.8rem;">②消費税(19.6%) [消費税・インボイス] / ④付加価値(13.5%) [シミュレーション・議事録]</td></tr>
+<tr><td>9</td><td><strong>梅木さん</strong><br><small style="color:#9ca3af;">2,184件</small></td><td class="num mid">9.9%</td><td class="num high">22.3%</td><td class="num mid">12.4%</td><td class="num mid">8.9%</td><td class="num high">53.5%</td><td class="num">1166</td><td style="font-size:0.8rem;">②消費税(22.3%) [消費税・インボイス] / ③管理会計(12.4%) [届出書・給与]</td></tr>
+<tr><td>10</td><td><strong>中村さん</strong><br><small style="color:#9ca3af;">820件</small></td><td class="num mid">9.5%</td><td class="num mid">16.0%</td><td class="num mid">17.1%</td><td class="num mid">8.8%</td><td class="num high">51.4%</td><td class="num">421</td><td style="font-size:0.8rem;">③管理会計(17.1%) [給与・法定調書] / ②消費税(16.0%) [消費税・インボイス]</td></tr>
 </tbody></table>
 </div>
 
-<!-- Next Steps -->
+<!-- Data status -->
 <div class="section">
-  <h2>データ整備状況 / 次のアクション</h2>
+  <h2>データ概要 / 補足</h2>
   <div class="insight-box">
-    <strong>現在のデータ状況</strong>
-    対象 38ルーム中 38ルームのテキストデータを取得済み（15,002メッセージ）。残りのルームのCWエクスポートが揃い次第、<code>python3 parse-cw-export.py</code> → <code>python3 generate-report.py</code> で自動更新。
+    <strong>データソース</strong>
+    主担当25名×税理士チームのCWチャット全ルーム（27,323メッセージ、2021-04〜2026-04）をキーワード分析。前回（15,002件・38ルーム）から全件再分析。
   </div>
   <div class="insight-box success">
     <strong>CWログで見えること / 見えないこと</strong>
     <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem;">
-      <li>✅ シミュレーション・消費税判定・異動届等の発生事実（チャットで話題になったか）</li>
-      <li>✅ 頻出トピックの傾向把握・優先順位付け</li>
-      <li>❌ 部門別管理の実態（達人データが必要）</li>
-      <li>❌ 各クライアントの所得層・報酬との突合</li>
+      <li>✅ シミュレーション・消費税判定・届出書等の発生事実（チャットで話題になったか）</li>
+      <li>✅ 主担当ごとの業務傾向・優先順位付け</li>
+      <li>❌ 各クライアントの所得層・顧問料との突合（達人データが必要）</li>
       <li>❌ 課税売上高・個別対応方式の採用有無（申告書データが必要）</li>
     </ul>
   </div>
 </div>
 
 <footer>
-  Generated by HiROBOT AI | Source: Chatwork export + API | 2026-04-06<br>
+  Generated by HiROBOT AI | 2026-04-17 | データ: 25ルーム・27,323件（2021-04〜2026-04）<br>
   顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ<br>
-  <a href="insights.html" style="color:var(--primary)">→ チャットログ分析レポート（課題・自動化インサイト）</a>
+  <a href="insights.html" style="color:var(--primary)">→ チャットログ分析レポート（役割別・時間コスト・自動化候補）</a>
 </footer>
 
 </div>
@@ -352,54 +316,40 @@ footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0
 
 <script>
 const matrix = [
-  {name:"谷",c1:10.0,c2:45.0,c3:26.0,c4:2.0,note:"②消費税（複(45.0%) [消費税・免税] / ③管理会計・(26.0%) [届出書・地方税]"},
-  {name:"照井",c1:17.0,c2:22.0,c3:10.0,c4:12.0,note:"②消費税（複(22.0%) [消費税] / ①会計ソフト(17.0%) [マイクロ法人・マネーフォワード]"},
-  {name:"酒巻",c1:6.0,c2:22.0,c3:27.0,c4:2.0,note:"③管理会計・(27.0%) [届出書・地方税] / ②消費税（複(22.0%) [消費税・課税区分]"},
-  {name:"中谷",c1:8.8,c2:15.9,c3:16.2,c4:13.0,note:"③管理会計・(16.2%) [給与・源泉所得税] / ②消費税（複(15.9%) [消費税・対象外]"},
-  {name:"引地",c1:11.0,c2:19.9,c3:15.4,c4:6.9,note:"②消費税（複(19.9%) [消費税・インボイス] / ③管理会計・(15.4%) [届出書・源泉所得税]"},
-  {name:"秋山",c1:4.0,c2:18.0,c3:28.0,c4:0.0,note:"③管理会計・(28.0%) [届出書・異動届] / ②消費税（複(18.0%) [インボイス・消費税]"},
-  {name:"太田綾",c1:3.3,c2:21.5,c3:11.3,c4:13.1,note:"②消費税（複(21.5%) [消費税・インボイス] / ④付加価値業(13.1%) [償却資産・シミュレーション]"},
-  {name:"中村",c1:7.6,c2:15.7,c3:15.2,c4:9.7,note:"②消費税（複(15.7%) [消費税・対象外] / ③管理会計・(15.2%) [給与・法定調書]"},
-  {name:"上田",c1:10.2,c2:12.9,c3:10.8,c4:12.6,note:"②消費税（複(12.9%) [消費税・非課税] / ④付加価値業(12.6%) [シミュレーション・役員報酬]"},
-  {name:"鎌田",c1:9.0,c2:13.0,c3:15.0,c4:9.0,note:"③管理会計・(15.0%) [給与・社会保険] / ②消費税（複(13.0%) [消費税・対象外]"},
-  {name:"田路",c1:8.0,c2:16.0,c3:7.0,c4:15.0,note:"②消費税（複(16.0%) [消費税・インボイス] / ④付加価値業(15.0%) [シミュレーション・減価償却]"},
-  {name:"陳",c1:2.0,c2:14.0,c3:15.0,c4:14.0,note:"③管理会計・(15.0%) [給与・年末調整] / ②消費税（複(14.0%) [消費税・対象外]"},
-  {name:"髙本",c1:6.2,c2:15.9,c3:8.5,c4:14.0,note:"②消費税（複(15.9%) [消費税・インボイス] / ④付加価値業(14.0%) [シミュレーション・議事録]"},
-  {name:"風巻",c1:9.3,c2:30.2,c3:0.0,c4:4.7,note:"②消費税（複(30.2%) [消費税・課税区分] / ①会計ソフト(9.3%) [勘定科目・マネーフォワード]"},
-  {name:"梅木",c1:15.0,c2:12.0,c3:12.0,c4:5.0,note:"①会計ソフト(15.0%) [マイクロ法人・帳簿] / ②消費税（複(12.0%) [消費税]"},
-  {name:"権田",c1:4.0,c2:19.0,c3:13.0,c4:7.0,note:"②消費税（複(19.0%) [消費税・非課税] / ③管理会計・(13.0%) [法定調書・住民税]"},
-  {name:"岡本",c1:14.0,c2:10.0,c3:14.0,c4:1.0,note:"①会計ソフト(14.0%) [マネーフォワード・帳簿] / ③管理会計・(14.0%) [年末調整・社会保険]"},
-  {name:"上野",c1:2.0,c2:14.0,c3:11.0,c4:12.0,note:"②消費税（複(14.0%) [消費税・課税事業者] / ④付加価値業(12.0%) [シミュレーション・役員報酬]"},
-  {name:"西島",c1:8.0,c2:18.0,c3:4.0,c4:9.0,note:"②消費税（複(18.0%) [消費税] / ④付加価値業(9.0%) [償却資産・役員報酬]"},
-  {name:"小栗",c1:5.3,c2:12.3,c3:8.9,c4:11.5,note:"②消費税（複(12.3%) [消費税・簡易課税] / ④付加価値業(11.5%) [役員報酬・議事録]"},
-  {name:"井上",c1:1.2,c2:12.2,c3:14.4,c4:10.1,note:"③管理会計・(14.4%) [給与・年末調整] / ②消費税（複(12.2%) [消費税・非課税]"},
-  {name:"小倉",c1:7.0,c2:16.0,c3:13.0,c4:2.0,note:"②消費税（複(16.0%) [消費税・インボイス] / ③管理会計・(13.0%) [届出書・給与]"},
-  {name:"宮田",c1:2.8,c2:20.1,c3:8.6,c4:5.5,note:"②消費税（複(20.1%) [消費税・非課税] / ③管理会計・(8.6%) [届出書・異動届]"},
-  {name:"柿島",c1:4.1,c2:13.7,c3:9.8,c4:8.5,note:"②消費税（複(13.7%) [消費税・インボイス] / ③管理会計・(9.8%) [給与・届出書]"},
-  {name:"伊藤",c1:4.0,c2:14.0,c3:3.0,c4:12.0,note:"②消費税（複(14.0%) [消費税] / ④付加価値業(12.0%) [シミュレーション・賃上げ]"},
-  {name:"大谷",c1:6.0,c2:8.0,c3:6.0,c4:10.0,note:"④付加価値業(10.0%) [相続・減価償却] / ②消費税（複(8.0%) [消費税・インボイス]"},
-  {name:"海島",c1:3.0,c2:9.0,c3:11.0,c4:6.0,note:"③管理会計・(11.0%) [届出書・住民税] / ②消費税（複(9.0%) [消費税・対象外]"},
-  {name:"Ryu",c1:4.0,c2:8.0,c3:11.0,c4:2.0,note:"③管理会計・(11.0%) [異動届・源泉税] / ②消費税（複(8.0%) [消費税・対象外]"},
-  {name:"田中",c1:6.0,c2:1.0,c3:9.0,c4:5.0,note:"③管理会計・(9.0%) [予算・届出書] / ①会計ソフト(6.0%) [マイクロ法人・マネーフォワード]"},
-  {name:"Nagai",c1:0.0,c2:4.0,c3:12.0,c4:4.0,note:"③管理会計・(12.0%) [給与・年末調整] / ②消費税（複(4.0%) [消費税]"},
-  {name:"飯塚",c1:4.4,c2:0.0,c3:4.4,c4:11.1,note:"④付加価値業(11.1%) [シミュレーション・議事録] / ①会計ソフト(4.4%) [マイクロ法人]"},
-  {name:"堀江",c1:4.0,c2:4.0,c3:2.0,c4:7.0,note:"④付加価値業(7.0%) [シミュレーション・役員報酬] / ①会計ソフト(4.0%) [マネーフォワード・マイクロ法人]"},
-  {name:"西城",c1:1.8,c2:1.8,c3:10.7,c4:1.8,note:"③管理会計・(10.7%) [源泉徴収票・住民税] / ①会計ソフト(1.8%) [freee]"},
-  {name:"真木",c1:1.0,c2:3.0,c3:1.0,c4:0.0,note:"②消費税（複(3.0%) [消費税] / ①会計ソフト(1.0%) [インポート]"},
-  {name:"岸田",c1:2.0,c2:2.0,c3:0.0,c4:0.0,note:"①会計ソフト(2.0%) [法人成り] / ②消費税（複(2.0%) [消費税]"},
-  {name:"小川",c1:0.0,c2:0.0,c3:0.0,c4:0.0,note:"検出なし"},
-  {name:"坂口",c1:0.0,c2:0.0,c3:0.0,c4:0.0,note:"検出なし"},
-  {name:"大嶋",c1:0.0,c2:0.0,c3:0.0,c4:0.0,note:"検出なし"}
+  {name:"谷",c1:11.6,c2:41.9,c3:28.6,c4:3.4,msgs:945,note:"②消費税(41.9%) [消費税・免税] / ③管理会計(28.6%) [給与・地方税]"},
+  {name:"引地",c1:19.2,c2:21.1,c3:19.8,c4:6.8,msgs:1466,note:"②消費税(21.1%) [消費税・免税] / ③管理会計(19.8%) [届出書・源泉所得税]"},
+  {name:"太田綾",c1:7.5,c2:25.8,c3:13.9,c4:17.8,msgs:872,note:"②消費税(25.8%) [消費税・免税] / ④付加価値(17.8%) [シミュレーション・償却資産]"},
+  {name:"酒巻",c1:10.1,c2:17.9,c3:19.8,c4:11.6,msgs:1230,note:"③管理会計(19.8%) [給与・年末調整] / ②消費税(17.9%) [消費税・インボイス]"},
+  {name:"伊藤",c1:10.5,c2:13.3,c3:18.6,c4:13.3,msgs:555,note:"③管理会計(18.6%) [給与・源泉徴収] / ②消費税(13.3%) [消費税・免税]"},
+  {name:"田路",c1:9.1,c2:16.6,c3:17.3,c4:12.1,msgs:811,note:"③管理会計(17.3%) [給与・法定調書] / ②消費税(16.6%) [消費税・インボイス]"},
+  {name:"中谷",c1:10.0,c2:16.0,c3:17.4,c4:11.3,msgs:1826,note:"③管理会計(17.4%) [給与・源泉所得税] / ②消費税(16.0%) [消費税・免税]"},
+  {name:"髙本",c1:11.3,c2:19.6,c3:10.1,c4:13.5,msgs:951,note:"②消費税(19.6%) [消費税・インボイス] / ④付加価値(13.5%) [シミュレーション・議事録]"},
+  {name:"梅木",c1:9.9,c2:22.3,c3:12.4,c4:8.9,msgs:2184,note:"②消費税(22.3%) [消費税・インボイス] / ③管理会計(12.4%) [届出書・給与]"},
+  {name:"中村",c1:9.5,c2:16.0,c3:17.1,c4:8.8,msgs:820,note:"③管理会計(17.1%) [給与・法定調書] / ②消費税(16.0%) [消費税・インボイス]"},
+  {name:"大谷",c1:7.4,c2:11.2,c3:17.1,c4:15.0,msgs:994,note:"③管理会計(17.1%) [給与・社会保険] / ④付加価値(15.0%) [シミュレーション・減価償却]"},
+  {name:"Ryu",c1:10.3,c2:11.3,c3:15.4,c4:13.0,msgs:1192,note:"③管理会計(15.4%) [届出書・給与] / ④付加価値(13.0%) [償却資産・試算]"},
+  {name:"権田",c1:8.4,c2:16.1,c3:13.4,c4:13.4,msgs:261,note:"②消費税(16.1%) [消費税・課税事業者] / ③管理会計(13.4%) [給与・届出書]"},
+  {name:"上野",c1:4.3,c2:14.7,c3:14.7,c4:12.3,msgs:1031,note:"②消費税(14.7%) [消費税・課税事業者] / ③管理会計(14.7%) [給与・源泉徴収]"},
+  {name:"照井",c1:6.4,c2:15.6,c3:15.9,c4:10.8,msgs:2593,note:"③管理会計(15.9%) [給与・源泉税] / ②消費税(15.6%) [消費税・免税]"},
+  {name:"上田",c1:12.2,c2:12.9,c3:12.1,c4:11.6,msgs:1548,note:"②消費税(12.9%) [消費税・免税] / ①会計ソフト(12.2%) [帳簿・マネーフォワード]"},
+  {name:"宮田",c1:4.0,c2:21.6,c3:13.9,c4:6.1,msgs:918,note:"②消費税(21.6%) [消費税・免税] / ③管理会計(13.9%) [届出書・給与]"},
+  {name:"井上",c1:3.3,c2:13.2,c3:17.3,c4:11.6,msgs:779,note:"③管理会計(17.3%) [給与・年末調整] / ②消費税(13.2%) [消費税・インボイス]"},
+  {name:"小栗",c1:7.7,c2:14.0,c3:10.6,c4:10.9,msgs:855,note:"②消費税(14.0%) [消費税・簡易課税] / ④付加価値(10.9%) [議事録・役員報酬]"},
+  {name:"海島",c1:9.7,c2:13.8,c3:17.3,c4:7.5,msgs:318,note:"③管理会計(17.3%) [社会保険・給与] / ②消費税(13.8%) [消費税・対象外]"},
+  {name:"西島",c1:9.1,c2:18.7,c3:12.6,c4:8.1,msgs:198,note:"②消費税(18.7%) [消費税・免税] / ③管理会計(12.6%) [給与・届出書]"},
+  {name:"柿島",c1:5.1,c2:14.7,c3:13.3,c4:9.3,msgs:1630,note:"②消費税(14.7%) [消費税・簡易課税] / ③管理会計(13.3%) [給与・届出書]"},
+  {name:"陳",c1:8.9,c2:9.6,c3:10.2,c4:9.5,msgs:977,note:"③管理会計(10.2%) [給与・年末調整] / ②消費税(9.6%) [消費税・課税事業者]"},
+  {name:"鎌田",c1:6.6,c2:9.4,c3:9.1,c4:4.3,msgs:1870,note:"②消費税(9.4%) [消費税・課税事業者] / ③管理会計(9.1%) [給与・届出書]"},
+  {name:"岸田",c1:5.4,c2:2.0,c3:2.2,c4:4.4,msgs:499,note:"①会計ソフト(5.4%) [仕訳・マネーフォワード] / ④付加価値(4.4%) [税務調査・相続]"}
 ];
 matrix.sort((a,b) => (b.c1+b.c2+b.c3+b.c4)-(a.c1+a.c2+a.c3+a.c4));
-// ヒット率%ベースのクラス
 const numClass = v => v>=20?'num high':v>=8?'num mid':v>=2?'num low':'num zero';
 const tbody = document.getElementById('matrix-body');
 matrix.forEach(r => {
   const total = +(r.c1+r.c2+r.c3+r.c4).toFixed(1);
   const tr = document.createElement('tr');
   const fmt = v => v ? v+'%' : '-';
-  tr.innerHTML = `<td>${r.name}さん</td><td class="${numClass(r.c1)}">${fmt(r.c1)}</td><td class="${numClass(r.c2)}">${fmt(r.c2)}</td><td class="${numClass(r.c3)}">${fmt(r.c3)}</td><td class="${numClass(r.c4)}">${fmt(r.c4)}</td><td class="${numClass(total)}">${total}%</td><td style="font-size:0.8rem;color:#374151;">${r.note}</td>`;
+  tr.innerHTML = `<td>${r.name}さん<br><small style="color:#9ca3af;">${r.msgs.toLocaleString()}件</small></td><td class="${numClass(r.c1)}">${fmt(r.c1)}</td><td class="${numClass(r.c2)}">${fmt(r.c2)}</td><td class="${numClass(r.c3)}">${fmt(r.c3)}</td><td class="${numClass(r.c4)}">${fmt(r.c4)}</td><td class="${numClass(total)}">${total}%</td><td style="font-size:0.8rem;color:#374151;">${r.note}</td>`;
   tbody.appendChild(tr);
 });
 function copyAll() {
