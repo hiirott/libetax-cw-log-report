@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>リベ税 チャットログ分析レポート - 課題・自動化インサイト</title>
+<title>リベ税 チャットログ分析レポート - 役割別・時間コスト・自動化余地</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -12,6 +12,7 @@
   --success: #059669; --warning: #d97706; --danger: #dc2626;
   --purple: #7c3aed; --purple-light: #ede9fe;
   --orange: #ea580c; --orange-light: #fff7ed;
+  --teal: #0d9488; --teal-light: #ccfbf1;
   --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
   --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
 }
@@ -52,7 +53,14 @@ header .meta { display: flex; gap: 1.5rem; margin-top: 1rem; font-size: 0.85rem;
 .section-icon.green { background: #d1fae5; }
 .section-icon.orange { background: var(--orange-light); }
 .section-icon.purple { background: var(--purple-light); }
+.section-icon.teal { background: var(--teal-light); }
 .section-header h2 { font-size: 1.2rem; font-weight: 700; }
+
+.role-label { display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; font-weight: 600; padding: 3px 10px; border-radius: 20px; margin-bottom: 1rem; }
+.role-label.kishida { background: #fef9c3; color: #854d0e; }
+.role-label.director { background: #dbeafe; color: #1e40af; }
+.role-label.tantou { background: #d1fae5; color: #065f46; }
+.role-label.zeirishi { background: var(--purple-light); color: #5b21b6; }
 
 .card-grid { display: grid; gap: 1rem; }
 .card-grid.cols2 { grid-template-columns: repeat(auto-fit, minmax(480px, 1fr)); }
@@ -84,16 +92,28 @@ header .meta { display: flex; gap: 1.5rem; margin-top: 1rem; font-size: 0.85rem;
 .badge.low { background: var(--gray-100); color: var(--gray-700); }
 .auto-card .auto-desc { font-size: 0.875rem; color: var(--gray-700); }
 
-.struggle-card { border: 1px solid var(--gray-200); border-radius: 10px; padding: 1.2rem 1.4rem; }
-.struggle-card .issue-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
-.struggle-card .issue-desc { font-size: 0.875rem; color: var(--gray-700); margin-bottom: 0.6rem; }
+.cost-card { border: 1px solid var(--gray-200); border-radius: 10px; padding: 1.2rem 1.4rem; }
+.cost-card .cost-title { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: flex-start; gap: 0.6rem; }
+.severity-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; margin-top: 6px; }
+.severity-dot.high { background: #dc2626; }
+.severity-dot.medium { background: #d97706; }
+.severity-dot.low { background: #9ca3af; }
+.cost-card .cost-desc { font-size: 0.875rem; color: var(--gray-700); }
 
 .bar-wrap { margin-bottom: 1.5rem; background: var(--gray-50); border-radius: 8px; padding: 1rem 1.5rem; }
 .bar-wrap .bar-title { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.8rem; }
 .bar-row { display: flex; align-items: center; gap: 0.6rem; margin-bottom: 0.4rem; }
-.bar-label { font-size: 0.78rem; color: var(--gray-700); width: 150px; flex-shrink: 0; }
+.bar-label { font-size: 0.78rem; color: var(--gray-700); width: 160px; flex-shrink: 0; }
 .bar-track { flex: 1; height: 10px; background: var(--gray-200); border-radius: 5px; overflow: hidden; }
-.bar-fill { height: 100%; border-radius: 5px; background: var(--primary); }
+.bar-fill { height: 100%; border-radius: 5px; }
+.bar-fill.blue { background: var(--primary); }
+.bar-fill.green { background: var(--success); }
+.bar-fill.orange { background: var(--orange); }
+.bar-fill.purple { background: var(--purple); }
+
+.role-section { margin-bottom: 2rem; }
+.role-section:last-child { margin-bottom: 0; }
+.role-divider { border: none; border-top: 2px dashed var(--gray-200); margin: 2rem 0; }
 
 footer { text-align: center; color: var(--gray-500); font-size: 0.8rem; padding: 2rem 0; }
 footer a { color: var(--primary); text-decoration: none; }
@@ -104,42 +124,42 @@ footer a { color: var(--primary); text-decoration: none; }
 
 <header>
   <h1>📊 リベ税 チャットログ分析レポート</h1>
-  <p>CWチャット3チャンネル（約6,400件）のログを分析し、リベ大税理士法人の組織課題・自動化余地・改善ポイントを可視化</p>
+  <p>CWチャット28チャンネル（約34,700件）のログを役割別に分析。誰のどの業務に時間・やりとりコストが集中しているか、自動化・仕組み化の余地がどこにあるかを可視化</p>
   <div class="meta">
     <span>📅 分析日: 2026-04-17</span>
-    <span>📁 対象: ディレクター / 税務部門運用相談 / 全体ざつだん</span>
-    <span>📆 対象期間: 2025年3月〜2026年4月</span>
+    <span>📁 対象: グループチャット3本＋個人×税理士チャット25本</span>
+    <span>📆 対象期間: 2024年9月〜2025年4月</span>
   </div>
 </header>
 
 <div class="summary-grid">
   <div class="summary-card blue">
-    <div class="label">よくあるやり取りパターン</div>
-    <div class="value">10</div>
-    <div class="sub">定型化・自動化の宝庫</div>
+    <div class="label">分析メッセージ数</div>
+    <div class="value">34,700</div>
+    <div class="sub">28チャンネル・全期間</div>
   </div>
   <div class="summary-card green">
-    <div class="label">自動化候補業務</div>
-    <div class="value">8</div>
-    <div class="sub">易3件・中4件・難1件</div>
+    <div class="label">自動化候補（役割別）</div>
+    <div class="value">12</div>
+    <div class="sub">4役割 × 3件</div>
   </div>
   <div class="summary-card orange">
-    <div class="label">主担当の課題</div>
-    <div class="value">7</div>
-    <div class="sub">スキル習得・情報散在が中心</div>
+    <div class="label">主担当の高コスト業務</div>
+    <div class="value">10</div>
+    <div class="sub">ディレクター5＋一般5</div>
   </div>
   <div class="summary-card purple">
-    <div class="label">税理士チームの課題</div>
-    <div class="value">8</div>
-    <div class="sub">手戻り・集中・標準化不足</div>
+    <div class="label">税理士チームの高コスト業務</div>
+    <div class="value">5</div>
+    <div class="sub">チェック集中・手戻りが中心</div>
   </div>
 </div>
 
 <div class="nav-tabs">
   <div class="nav-tab active" onclick="switchTab(this,'patterns')">🔁 よくあるやり取り</div>
-  <div class="nav-tab" onclick="switchTab(this,'automation')">⚡ リベ税の自動化候補</div>
-  <div class="nav-tab" onclick="switchTab(this,'tantou')">👤 主担当の課題</div>
-  <div class="nav-tab" onclick="switchTab(this,'zeirishi')">⚖️ 税理士チームの課題</div>
+  <div class="nav-tab" onclick="switchTab(this,'automation')">⚡ 役割別・自動化候補</div>
+  <div class="nav-tab" onclick="switchTab(this,'tantou')">👤 主担当の時間・やりとりコスト</div>
+  <div class="nav-tab" onclick="switchTab(this,'zeirishi')">⚖️ 税理士チームの時間・やりとりコスト</div>
 </div>
 
 <!-- ===== タブ1: よくあるやり取り ===== -->
@@ -147,98 +167,75 @@ footer a { color: var(--primary); text-decoration: none; }
   <div class="section">
     <div class="section-header">
       <div class="section-icon blue">🔁</div>
-      <h2>よくあるやり取りパターン Top 10</h2>
+      <h2>よくあるやり取りパターン Top 7（全28チャンネル集計）</h2>
     </div>
     <div class="card-grid cols2">
 
       <div class="insight-card">
-        <div class="card-title"><span class="rank r1">1</span>新規スタッフ オンボーディング定型案内</div>
-        <div class="freq-badge">📅 月1〜2回（加入のたびに発生）</div>
-        <div class="desc">岸田さんが毎回同じテンプレートをコピペ送信。Gmail取得・スプレッドシート権限・MF権限・CWコンタクト・マイコモン・達人インストール・Zoom背景設定まで約10項目を毎回手作業。</div>
+        <div class="card-title"><span class="rank r1">1</span>消費税の課税方式検討（2割特例・簡易・本則）</div>
+        <div class="freq-badge">📅 全25チャット中24チャットで発生・累計数千件</div>
+        <div class="desc">クライアントごとに2割特例・簡易課税・本則課税の有利不利判定を行い、税理士に確認を依頼するやりとりが全主担当チャットで繰り返されている。検討用Excelを作成→Dropbox共有→税理士チェック→修正→再確認という往復が毎回発生。</div>
+        <div class="quotes">
+          <div class="quote">「農家+輸出物販の方の消費税検討なのですが、来期から簡易課税で計算した方が消費税少なくできるのかなと思い相談させていただきたいです」</div>
+          <div class="quote">「令和8年から消費税課税事業者になります。簡易課税の選択するかどうかの検討が必要なので、消費税関係のタイミングが重要です」</div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="card-title"><span class="rank r2">2</span>MFチェック依頼と確認往復</div>
+        <div class="freq-badge">📅 月40件超（梅木168件・髙本98件・上野67件等）</div>
+        <div class="desc">主担当がMFの会計データを整理し、Dropboxに資料を置き、税理士にチェック依頼を出す定型フロー。チェック完了→指摘事項→修正→再チェックの往復が1クライアントあたり平均2〜3往復発生。報告フォーマットや資料の置き場所が主担当によってバラバラで、税理士側の確認コストが増大。</div>
+        <div class="quotes">
+          <div class="quote">「3月決算のアオゲバさんの会計が固まりましたので、MFチェックをお願いいたします」</div>
+          <div class="quote">「確定申告の資料が主担当によってDropboxがバラバラで確認しづらかった」</div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="card-title"><span class="rank r3">3</span>申告書作成・チェック・電子申告の往復フロー</div>
+        <div class="freq-badge">📅 月30件超（確定申告期は集中）</div>
+        <div class="desc">主担当が申告書を達人で作成→DropboxにPDF共有→税理士チェック→指摘修正→再チェック→電子申告→納品という長い工程。別表の数値誤り・チェック欄の入れ忘れなど定型的なミスが複数チャットで繰り返される。フォーマットの統一不足が工数増の要因。</div>
+        <div class="quotes">
+          <div class="quote">「別表4の「5.損金経理をした附帯税…」に243円入ってますが、ここは不要かなと」</div>
+          <div class="quote">「かなり締め切りギリギリまでチェックが上がってこず不安だった。毎日徹夜でチェックしていたため、精神的に辛かった」</div>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="card-title"><span class="rank rn">4</span>新規スタッフ・クライアントのオンボーディング</div>
+        <div class="freq-badge">📅 月5〜10件（スタッフ・クライアント合算）</div>
+        <div class="desc">新メンバー加入のたびにスプレッドシート権限付与・MF権限・マイコモン設定・CWコンタクト・Zoom/Dropbox権限・マニュアル案内を個別に手動対応。ほぼ同一のテンプレメッセージを毎回コピペ送信。</div>
         <div class="quotes">
           <div class="quote">「スプレッドシートに権限を付与させていただきます！マネーフォワードに登録していないGmailのアドレスを教えてください」</div>
-          <div class="quote">「TO ALLでの発信は全員に周知が必要な重要なことのみでお願いできればと思います⚠️」</div>
+          <div class="quote">「「TO ALL」での発信は全員に周知してもらう必要がある重要なことのみでお願いできればと思います」</div>
         </div>
       </div>
 
       <div class="insight-card">
-        <div class="card-title"><span class="rank r2">2</span>月初 決算・消費税チェック進捗報告</div>
-        <div class="freq-badge">📅 毎月1回（全主担当が一斉報告）</div>
-        <div class="desc">全主担当が毎月同一フォーマット（2月決算/4月決算/消費税チェック/予定納税/3ヶ月納付/半年納付）で進捗報告。「該当なし」の人も同じ書式で報告するためチャットが大量のノイズになる。</div>
+        <div class="card-title"><span class="rank rn">5</span>月初の決算・消費税・予定納税の進捗報告</div>
+        <div class="freq-badge">📅 毎月全主担当（20名超）が定型報告</div>
+        <div class="desc">毎月初に全主担当が「○月決算（○月申告）」「消費税チェック」「予定納税」のステータスを定型フォーマットで報告。大半が「該当なし」でも全員が投稿する必要があり、投稿漏れのリマインドも発生。</div>
         <div class="quotes">
-          <div class="quote">「▼2月決算（4月申告）CA07 有限会社アックプリント：MFチェック中 ▼4月決算 該当なし ▼予定納税 該当無し」</div>
+          <div class="quote">「▼2月決算（4月申告）該当無し ▼4月決算（消費税チェック）該当無し ▼予定納税 ▼3ヶ月ごと納付 該当無し ▼半年納付 該当無し」</div>
         </div>
       </div>
 
       <div class="insight-card">
-        <div class="card-title"><span class="rank r3">3</span>担当税理士・主担当のアサイン調整</div>
-        <div class="freq-badge">📅 週1〜3回（新規クライアントごと）</div>
-        <div class="desc">新規クライアントが来るたびに岸田さん→ひろへ担当組み合わせを相談し承認を得る。個人/法人・業種・決算月・サポーター要否を毎回手動で判断。</div>
+        <div class="card-title"><span class="rank rn">6</span>届出書・申請書の作成とチェック依頼</div>
+        <div class="freq-badge">📅 全チャットで累計1,500件超のやりとり</div>
+        <div class="desc">インボイス登録申請・消費税課税事業者届出・簡易課税選択届出・青色申告承認申請など。主担当が達人で作成→PDF化→Dropbox共有→税理士チェックという定型フロー。届出期限の管理と確認依頼のリマインドも手動。</div>
         <div class="quotes">
-          <div class="quote">「お一人サラリーマン副業の方が来たので酒巻さんにお願いしようと思うのですが、担当税理士は特に指定なしでいいですかね？（吉田先生を考えています！）」</div>
+          <div class="quote">「株式会社リードコネクトの来期からの消費税課税事業者届出書とインボイス登録申請書を作成しましたので、ご確認をお願い致します」</div>
         </div>
       </div>
 
       <div class="insight-card">
-        <div class="card-title"><span class="rank rn">4</span>スプレッドシート権限付与ミス</div>
-        <div class="freq-badge">📅 週1〜2回（毎回指摘→修正のループ）</div>
-        <div class="desc">スプレッドシートやドキュメントを共有するたびに権限が付いていない問題が繰り返し発生。ひろや他メンバーから指摘されて修正するパターンが固定化。</div>
+        <div class="card-title"><span class="rank rn">7</span>Zoom面談の日程調整・URL共有</div>
+        <div class="freq-badge">📅 鎌田340件・髙本231件・酒巻179件等</div>
+        <div class="desc">クライアントとのZoom面談日程調整、URL発行・共有、面談後の議事録共有が頻繁に発生。特に担当件数の多い主担当で顕著。調整さんや手動でのスケジュール調整が多い。</div>
         <div class="quotes">
-          <div class="quote">ひろ「アクセス権。。。笑」→ 岸田「毎回すみません、付与しました💦」</div>
-        </div>
-      </div>
-
-      <div class="insight-card">
-        <div class="card-title"><span class="rank rn">5</span>定例MTG 欠席・耳のみ参加連絡の洪水</div>
-        <div class="freq-badge">📅 毎週火曜（全員が個別に投稿）</div>
-        <div class="desc">毎週9時の定例MTGに対し「耳のみ参加」「欠席します」「スプシ記入済み」という連絡が全員から個別に流れる。チャットのノイズが大きく情報埋没リスク。</div>
-        <div class="quotes">
-          <div class="quote">「おはようございます😊移動中のため、耳のみ参加させて頂きます。」（毎週複数名から同様の投稿）</div>
-        </div>
-      </div>
-
-      <div class="insight-card">
-        <div class="card-title"><span class="rank rn">6</span>MyKomon 進捗管理表チェック入れ忘れ</div>
-        <div class="freq-badge">📅 週1〜2回（ひろが都度リマインド）</div>
-        <div class="desc">進捗管理表にチェックを入れていない人が続出し、ひろからリマインドが必要。解約済み顧客の非表示設定など使い方の質問も頻出。</div>
-        <div class="quotes">
-          <div class="quote">ひろ「消費税課税方式の検討 3月5日までのやつですけど、皆さん大丈夫ですよね・・・？笑 チェック入れてないだけで・・・笑」</div>
-        </div>
-      </div>
-
-      <div class="insight-card">
-        <div class="card-title"><span class="rank rn">7</span>HPインタビュー調整（多段階手動フロー）</div>
-        <div class="freq-badge">📅 数週間集中して発生</div>
-        <div class="desc">お客様の声掲載のため、打診→承諾確認→スプレッドシート記入→HP制作チームへ日程調整という多段階の調整が手動で繰り返される。</div>
-        <div class="quotes">
-          <div class="quote">「HPヒアリングの件、昭和エンジニアリング株式会社の河田さんからOKもらいました！顔出しはNGですが、社名＋本名の掲載はOKとのことです。」</div>
-        </div>
-      </div>
-
-      <div class="insight-card">
-        <div class="card-title"><span class="rank rn">8</span>スタッフ離脱時の担当再振り分け</div>
-        <div class="freq-badge">📅 数ヶ月に1回（離脱時に集中発生）</div>
-        <div class="desc">スタッフ離脱や件数削減により既存クライアントの担当を再配分する大規模作業が発生。スプレッドシートで一件ずつ手動で割り当てを検討。</div>
-        <div class="quotes">
-          <div class="quote">ひろ「松崎さんのこの枝番ついている二人って、個人契約はないでよかったでしょうか？担当振りセットで考えないとだよなぁ」</div>
-        </div>
-      </div>
-
-      <div class="insight-card">
-        <div class="card-title"><span class="rank rn">9</span>確定申告の振り返り・チェック表作成</div>
-        <div class="freq-badge">📅 年1回（3月末〜4月）毎年繰り返し</div>
-        <div class="desc">確定申告終了後にMTGで振り返り→チェック表・確定申告フロードキュメントを新規作成・改善。毎年同じ課題が出て同じ改善をしているパターン。</div>
-        <div class="quotes">
-          <div class="quote">「確定申告チェック表を更新しました。来年の確定申告の際には、こちらを活用していただくようお願いします」</div>
-        </div>
-      </div>
-
-      <div class="insight-card">
-        <div class="card-title"><span class="rank rn">10</span>フォーム・通知設定の変更依頼</div>
-        <div class="freq-badge">📅 月1〜2回（ひろが手動対応）</div>
-        <div class="desc">決算月の項目追加・BOT通知設定変更・アカウント切り替えなど、設定変更系の依頼がすべてひろに集中。毎回ひろの工数が発生する構造。</div>
-        <div class="quotes">
-          <div class="quote">柿島「法人のお問い合わせだけ、決算月をヒアリングできるフォームにすることは可能でしょうか？」 ひろ「通知設定をいじらないといけないから、私がやるか・・・な。」</div>
+          <div class="quote">「面談入ってない日の17:00までなら10日と日曜日以外いつでも大丈夫です！！」</div>
+          <div class="quote">「7日の14-16時 9日の9-11時、14-16時であれば大丈夫です！」</div>
         </div>
       </div>
 
@@ -246,249 +243,344 @@ footer a { color: var(--primary); text-decoration: none; }
   </div>
 </div>
 
-<!-- ===== タブ2: 自動化候補 ===== -->
+<!-- ===== タブ2: 役割別・自動化候補 ===== -->
 <div id="tab-automation" class="tab-content">
   <div class="section">
     <div class="section-header">
       <div class="section-icon green">⚡</div>
-      <h2>リベ大税理士法人が導入できる自動化 Top 8</h2>
+      <h2>役割別・自動化・仕組み化の候補</h2>
     </div>
-    <p style="font-size:0.875rem;color:var(--gray-700);margin-bottom:1rem;">チャットログに繰り返し現れる手作業・定型業務を抽出。組織として優先的に取り組むべき自動化候補。</p>
+    <p style="font-size:0.875rem;color:var(--gray-700);margin-bottom:1.5rem;">チャットログに繰り返し現れる手作業・定型業務を役割別に抽出。誰の何を自動化すると、どこに効果が出るかを整理。</p>
 
     <div class="bar-wrap">
-      <div class="bar-title">リベ税チーム全体の工数削減効果（概算）</div>
-      <div class="bar-row"><div class="bar-label">岸田さん（事務局）</div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:90px;flex-shrink:0">月5〜8h削減</span></div>
-      <div class="bar-row"><div class="bar-label">主担当チーム全体</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:90px;flex-shrink:0">月10〜15h削減</span></div>
-      <div class="bar-row"><div class="bar-label">税理士チーム全体</div><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:90px;flex-shrink:0">申告期に集中削減</span></div>
+      <div class="bar-title">自動化による工数削減ポテンシャル（概算）</div>
+      <div class="bar-row"><div class="bar-label">岸田（事務局）</div><div class="bar-track"><div class="bar-fill blue" style="width:90%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:100px;flex-shrink:0">月5〜8h削減</span></div>
+      <div class="bar-row"><div class="bar-label">主担当ディレクター</div><div class="bar-track"><div class="bar-fill blue" style="width:70%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:100px;flex-shrink:0">月4〜6h削減</span></div>
+      <div class="bar-row"><div class="bar-label">主担当（その他）</div><div class="bar-track"><div class="bar-fill green" style="width:85%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:100px;flex-shrink:0">月6〜12h削減</span></div>
+      <div class="bar-row"><div class="bar-label">税理士チーム</div><div class="bar-track"><div class="bar-fill purple" style="width:60%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:100px;flex-shrink:0">申告期に集中削減</span></div>
     </div>
 
-    <div class="card-grid cols2">
+    <!-- 岸田（事務局） -->
+    <div class="role-section">
+      <div class="role-label kishida">🏢 岸田（事務局）</div>
+      <div class="card-grid cols2">
 
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">1. 新規スタッフ オンボーディング自動化</div>
-          <div class="badges"><span class="badge easy">難易度：易</span><span class="badge high">インパクト：高</span></div>
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">新規スタッフオンボーディングの自動化</div>
+            <div class="badges"><span class="badge easy">難易度：易</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">名前・メールアドレスを入力するだけで定型案内メッセージを自動生成→CWへ送信。スプレッドシート権限付与もGASで自動化。毎回コピペしている約10項目のオンボーディング作業を完全自動化できる。</div>
         </div>
-        <div class="auto-desc">名前・メールアドレスを入力するだけで定型案内メッセージを自動生成→CWへ送信。スプレッドシート権限付与もGASで自動化。岸田さんが毎回コピペしている約10項目のオンボーディング作業を完全自動化できる。</div>
-      </div>
 
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">2. 月初の決算進捗報告 自動生成・集約</div>
-          <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">月初進捗報告の自動集計・配信</div>
+            <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">マイコモンの進捗管理表データからBOTが自動で当月の決算法人・消費税チェック対象リストを生成し、各主担当にステータス報告を促す。「該当なし」は自動判定して省略可能にすることでチャットのノイズが大幅減。</div>
         </div>
-        <div class="auto-desc">MyKomonのデータを読み込み、各主担当の月初進捗レポートを自動生成して一括送信。「該当なし」は報告不要にするだけでチャットのノイズが大幅減。ダッシュボード化で全体俯瞰も可能に。</div>
-      </div>
 
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">3. 担当アサイン 半自動推薦システム</div>
-          <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">解約・新規クライアント集計の自動更新</div>
+            <div class="badges"><span class="badge mid">難易度：中</span><span class="badge medium">インパクト：中</span></div>
+          </div>
+          <div class="auto-desc">マイコモンの顧客データと連携し、主担当別の新規/解約件数を自動集計。スプレッドシートの手動更新・色分け・概要欄更新を不要にする。現在は都度手動でカウントしている。</div>
         </div>
-        <div class="auto-desc">新規クライアントの業種・決算月・個人/法人と、主担当/税理士の現在件数・決算月分布・スキルレベルを突き合わせてアサイン候補を自動提案。事務局の都度調整・承認フローを効率化する。</div>
-      </div>
 
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">4. Googleドキュメント権限 自動一括付与</div>
-          <div class="badges"><span class="badge easy">難易度：易</span><span class="badge medium">インパクト：中</span></div>
-        </div>
-        <div class="auto-desc">新メンバー追加時にリベ税フォルダ・共有ドキュメント全体への権限をGASで自動付与。「権限がない」指摘→修正のやり取りが週1〜2回発生しているのを根絶できる。</div>
       </div>
-
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">5. 定例MTG 出欠管理のBOT一本化</div>
-          <div class="badges"><span class="badge easy">難易度：易</span><span class="badge medium">インパクト：中</span></div>
-        </div>
-        <div class="auto-desc">前日通知BOTの重複送信バグ修正（4/14に20回以上連投）。当日の欠席・耳のみ連絡をリアクションボタン方式に変更してチャットのノイズを排除。出欠結果は自動でスプレッドシートに記録。</div>
-      </div>
-
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">6. 進捗管理表 個別リマインド自動化</div>
-          <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
-        </div>
-        <div class="auto-desc">MyKomonでチェックが入っていない項目を自動検知し、期限が近い/超過した担当者にCWで個別リマインドを自動送信。チェック漏れを組織として仕組みで防ぐ体制をつくる。</div>
-      </div>
-
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">7. 確定申告ドラフトの AI 事前チェック</div>
-          <div class="badges"><span class="badge hard">難易度：難</span><span class="badge high">インパクト：高</span></div>
-        </div>
-        <div class="auto-desc">MFのデータを読み込み、確定申告チェック表の項目（事業主勘定相殺・10万円以上・重複・消費税区分・固定資産・家事按分等）をAIで自動チェック。主担当のセルフチェック精度向上→税理士への手戻り削減。</div>
-      </div>
-
-      <div class="auto-card">
-        <div class="auto-card-header">
-          <div class="title">8. クライアントインタビュー調整フロー</div>
-          <div class="badges"><span class="badge mid">難易度：中</span><span class="badge low">インパクト：低</span></div>
-        </div>
-        <div class="auto-desc">HP掲載インタビューの打診→承諾確認→スプレッドシート記入→調整さんURL生成→ヒアリングメモ作成の一連をフォーム入力ベースでワンストップ化。担当者の手作業を大幅削減。</div>
-      </div>
-
     </div>
+
+    <hr class="role-divider">
+
+    <!-- 主担当ディレクター -->
+    <div class="role-section">
+      <div class="role-label director">🎯 主担当ディレクター（Ryu・齋藤・柿島・引地）</div>
+      <div class="card-grid cols2">
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">マイコモン進捗管理表のCW自動通知</div>
+            <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">マイコモンの進捗管理表の未完了項目をBOTが定期的にCWに自動投稿。特に重要な項目（消費税検討期限・MFチェック期限）のアラートを自動化。リベ税BOTの既存インフラを活用可能で、手動フォローのコストを大幅削減。</div>
+        </div>
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">申告書チェック依頼テンプレートの標準化</div>
+            <div class="badges"><span class="badge easy">難易度：易</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">主担当が申告書チェックを依頼する際のフォーマット（事業者番号・Dropboxリンク・申し送り事項・前年比較添付有無）を統一テンプレートにし、マイコモンの報告書と連動。現在は各人がバラバラのフォーマットで依頼しており、税理士側の確認コストが高い。</div>
+        </div>
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">消費税検討の自動判定ツール</div>
+            <div class="badges"><span class="badge hard">難易度：難</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">MFの会計データから売上・仕入データを自動取得し、2割特例・簡易課税・本則課税の有利不利を自動計算するツール。現在は主担当がExcelで手動計算→税理士に確認という流れ。計算部分を自動化し、税理士は高度な判断に集中できるようにする。</div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="role-divider">
+
+    <!-- 主担当（その他） -->
+    <div class="role-section">
+      <div class="role-label tantou">👩‍💼 主担当（その他メンバー）</div>
+      <div class="card-grid cols2">
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">MFチェック報告書テンプレートの自動生成</div>
+            <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">MFのデータからチェック対象科目（事業主勘定・10万円以上・重複・消費税区分・現金・預金・固定資産・家事按分など）の概要を自動抽出し、マイコモン報告書のテンプレートに自動入力。全主担当で均一なフォーマットにすることで税理士側の確認コストも下がる。</div>
+        </div>
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">確定申告セルフチェック表の自動チェック</div>
+            <div class="badges"><span class="badge hard">難易度：難</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">達人の申告書データから、よくある指摘事項（配当控除の外国株除外・事業主勘定の相殺・インボイス番号の有無チェック等）を自動検証。チェック項目リストをルール化し、提出前に自動でスクリーニング。税理士への手戻りを削減。</div>
+        </div>
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">記帳催促の自動リマインド</div>
+            <div class="badges"><span class="badge easy">難易度：易</span><span class="badge medium">インパクト：中</span></div>
+          </div>
+          <div class="auto-desc">MFの入力状況を定期チェックし、入力が進んでいないクライアントに自動でリマインドメッセージを送信。現在は主担当が個別に声かけしているが、「○月分の入力がまだのようです」程度の定型催促は自動化可能。</div>
+        </div>
+
+      </div>
+    </div>
+
+    <hr class="role-divider">
+
+    <!-- 税理士チーム -->
+    <div class="role-section">
+      <div class="role-label zeirishi">⚖️ 税理士チーム</div>
+      <div class="card-grid cols2">
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">よくある質問（FAQ）データベースの構築</div>
+            <div class="badges"><span class="badge easy">難易度：易</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">複数の主担当から同じ質問が来る内容（消費税の短縮料金・家事按分の計算・固定資産の判定基準・インボイスの届出タイミング等）をFAQ化し、主担当が自己解決できるようにする。チャットログから頻出質問を抽出してナレッジベース化することで、税理士への問い合わせを削減。</div>
+        </div>
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">申告書チェック前のプリスクリーニング自動化</div>
+            <div class="badges"><span class="badge hard">難易度：難</span><span class="badge high">インパクト：高</span></div>
+          </div>
+          <div class="auto-desc">申告書のPDFから数値を抽出し、前年比較の異常値・消費税区分の不整合・別表間の整合性など定型チェック項目を自動検証。税理士が目視確認する前に機械的にチェックできる部分を自動化し、税理士は高度な判断に集中できるようにする。</div>
+        </div>
+
+        <div class="auto-card">
+          <div class="auto-card-header">
+            <div class="title">チェック依頼の自動整理・優先順位付け</div>
+            <div class="badges"><span class="badge mid">難易度：中</span><span class="badge medium">インパクト：中</span></div>
+          </div>
+          <div class="auto-desc">複数の主担当から同時に上がるチェック依頼を、申告期限・クライアントの重要度・チェック難易度に基づいて自動で優先順位付けし、担当税理士ごとに整理して提示。現在はチャットの時系列順で処理しているため、期限の迫った案件の見落としリスクがある。</div>
+        </div>
+
+      </div>
+    </div>
+
   </div>
 </div>
 
-<!-- ===== タブ3: 主担当の課題 ===== -->
+<!-- ===== タブ3: 主担当の時間・やりとりコスト ===== -->
 <div id="tab-tantou" class="tab-content">
+
+  <!-- 岸田（事務局）セクション -->
   <div class="section">
     <div class="section-header">
-      <div class="section-icon orange">👤</div>
-      <h2>主担当（柿島・引地・齋藤）が手間取っていること</h2>
+      <div class="section-icon teal">🏢</div>
+      <h2>岸田（事務局）の時間・やりとりコスト</h2>
     </div>
     <div class="card-grid cols2">
 
-      <div class="struggle-card">
-        <div class="issue-title">① 確定申告フローの全体像・スケジュールがわからない</div>
-        <div class="issue-desc">新しい主担当が「いつ何をすべきか」を把握できず、マニュアル通りに進めていいか迷う。先輩との進捗差に焦り、スケジュール感が共有されていない。</div>
-        <div class="quotes">
-          <div class="quote">「確定申告スタートのタイミング（マニュアルのご案内文の通り11月頃スタート？）マニュアル通り勝手に進めていいのか迷いました。」</div>
-          <div class="quote">「谷さん基準ですとかなり遅いスケジュールで進めてしまっていて途中で迷って焦りました」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>新規スタッフ・クライアントのオンボーディング対応</div>
+        <div class="cost-desc">新メンバー加入ごとにスプレッドシート権限・MF権限・マイコモン設定・CWコンタクト・Zoom/Dropbox権限を手動で個別対応。テンプレメッセージ送信・Gmail確認・TO ALL注意事項の説明を毎回実施。分析期間中に少なくとも5名の新規スタッフ対応が確認された。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">② 税理士への報告方法・提出資料の基準が不明確</div>
-        <div class="issue-desc">先生への報告をどの方法でどこまで伝えるべきか、申告書のPDF分割が必要か等、提出物の基準が主担当によって異なる。</div>
-        <div class="quotes">
-          <div class="quote">「先生への報告方法（内容）どの方法で、どこまでお伝えしたらいいのか細かな内容まで不要なのか迷いました。」</div>
-          <div class="quote">「申告書出力の際に「入力用帳票」を出力が必要なのか不要なのか判断に困りました」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>主担当・税理士の担当割り振り・調整</div>
+        <div class="cost-desc">新規クライアントの問い合わせに対して、主担当と税理士の組み合わせを都度判断・調整。主担当の稼働状況・得意領域・クライアントの業種を考慮する必要があり、ディレクターチャットで91件以上の担当調整やりとりが発生。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">③ MFの期中チェックが後手に回る</div>
-        <div class="issue-desc">MFの会計チェックを期中に十分行えず、確定申告直前にまとめてチェックする羽目になる。顧客の記帳が進まず催促しても動かないケースへの対応も手詰まり。</div>
-        <div class="quotes">
-          <div class="quote">「期中の会計チェック・科目整理が甘く、決算完了までに時間がかかった」（振り返りMTG要約）</div>
-          <div class="quote">「確定申告前になって序盤の未確認事項があるのは問題」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>スプレッドシート・集計資料の作成・更新</div>
+        <div class="cost-desc">解約集計・新規/解約の主担当別月次集計・インタビュー管理シート・メンション管理シートなど、依頼ベースで都度スプシを作成。自動更新の仕組みがなく手動更新が多い。スプレッドシートの権限付与ミスが週1〜2回発生し、指摘→修正のループが固定化。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">④ マニュアル・情報がどこにあるか分からない</div>
-        <div class="issue-desc">マニュアルや情報がCW・マイコモン・スプレッドシート・Googleドキュメントに分散。何がどこにあるか把握しにくく、過去チャットを漁る時間が無駄になっている。</div>
-        <div class="quotes">
-          <div class="quote">「情報やマニュアルが充実しすぎて、どこに何があるかの整理に時間がかかっています」（中村衣里）</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>MTG/KPT/DS（定例会議）の運営・リマインド</div>
+        <div class="cost-desc">毎週火曜9時の定例MTGの案内・ZoomURL共有・議事録/音声データの共有・マインドマップの記載リマインド。概要欄の更新も手動。毎週全員から「耳のみ参加」「欠席します」の個別投稿が届き、チャットのノイズが大きい。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">⑤ マネーフォワード未経験のまま業務開始</div>
-        <div class="issue-desc">リベ税は100%MF移行が前提だが、MFに触れたことがない状態で主担当を始める人がいる。他ソフトからの移行対応も含め習熟に時間がかかる。</div>
-        <div class="quotes">
-          <div class="quote">「今の一番の懸念点は、マネーフォワードに全く触れたことがないことです」（中村衣里）</div>
-          <div class="quote">「他のソフトもNGではないのかなと思ったのですが、実際には100%マネーフォワードへ移行していただいています。」</div>
-        </div>
-      </div>
-
-      <div class="struggle-card">
-        <div class="issue-title">⑥ ツール（達人・マイコモン）の操作に不慣れ</div>
-        <div class="issue-desc">達人のインストールがマニュアル動画と実態が違う、進捗管理表の使い方がわからない、業務報告書の存在自体に気づかないなど、推奨ツールで躓くケースが頻出。</div>
-        <div class="quotes">
-          <div class="quote">「達人のインストールで少し悩みました。マニュアルの動画と少し違っていた気がしました。」（鎌田）</div>
-          <div class="quote">「業務報告書を作成すること・進捗管理表で管理することについて、途中まで気づいておりませんでした。」</div>
-        </div>
-      </div>
-
-      <div class="struggle-card">
-        <div class="issue-title">⑦ 担当件数とキャパのミスマッチ・離脱リスク</div>
-        <div class="issue-desc">確定申告時期にキャパオーバーになる主担当が毎年発生。家庭との両立困難、スキル不足による自信喪失から離脱に至るケースも。採用タイミングと件数配分の設計が課題。</div>
-        <div class="quotes">
-          <div class="quote">「リベ税の主担当の仕事は、私にとってはスキル・知識不足でしんどかった」（松崎）</div>
-          <div class="quote">ひろ「微妙なことがわかっても、ある程度の件数を持っている状態だと離脱させることが難しい」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>月初の確認事項リスト作成・配信・フォロー</div>
+        <div class="cost-desc">毎月初に該当月の決算法人・消費税チェック対象・予定納税対象を一覧にして全主担当に配信。全主担当からの報告を取りまとめ。報告漏れのフォローも実施。20名超から同一フォーマットの報告が届き、管理コストが高い。</div>
       </div>
 
     </div>
   </div>
+
+  <!-- 主担当ディレクターセクション -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon blue">🎯</div>
+      <h2>主担当ディレクター（Ryu・齋藤・柿島・引地）の時間・やりとりコスト</h2>
+    </div>
+    <div class="card-grid cols2">
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>消費税検討フォーマット策定・全主担当への周知</div>
+        <div class="cost-desc">Ryuさんが消費税検討の新フォーマットをマイコモンで作成。全主担当への周知・運用指導・不明点対応が発生。フォーマット変更のたびに全員へのアナウンスと質問対応が必要。柿島さんも進捗管理表の刷新を担当し、同様の周知コストが発生。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>進捗管理表の設計・更新・チェック漏れフォロー</div>
+        <div class="cost-desc">柿島さんがマイコモンの進捗管理表を個人・法人ごとに設計・更新。カレンダー連携・予定納税欄追加など継続的な改善。チェックが入っていない人へのフォローも手動。BOT化の要望は上がっているが、対応待ちの期間は手動管理が続く。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>確定申告の振り返り・改善施策の推進</div>
+        <div class="cost-desc">確定申告チェック表の項目策定、セルフチェック運用の推進、確定申告フロードキュメントの整備。チェック項目の募集・取りまとめ・改善施策の実行管理も担当。毎年同じ課題が出て同じ改善をするパターンが繰り返されている。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>育成枠メンバーのフォロー・教育</div>
+        <div class="cost-desc">柿島さんが育成枠メンバーの法人案件フォローを担当。クライアントの選定・報酬配分調整・育成枠チャットでの情報共有。方針のすり合わせも都度必要で、対話コストが積み上がっている。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>税理士へのチェック依頼・リマインド管理</div>
+        <div class="cost-desc">引地さんは4件の法人決算を同時進行、Ryuさんも複数法人の申告書作成→税理士チェック依頼→リマインドを管理。チェック漏れが発生した場合のリマインドも対応。チェック依頼の状況を自分でトラッキングする負荷が高い。</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 主担当（その他）セクション -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon orange">👩‍💼</div>
+      <h2>主担当（その他メンバー）の時間・やりとりコスト</h2>
+    </div>
+    <div class="card-grid cols2">
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>MFの会計チェック・整理作業</div>
+        <div class="cost-desc">クライアントのMFデータを四半期ごとにチェックし、科目整理・補助科目確認・家事按分・固定資産登録を実施。チェック結果をマイコモン報告書にまとめて税理士に提出。1クライアントあたり数時間〜半日かかるケースもあり、梅木さん168件・髙本さん98件など件数が多い主担当で特に大きな負担。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>確定申告の申告書作成・修正対応</div>
+        <div class="cost-desc">達人での申告書作成、税理士からの指摘事項の修正、PDFの分割・整理、Dropboxへのアップロード。同じようなミス（配当控除の取りすぎ・別表の数値転記ミス等）が複数の主担当で発生。確定申告期（1-3月）に集中し、チェック→修正→再チェックの往復が平均2〜3回。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>クライアントへの記帳催促・資料依頼</div>
+        <div class="cost-desc">会計入力が進んでいないクライアントへの声かけ・必要資料の催促・レスポンスの遅い顧客へのフォロー。特に確定申告前にギリギリになるクライアントが毎年おり、Zoomで一緒に入力するなどの対応が必要。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>消費税の課税方式検討・届出書作成</div>
+        <div class="cost-desc">クライアントごとの消費税有利判定（2割特例vs簡易vs本則）をExcelで計算し、結果を税理士に確認。判定後は届出書を達人で作成→PDF化→税理士チェック。23/25チャットで2割特例の検討が発生しており、ほぼ全クライアントで必要な作業。</div>
+      </div>
+
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>Zoom面談の日程調整・議事録作成</div>
+        <div class="cost-desc">クライアントとの定期面談・随時相談のZoom日程調整、URL発行、面談後の議事録作成・共有。鎌田さん340件・髙本さん231件・酒巻さん179件など面談頻度が高い主担当がいる。調整さんを使うケースもあるが手動対応が多い。</div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
-<!-- ===== タブ4: 税理士チームの課題 ===== -->
+<!-- ===== タブ4: 税理士チームの時間・やりとりコスト ===== -->
 <div id="tab-zeirishi" class="tab-content">
   <div class="section">
     <div class="section-header">
       <div class="section-icon purple">⚖️</div>
-      <h2>税理士チームが手間取っていること</h2>
+      <h2>税理士チームの時間・やりとりコスト</h2>
     </div>
     <div class="card-grid cols2">
 
-      <div class="struggle-card">
-        <div class="issue-title">① 確定申告チェックが締め切りギリギリに集中</div>
-        <div class="issue-desc">主担当からのチェック依頼が確定申告終盤に集中し、税理士が毎日徹夜状態になる。顧客資料・MFチェック・税理士チェックの統一期限がなく予測困難。</div>
-        <div class="quotes">
-          <div class="quote">「かなり締め切りギリギリまでチェックが上がってこず不安だった。顧客資料・MFチェック・税理士チェックの期限を統一で設けるべき」</div>
-          <div class="quote">「毎日徹夜でチェックしていたため、精神的に辛かった」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>MFチェック・申告書チェックの実施</div>
+        <div class="cost-desc">主担当から上がってくるMFチェック依頼・申告書チェック依頼への対応が最大の時間消費。確定申告期には毎日チェックが上がり、「毎日徹夜でチェック」との声も。主担当のスキルレベルによってチェック工数に大きな差があり、同じミスの繰り返し指摘も発生。マイル先生・太田先生・瀬川先生・江口先生・中村先生など複数の税理士が分担。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">② 主担当のセルフチェック不足による手戻り多発</div>
-        <div class="issue-desc">消費税区分の確認漏れ・インボイス確認ミス・BS科目のチェック不足など、基本的なミスが繰り返される。税理士側が同じ指摘を何度もする構造になっている。</div>
-        <div class="quotes">
-          <div class="quote">「チャットを見ていると皆同じようなミスがあると感じた。税理士提出前にチェック表でセルフチェックすればミスも減らせるのでは」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot high"></span>消費税の有利判定の最終確認・助言</div>
+        <div class="cost-desc">主担当が作成した消費税検討資料のダブルチェック。2割特例・簡易課税・本則課税の判定に対して、税務上のリスクや見落としがないかを確認。インボイス登録のタイミング判断なども含む。全25チャットで広範に発生しており、確認対応の総量が大きい。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">③ Dropboxの資料保存場所が主担当ごとにバラバラ</div>
-        <div class="issue-desc">確定申告の資料をDropboxに保存する際のフォルダ構成が主担当によって異なる。税理士が確認資料を探すのに余計な時間がかかっている。</div>
-        <div class="quotes">
-          <div class="quote">「確定申告の資料が主担当によってDropboxの保存場所がバラバラで確認しづらかった」</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>主担当からの税務相談への回答（同一質問の繰り返し）</div>
+        <div class="cost-desc">消費税の期間短縮の料金・BSの確認範囲・控除資料の要否・青色決算書の記載ルールなど、複数の主担当から同じような質問が来るケースが多い。消費税の短縮料金・家事按分の計算方法・固定資産の処理等は毎回個別に回答している。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">④ 消費税の課税判断が難しいグレーケース</div>
-        <div class="issue-desc">ポイント売買の課税/非課税/不課税など、税法が追いついていない新しい取引への対応で税理士チーム内でも意見が分かれる。</div>
-        <div class="quotes">
-          <div class="quote">「課税・非課税・不課税の全種類の意見が登場しましたw」（太田先生）</div>
-          <div class="quote">「消費者同士でのポイント取引を想定しておらず、実際の取り扱いは依然疑義が残ります。」（室井先生）</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot medium"></span>届出書・申請書のチェック対応</div>
+        <div class="cost-desc">主担当が作成したインボイス登録申請書・消費税課税事業者届出書・簡易課税選択届出書などのチェック。チェック漏れが発生するケースもあり、リマインドが必要になることも。届出の提出管理をスプレッドシートで行うか達人で確認すればよいかの議論も継続中。</div>
       </div>
 
-      <div class="struggle-card">
-        <div class="issue-title">⑤ 申告書ドラフトの提出形式が統一されていない</div>
-        <div class="issue-desc">1つのPDFにまとめるか個別ファイルで送るか、前年比較の添付は必須かなど、税理士によって要望が異なり、主担当がどちらに合わせるか迷う。</div>
-        <div class="quotes">
-          <div class="quote">「ファイルを個別に受け取った方がチェックしやすい」vs「一つのPDFでまとめた方が見やすい」と意見が二分</div>
-        </div>
-      </div>
-
-      <div class="struggle-card">
-        <div class="issue-title">⑥ 確定申告前の事前打ち合わせ（税理士込み）がない</div>
-        <div class="issue-desc">1年目の税理士が担当クライアントの確定申告内容を事前に把握できないまま本番チェックに入る。事前アドバイスの漏れリスクへの不安が複数名から指摘。</div>
-        <div class="quotes">
-          <div class="quote">「確定申告が始まる前に税理士込みで内容を打ち合わせしてはどうかと思いました。どういう確定申告内容になるか分からないままチェックしていたので、アドバイス漏れがないかヒヤヒヤしました。」（古曳先生）</div>
-        </div>
-      </div>
-
-      <div class="struggle-card">
-        <div class="issue-title">⑦ 届出の提出管理と申告漏れリスク</div>
-        <div class="issue-desc">消費税届出等の申請管理をスプレッドシートで管理すべきか達人で確認すればよいか議論が収束しない。将来的な申告漏れリスクへの懸念が複数名から上がっている。</div>
-        <div class="quotes">
-          <div class="quote">「届出の申告漏れは大きなリスクになり得る。将来的に申告漏れが発生する可能性もあり得るため、リベ税として何らかの管理が必要では」（引地）</div>
-        </div>
-      </div>
-
-      <div class="struggle-card">
-        <div class="issue-title">⑧ BOT通知の不具合（重複・IDエラー）</div>
-        <div class="issue-desc">リベ税BOTのMyKomon進捗通知でChatwork IDが取得できないエラーが全担当者分で発生。定例MTG通知が20回以上連続重複送信されるバグも発生。</div>
-        <div class="quotes">
-          <div class="quote">リベ税BOT「Error : failed to find chatworkId for 齋藤　龍 さん」（全担当者分でエラー）</div>
-          <div class="quote">2025年4月14日 0:00〜0:22に定例MTG通知が20回以上連続送信</div>
-        </div>
+      <div class="cost-card">
+        <div class="cost-title"><span class="severity-dot low"></span>確定申告チェック表の項目策定・標準化への協力</div>
+        <div class="cost-desc">確定申告振り返りで出た改善施策として、チェック表の項目をスプシに追加する作業。業種別の注意点やよくある指摘事項の棚卸し。各税理士のチェック基準のばらつきを統一する取り組みにも協力が必要。</div>
       </div>
 
     </div>
   </div>
+
+  <div class="section" style="background:#fff7ed;border:1px solid #fed7aa;">
+    <div class="section-header" style="border-bottom-color:#fed7aa;">
+      <div class="section-icon orange">⚠️</div>
+      <h2>特に負荷が集中しているポイント</h2>
+    </div>
+    <div class="card-grid cols2">
+
+      <div class="cost-card" style="border-color:#fed7aa;">
+        <div class="cost-title"><span class="severity-dot high"></span>確定申告チェックの締め切りギリギリ集中</div>
+        <div class="cost-desc">主担当からのチェック依頼が確定申告終盤に集中し、税理士が毎日徹夜状態になる。顧客資料・MFチェック・税理士チェックの統一期限がなく予測困難。「かなり締め切りギリギリまでチェックが上がってこず不安だった」「毎日徹夜でチェックしていたため、精神的に辛かった」という声がある。</div>
+      </div>
+
+      <div class="cost-card" style="border-color:#fed7aa;">
+        <div class="cost-title"><span class="severity-dot high"></span>Dropboxの資料保存場所が主担当ごとにバラバラ</div>
+        <div class="cost-desc">確定申告の資料をDropboxに保存する際のフォルダ構成が主担当によって異なる。税理士が確認資料を探すのに余計な時間がかかっている。「確定申告の資料が主担当によってDropboxの保存場所がバラバラで確認しづらかった」という指摘が複数から上がっている。</div>
+      </div>
+
+      <div class="cost-card" style="border-color:#fed7aa;">
+        <div class="cost-title"><span class="severity-dot medium"></span>消費税の課税判断が難しいグレーケース</div>
+        <div class="cost-desc">ポイント売買の課税/非課税/不課税など、税法が追いついていない新しい取引への対応で税理士チーム内でも意見が分かれる。「課税・非課税・不課税の全種類の意見が登場しましたw」（太田先生）という状況も。</div>
+      </div>
+
+      <div class="cost-card" style="border-color:#fed7aa;">
+        <div class="cost-title"><span class="severity-dot medium"></span>申告書ドラフトの提出形式が統一されていない</div>
+        <div class="cost-desc">1つのPDFにまとめるか個別ファイルで送るか、前年比較の添付は必須かなど、税理士によって要望が異なり、主担当がどちらに合わせるか迷う。「ファイルを個別に受け取った方がチェックしやすい」vs「一つのPDFでまとめた方が見やすい」と意見が二分している状況。</div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <footer>
-  <p>リベ税 CWチャットログ分析 | 生成: 2026-04-17 | <a href="index.html">← 加算候補業務レポートへ</a></p>
+  <p>リベ税 CWチャットログ分析 | 分析日: 2026-04-17 | データ: 28チャンネル・約34,700件 | <a href="index.html">← 加算候補業務レポートへ</a></p>
 </footer>
 
 </div>
