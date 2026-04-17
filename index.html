@@ -47,9 +47,38 @@ tr:hover td{background:#f0f4ff}
 .insight-box{background:#fffbeb;border-left:4px solid var(--warning);padding:1rem 1.5rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem}
 .insight-box.primary{background:var(--primary-light);border-left-color:var(--primary)}
 .insight-box strong{display:block;margin-bottom:0.3rem}
-.cat-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.cat-dot{width:12px;height:12px;border-radius:50%;display:inline-block;vertical-align:middle}
 .note{font-size:0.82rem;color:var(--gray-500);font-style:italic;margin-bottom:1rem}
 footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
+/* AI分析 */
+.ai-summary{background:linear-gradient(135deg,#f0f4ff,#faf5ff);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem}
+.ai-summary h3{font-size:1rem;font-weight:700;margin-bottom:1rem;color:var(--gray-700)}
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem}
+.pattern-item{background:white;border-radius:8px;padding:0.8rem 1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.85rem}
+.pattern-item strong{font-size:0.95rem}
+.pattern-item span{color:var(--gray-500)}
+.profile-card{background:white;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:0.8rem;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:3px solid var(--primary-light)}
+.profile-header{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.5rem}
+.profile-name{font-weight:700;font-size:1rem;min-width:80px}
+.profile-score{background:var(--primary);color:white;border-radius:20px;padding:2px 10px;font-size:0.8rem;font-weight:600;white-space:nowrap}
+.profile-stats{display:flex;gap:0.6rem;font-size:0.82rem;flex-wrap:wrap}
+.profile-body{font-size:0.88rem;color:var(--gray-700);line-height:1.6}
+.action-tag{display:inline-block;background:#dbeafe;color:#1d4ed8;border-radius:12px;padding:2px 10px;font-size:0.78rem;margin:2px 2px 2px 0}
+/* 自動化提案 */
+.impact-summary{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;border-radius:12px;padding:2rem;text-align:center;margin-bottom:2rem}
+.impact-number{font-size:3rem;font-weight:700;line-height:1}
+.impact-label{font-size:0.95rem;opacity:0.9;margin-top:0.3rem}
+.proposal-card{background:white;border-radius:12px;padding:0;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.proposal-header{display:flex;align-items:center;gap:0.6rem;padding:1rem 1.5rem;background:var(--gray-50);border-bottom:1px solid var(--gray-200);flex-wrap:wrap}
+.proposal-header h3{font-size:1rem;font-weight:700;margin:0;flex:1;min-width:180px}
+.priority-badge{color:white;border-radius:4px;padding:2px 10px;font-size:0.78rem;font-weight:700;white-space:nowrap}
+.reduction-badge{background:#ecfdf5;color:var(--success);border-radius:6px;padding:3px 10px;font-size:0.82rem;font-weight:600;white-space:nowrap}
+.proposal-body{padding:1.2rem 1.5rem}
+.proposal-why{background:#fffbeb;border-left:3px solid var(--warning);padding:0.8rem 1rem;margin-bottom:1rem;border-radius:0 6px 6px 0;font-size:0.87rem}
+.proposal-why strong,.proposal-what strong{display:block;margin-bottom:0.3rem;font-size:0.82rem;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.05em}
+.proposal-what ul{margin:0.5rem 0 1rem 1.2rem;font-size:0.87rem;line-height:1.8}
+.proposal-who{font-size:0.85rem;color:var(--gray-700)}
+.person-tag{display:inline-block;background:var(--gray-100);border-radius:12px;padding:2px 10px;font-size:0.78rem;margin:2px}
 </style>
 </head>
 <body>
@@ -80,6 +109,8 @@ footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
   <button class="tab" onclick="showTab('c3')">③管理・労務</button>
   <button class="tab" onclick="showTab('c4')">④付加価値</button>
   <button class="tab" onclick="showTab('trend')">月次トレンド</button>
+  <button class="tab" onclick="showTab('ai')" style="background:#f0f4ff;border-color:#93c5fd">AIインサイト</button>
+  <button class="tab" onclick="showTab('automation')" style="background:#fef3c7;border-color:#fcd34d">自動化提案</button>
 </div>
 
 <!-- マトリクス -->
@@ -1190,6 +1221,672 @@ footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
         <span>④付加価値 <span style="color:#6b7280">→0pt</span></span>
       </div>
     </div>
+</div>
+</div>
+
+<!-- AIインサイト -->
+<div class="tab-content" id="tab-ai">
+<div class="section">
+  <h2>AIインサイト ― ルーム別プロファイル＆加算優先スコア</h2>
+  <p class="note">消費税×2 + 付加価値×1.5 + 管理労務 + 会計ソフト×0.5 でスコアリング。数値はNotionのCWログ（直近数ヶ月）から自動算出。</p>
+  
+  <div class="ai-summary">
+    <h3>全体パターン（28ルーム・有効データあり）</h3>
+    <div class="pattern-grid">
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat2)"></span>
+        <strong>②消費税 平均16.2%</strong>
+        <span>全ルームで最も高い → 業務量を直接反映</span>
+      </div>
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat3)"></span>
+        <strong>③管理・労務 平均7.5%</strong>
+        <span>給与・年末調整など時期集中型</span>
+      </div>
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat1)"></span>
+        <strong>①会計ソフト 平均8.2%</strong>
+        <span>MF導入・仕訳確認が恒常的に発生</span>
+      </div>
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat4)"></span>
+        <strong>④付加価値 平均5.4%</strong>
+        <span>役員報酬・節税は一部ルームに集中</span>
+      </div>
+    </div>
+  </div><h3 style="margin:1.5rem 0 1rem;font-size:1.1rem">加算優先スコア順 ルーム別プロファイル</h3>
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">谷さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 96
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①3%</span>
+        <span style="color:var(--cat2)">②45%</span>
+        <span style="color:var(--cat3)">③3%</span>
+        <span style="color:var(--cat4)">④1%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      <strong>消費税が45%と突出。</strong>専門的な判断を要する相談が集中しており、加算料金の根拠として最も説得力が高い。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">風巻さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 79.1
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①20.9%</span>
+        <span style="color:var(--cat2)">②32.6%</span>
+        <span style="color:var(--cat3)">③0%</span>
+        <span style="color:var(--cat4)">④2.3%</span>
+        <span style="color:var(--gray-500)">43件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      <strong>消費税が32.6%と突出。</strong>専門的な判断を要する相談が集中しており、加算料金の根拠として最も説得力が高い。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span> <span class="action-tag">→ MF初期設定・記帳支援加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">小栗さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 75.1
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①9.3%</span>
+        <span style="color:var(--cat2)">②21.2%</span>
+        <span style="color:var(--cat3)">③10.2%</span>
+        <span style="color:var(--cat4)">④11.9%</span>
+        <span style="color:var(--gray-500)">118件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(21.2%)が最多。付加価値(11.9%)も高水準で複合ニーズあり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span> <span class="action-tag">→ 付加価値業務（役員報酬・節税）加算余地あり</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">中村さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 71
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①16.5%</span>
+        <span style="color:var(--cat2)">②11.7%</span>
+        <span style="color:var(--cat3)">③17.5%</span>
+        <span style="color:var(--cat4)">④14.6%</span>
+        <span style="color:var(--gray-500)">103件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      管理・労務(17.5%)・会計ソフト(16.5%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ 付加価値業務（役員報酬・節税）加算余地あり</span> <span class="action-tag">→ 労務・給与計算加算の対象候補</span> <span class="action-tag">→ MF初期設定・記帳支援加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">中谷さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 70
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①9.5%</span>
+        <span style="color:var(--cat2)">②18.1%</span>
+        <span style="color:var(--cat3)">③13.3%</span>
+        <span style="color:var(--cat4)">④10.5%</span>
+        <span style="color:var(--gray-500)">105件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(18.1%)・管理・労務(13.3%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ 付加価値業務（役員報酬・節税）加算余地あり</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">鎌田さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 63.7
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①5.2%</span>
+        <span style="color:var(--cat2)">②21.7%</span>
+        <span style="color:var(--cat3)">③11.3%</span>
+        <span style="color:var(--cat4)">④4.3%</span>
+        <span style="color:var(--gray-500)">115件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(21.7%)が最多。管理・労務(11.3%)も高水準で複合ニーズあり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">酒巻さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 62.5
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①4%</span>
+        <span style="color:var(--cat2)">②24%</span>
+        <span style="color:var(--cat3)">③11%</span>
+        <span style="color:var(--cat4)">④1%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(24%)が最多。管理・労務(11%)も高水準で複合ニーズあり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">柿島さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 60.4
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①12.5%</span>
+        <span style="color:var(--cat2)">②16.3%</span>
+        <span style="color:var(--cat3)">③11.5%</span>
+        <span style="color:var(--cat4)">④6.7%</span>
+        <span style="color:var(--gray-500)">104件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(16.3%)・会計ソフト(12.5%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ MF初期設定・記帳支援加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">照井さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 59.9
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①12.5%</span>
+        <span style="color:var(--cat2)">②19.6%</span>
+        <span style="color:var(--cat3)">③6.3%</span>
+        <span style="color:var(--cat4)">④5.4%</span>
+        <span style="color:var(--gray-500)">112件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(19.6%)・会計ソフト(12.5%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ MF初期設定・記帳支援加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">上野さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 59.3
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①11.7%</span>
+        <span style="color:var(--cat2)">②16.5%</span>
+        <span style="color:var(--cat3)">③11.7%</span>
+        <span style="color:var(--cat4)">④5.8%</span>
+        <span style="color:var(--gray-500)">103件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(16.5%)・管理・労務(11.7%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">太田綾さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 59.2
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①3.7%</span>
+        <span style="color:var(--cat2)">②25.2%</span>
+        <span style="color:var(--cat3)">③2.8%</span>
+        <span style="color:var(--cat4)">④2.8%</span>
+        <span style="color:var(--gray-500)">107件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(25.2%)が最多。継続的に発生する相談パターン。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">上田さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 59.1
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①8.7%</span>
+        <span style="color:var(--cat2)">②13.6%</span>
+        <span style="color:var(--cat3)">③8.7%</span>
+        <span style="color:var(--cat4)">④12.6%</span>
+        <span style="color:var(--gray-500)">103件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(13.6%)・付加価値(12.6%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ 付加価値業務（役員報酬・節税）加算余地あり</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">宮田さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 58.6
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①8.9%</span>
+        <span style="color:var(--cat2)">②18.8%</span>
+        <span style="color:var(--cat3)">③12.5%</span>
+        <span style="color:var(--cat4)">④2.7%</span>
+        <span style="color:var(--gray-500)">112件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(18.8%)・管理・労務(12.5%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">権田さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 58.5
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①9%</span>
+        <span style="color:var(--cat2)">②20%</span>
+        <span style="color:var(--cat3)">③8%</span>
+        <span style="color:var(--cat4)">④4%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(20%)が最多。継続的に発生する相談パターン。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を優先提案</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">田路さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 57
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①8%</span>
+        <span style="color:var(--cat2)">②17%</span>
+        <span style="color:var(--cat3)">③7%</span>
+        <span style="color:var(--cat4)">④8%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(17%)・会計ソフト(8%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">髙本さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 54.4
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①4.1%</span>
+        <span style="color:var(--cat2)">②10.7%</span>
+        <span style="color:var(--cat3)">③7.4%</span>
+        <span style="color:var(--cat4)">④15.7%</span>
+        <span style="color:var(--gray-500)">121件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      付加価値(15.7%)・消費税(10.7%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ 付加価値業務（役員報酬・節税）加算余地あり</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">陳さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 53
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①11%</span>
+        <span style="color:var(--cat2)">②14%</span>
+        <span style="color:var(--cat3)">③9%</span>
+        <span style="color:var(--cat4)">④7%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(14%)・会計ソフト(11%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">西島さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 49.5
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①11%</span>
+        <span style="color:var(--cat2)">②18%</span>
+        <span style="color:var(--cat3)">③2%</span>
+        <span style="color:var(--cat4)">④4%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(18%)・会計ソフト(11%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">梅木さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 49
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①12%</span>
+        <span style="color:var(--cat2)">②16%</span>
+        <span style="color:var(--cat3)">③8%</span>
+        <span style="color:var(--cat4)">④2%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(16%)・会計ソフト(12%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ MF初期設定・記帳支援加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">引地さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 44.3
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①4.5%</span>
+        <span style="color:var(--cat2)">②10.7%</span>
+        <span style="color:var(--cat3)">③15.2%</span>
+        <span style="color:var(--cat4)">④3.6%</span>
+        <span style="color:var(--gray-500)">112件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      管理・労務(15.2%)・消費税(10.7%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span> <span class="action-tag">→ 労務・給与計算加算の対象候補</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">伊藤さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 43
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①5%</span>
+        <span style="color:var(--cat2)">②15%</span>
+        <span style="color:var(--cat3)">③3%</span>
+        <span style="color:var(--cat4)">④5%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(15%)・会計ソフト(5%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">Ryuさん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 41
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①5%</span>
+        <span style="color:var(--cat2)">②14%</span>
+        <span style="color:var(--cat3)">③6%</span>
+        <span style="color:var(--cat4)">④3%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      消費税(14%)・管理・労務(6%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 消費税加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">大谷さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 40.4
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①3.8%</span>
+        <span style="color:var(--cat2)">②7.6%</span>
+        <span style="color:var(--cat3)">③7.6%</span>
+        <span style="color:var(--cat4)">④10.5%</span>
+        <span style="color:var(--gray-500)">105件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      付加価値(10.5%)・消費税(7.6%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ 付加価値業務（役員報酬・節税）加算余地あり</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">海島さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 31.5
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①2%</span>
+        <span style="color:var(--cat2)">②9%</span>
+        <span style="color:var(--cat3)">③8%</span>
+        <span style="color:var(--cat4)">④3%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      全カテゴリ低水準（最高: 消費税 9%）。シンプルな業務構成または情報量が少ない可能性あり。
+      <div style="margin-top:0.4rem;color:var(--gray-500);font-size:0.82rem">現状: 加算の根拠としてはデータ不足（メッセージ数 100件）</div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">井上さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 23.8
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①3.3%</span>
+        <span style="color:var(--cat2)">②6.6%</span>
+        <span style="color:var(--cat3)">③9%</span>
+        <span style="color:var(--cat4)">④0%</span>
+        <span style="color:var(--gray-500)">122件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      全カテゴリ低水準（最高: 管理・労務 9%）。シンプルな業務構成または情報量が少ない可能性あり。
+      <div style="margin-top:0.4rem;color:var(--gray-500);font-size:0.82rem">現状: 加算の根拠としてはデータ不足（メッセージ数 122件）</div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">堀江さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 23.1
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①16.3%</span>
+        <span style="color:var(--cat2)">②4.8%</span>
+        <span style="color:var(--cat3)">③1%</span>
+        <span style="color:var(--cat4)">④2.9%</span>
+        <span style="color:var(--gray-500)">104件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      会計ソフト(16.3%)・消費税(4.8%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。
+      <div style="margin-top:0.4rem"><span class="action-tag">→ MF初期設定・記帳支援加算を検討</span></div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">真木さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 9
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①6%</span>
+        <span style="color:var(--cat2)">②3%</span>
+        <span style="color:var(--cat3)">③0%</span>
+        <span style="color:var(--cat4)">④0%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      全カテゴリ低水準（最高: 会計ソフト 6%）。シンプルな業務構成または情報量が少ない可能性あり。
+      <div style="margin-top:0.4rem;color:var(--gray-500);font-size:0.82rem">現状: 加算の根拠としてはデータ不足（メッセージ数 100件）</div>
+    </div>
+  </div>
+
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">岸田さん</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア 7.5
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①1%</span>
+        <span style="color:var(--cat2)">②2%</span>
+        <span style="color:var(--cat3)">③0%</span>
+        <span style="color:var(--cat4)">④2%</span>
+        <span style="color:var(--gray-500)">100件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      全カテゴリ低水準（最高: 消費税 2%）。シンプルな業務構成または情報量が少ない可能性あり。
+      <div style="margin-top:0.4rem;color:var(--gray-500);font-size:0.82rem">現状: 加算の根拠としてはデータ不足（メッセージ数 100件）</div>
+    </div>
+  </div><div class="insight-box" style="margin-top:1rem"><strong>データ不足（30件未満）: 坂口さん(5件)、大嶋さん(10件)、小川さん(8件)</strong>Notionへのログ蓄積が進むと精度が上がります。</div>
+</div>
+</div>
+
+<!-- 自動化提案 -->
+<div class="tab-content" id="tab-automation">
+<div class="section">
+  <h2>自動化提案 ― 実データに基づく優先施策</h2>
+  <p class="note">ヒット率・件数・影響ルーム数から自動算出した削減見込みです。月次 generate-report.mjs 実行のたびに最新データで更新されます。</p>
+  
+  <div class="impact-summary">
+    <div class="impact-number">423<span style="font-size:1rem;font-weight:400">件/月</span></div>
+    <div class="impact-label">4施策で削減できる相談件数の推定（削減率30〜50%で算出）</div>
+    <div style="font-size:0.82rem;color:var(--gray-500);margin-top:0.5rem">※実際の削減効果は習熟度・ツール定着率により変動します</div>
+  </div>
+  <div class="proposal-card">
+    <div class="proposal-header">
+      <span class="priority-badge" style="background:#dc2626">最優先</span>
+      <span class="cat-dot" style="background:var(--cat2);margin:0 0.3rem"></span>
+      <span style="color:var(--gray-500);font-size:0.85rem">②消費税</span>
+      <h3 style="flex:1">1. 消費税判定フロー・自動ガイド</h3>
+      <span class="reduction-badge">推定 -182件/月</span>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-why"><strong>なぜ必要か</strong> 全28ルームで平均16.2%・22/28ルームが10%超。消費税の判定・選択誤りは後から修正できないリスクもあり、確認コストが集中している。</div>
+      <div class="proposal-what"><strong>具体的な施策</strong><ul><li>免税→課税事業者への移行タイミング判定チャート（登録期限逆算付き）</li><li>簡易課税 / 本則課税 / 2割特例の3択シミュレーションシート</li><li>マイコモンのAI質問機能と連携し「消費税選択」を自己解決可能に</li></ul></div>
+      <div class="proposal-who"><strong>対象（ヒット率上位）:</strong> <span class="person-tag">谷さん</span> <span class="person-tag">風巻さん</span> <span class="person-tag">太田綾さん</span> <span class="person-tag">酒巻さん</span> <span class="person-tag">鎌田さん</span> <span class="person-tag">小栗さん</span></div>
+    </div>
+  </div>
+
+  <div class="proposal-card">
+    <div class="proposal-header">
+      <span class="priority-badge" style="background:#d97706">優先</span>
+      <span class="cat-dot" style="background:var(--cat1);margin:0 0.3rem"></span>
+      <span style="color:var(--gray-500);font-size:0.85rem">①会計ソフト</span>
+      <h3 style="flex:1">2. MFチェック・初期設定 標準手順書</h3>
+      <span class="reduction-badge">推定 -114件/月</span>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-why"><strong>なぜ必要か</strong> 全ルームで平均8.2%・9/28ルームが10%超。MFの初期設定・仕訳確認・科目設定の質問が恒常的に発生しており、回答パターンが固定化している。</div>
+      <div class="proposal-what"><strong>具体的な施策</strong><ul><li>MF初期セットアップ〜科目マッピング〜仕訳確認の標準手順書（スクショ付き）</li><li>法人成り・マイクロ法人設立時の設定チェックリスト</li><li>主担当が自己解決できる範囲を明示し、税理士チームへの質問件数を削減</li></ul></div>
+      <div class="proposal-who"><strong>対象（ヒット率上位）:</strong> <span class="person-tag">風巻さん</span> <span class="person-tag">中村さん</span> <span class="person-tag">堀江さん</span> <span class="person-tag">柿島さん</span> <span class="person-tag">照井さん</span> <span class="person-tag">梅木さん</span></div>
+    </div>
+  </div>
+
+  <div class="proposal-card">
+    <div class="proposal-header">
+      <span class="priority-badge" style="background:#d97706">優先</span>
+      <span class="cat-dot" style="background:var(--cat3);margin:0 0.3rem"></span>
+      <span style="color:var(--gray-500);font-size:0.85rem">③管理・労務</span>
+      <h3 style="flex:1">3. 給与・年末調整 自動リマインド＆テンプレ</h3>
+      <span class="reduction-badge">推定 -79件/月</span>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-why"><strong>なぜ必要か</strong> 平均7.5%・20/28ルームに発生。年末調整（12月）・給与計算・源泉納付・法定調書（1月）など、時期が決まっているのに毎年同じ質問が繰り返されている。</div>
+      <div class="proposal-what"><strong>具体的な施策</strong><ul><li>毎年のスケジュール表（月ごとのやること）をCW自動送信</li><li>年末調整・源泉徴収の確認依頼テンプレを標準化（送信文・チェックリスト付き）</li><li>届出書（住民税異動届・源泉所得税納付書等）の提出期限アラートをマイコモンに追加</li></ul></div>
+      <div class="proposal-who"><strong>対象（ヒット率上位）:</strong> <span class="person-tag">中村さん</span> <span class="person-tag">引地さん</span> <span class="person-tag">中谷さん</span> <span class="person-tag">宮田さん</span> <span class="person-tag">上野さん</span> <span class="person-tag">柿島さん</span></div>
+    </div>
+  </div>
+
+  <div class="proposal-card">
+    <div class="proposal-header">
+      <span class="priority-badge" style="background:#6b7280">中期</span>
+      <span class="cat-dot" style="background:var(--cat4);margin:0 0.3rem"></span>
+      <span style="color:var(--gray-500);font-size:0.85rem">④付加価値</span>
+      <h3 style="flex:1">4. 役員報酬・節税シミュレーション テンプレ整備</h3>
+      <span class="reduction-badge">推定 -48件/月</span>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-why"><strong>なぜ必要か</strong> 平均5.4%だが6/28ルームが10%超で一部に集中。役員報酬設計・減価償却・節税シミュレーションは付加価値が高い一方、毎回ゼロから計算している可能性が高い。</div>
+      <div class="proposal-what"><strong>具体的な施策</strong><ul><li>役員報酬最適額シミュレーションExcelテンプレ（社保・所得税対比）</li><li>減価償却・償却資産税シミュレーションシート</li><li>加算業務として明示し「このシミュレーション料込みで追加○○円」の提案文テンプレ</li></ul></div>
+      <div class="proposal-who"><strong>対象（ヒット率上位）:</strong> <span class="person-tag">髙本さん</span> <span class="person-tag">中村さん</span> <span class="person-tag">上田さん</span> <span class="person-tag">小栗さん</span> <span class="person-tag">中谷さん</span> <span class="person-tag">大谷さん</span></div>
+    </div>
+  </div>
 </div>
 </div>
 

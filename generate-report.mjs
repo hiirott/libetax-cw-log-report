@@ -331,6 +331,241 @@ function buildTrendTable(allRooms, months) {
 }
 
 // =========================================================
+// AI分析: ルーム別プロファイル生成
+// =========================================================
+function profileRoom(r) {
+  const cats = [
+    { key: 'c2', name: '消費税', rate: r.c2_rate, color: 'cat2' },
+    { key: 'c3', name: '管理・労務', rate: r.c3_rate, color: 'cat3' },
+    { key: 'c1', name: '会計ソフト', rate: r.c1_rate, color: 'cat1' },
+    { key: 'c4', name: '付加価値', rate: r.c4_rate, color: 'cat4' },
+  ].sort((a, b) => b.rate - a.rate);
+
+  const top = cats[0];
+  const second = cats[1];
+
+  let summary = '';
+  if (top.rate >= 30) {
+    summary = `<strong>${top.name}が${top.rate}%と突出。</strong>専門的な判断を要する相談が集中しており、加算料金の根拠として最も説得力が高い。`;
+  } else if (top.rate >= 20) {
+    summary = `${top.name}(${top.rate}%)が最多。${second.rate >= 10 ? `${second.name}(${second.rate}%)も高水準で複合ニーズあり。` : '継続的に発生する相談パターン。'}`;
+  } else if (top.rate >= 10) {
+    summary = `${top.name}(${top.rate}%)・${second.name}(${second.rate}%)が主軸。標準的な顧問業務の範囲内だが加算余地あり。`;
+  } else {
+    summary = `全カテゴリ低水準（最高: ${top.name} ${top.rate}%）。シンプルな業務構成または情報量が少ない可能性あり。`;
+  }
+
+  // 加算推奨アクション
+  const actions = [];
+  if (r.c2_rate >= 20) actions.push('消費税加算を優先提案');
+  else if (r.c2_rate >= 10) actions.push('消費税加算を検討');
+  if (r.c4_rate >= 10) actions.push('付加価値業務（役員報酬・節税）加算余地あり');
+  if (r.c3_rate >= 15) actions.push('労務・給与計算加算の対象候補');
+  if (r.c1_rate >= 12) actions.push('MF初期設定・記帳支援加算を検討');
+
+  const actionHtml = actions.length > 0
+    ? `<div style="margin-top:0.4rem">${actions.map(a => `<span class="action-tag">→ ${a}</span>`).join(' ')}</div>`
+    : `<div style="margin-top:0.4rem;color:var(--gray-500);font-size:0.82rem">現状: 加算の根拠としてはデータ不足（メッセージ数 ${r.total_messages}件）</div>`;
+
+  const score = (r.c2_rate * 2 + r.c4_rate * 1.5 + r.c3_rate + r.c1_rate * 0.5).toFixed(1);
+
+  return { summary, actionHtml, score: parseFloat(score) };
+}
+
+function buildAiInsights(activeRooms) {
+  const validRooms = activeRooms.filter(r => r.total_messages >= 30);
+
+  // 全体サマリー計算
+  const N = validRooms.length;
+  const avgC2 = (validRooms.reduce((s, r) => s + r.c2_rate, 0) / N).toFixed(1);
+  const avgC3 = (validRooms.reduce((s, r) => s + r.c3_rate, 0) / N).toFixed(1);
+  const avgC1 = (validRooms.reduce((s, r) => s + r.c1_rate, 0) / N).toFixed(1);
+  const avgC4 = (validRooms.reduce((s, r) => s + r.c4_rate, 0) / N).toFixed(1);
+
+  const overallInsight = `
+  <div class="ai-summary">
+    <h3>全体パターン（${N}ルーム・有効データあり）</h3>
+    <div class="pattern-grid">
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat2)"></span>
+        <strong>②消費税 平均${avgC2}%</strong>
+        <span>全ルームで最も高い → 業務量を直接反映</span>
+      </div>
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat3)"></span>
+        <strong>③管理・労務 平均${avgC3}%</strong>
+        <span>給与・年末調整など時期集中型</span>
+      </div>
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat1)"></span>
+        <strong>①会計ソフト 平均${avgC1}%</strong>
+        <span>MF導入・仕訳確認が恒常的に発生</span>
+      </div>
+      <div class="pattern-item">
+        <span class="cat-dot" style="background:var(--cat4)"></span>
+        <strong>④付加価値 平均${avgC4}%</strong>
+        <span>役員報酬・節税は一部ルームに集中</span>
+      </div>
+    </div>
+  </div>`;
+
+  // 加算スコア順にルームプロファイルを生成
+  const profiles = validRooms
+    .map(r => ({ r, ...profileRoom(r) }))
+    .sort((a, b) => b.score - a.score);
+
+  const profilesHtml = profiles.map(({ r, summary, actionHtml, score }) => `
+  <div class="profile-card">
+    <div class="profile-header">
+      <span class="profile-name">${r.label}</span>
+      <span class="profile-score" title="加算優先スコア（消費税×2 + 付加価値×1.5 + 労務 + 会計ソフト×0.5）">
+        スコア ${score}
+      </span>
+      <span class="profile-stats">
+        <span style="color:var(--cat1)">①${r.c1_rate}%</span>
+        <span style="color:var(--cat2)">②${r.c2_rate}%</span>
+        <span style="color:var(--cat3)">③${r.c3_rate}%</span>
+        <span style="color:var(--cat4)">④${r.c4_rate}%</span>
+        <span style="color:var(--gray-500)">${r.total_messages}件</span>
+      </span>
+    </div>
+    <div class="profile-body">
+      ${summary}
+      ${actionHtml}
+    </div>
+  </div>`).join('\n');
+
+  // データ不足のルーム
+  const thinRooms = activeRooms.filter(r => r.total_messages < 30 && r.total_messages > 0);
+  const thinHtml = thinRooms.length > 0
+    ? `<div class="insight-box" style="margin-top:1rem"><strong>データ不足（30件未満）: ${thinRooms.map(r => `${r.label}(${r.total_messages}件)`).join('、')}</strong>Notionへのログ蓄積が進むと精度が上がります。</div>`
+    : '';
+
+  return `${overallInsight}<h3 style="margin:1.5rem 0 1rem;font-size:1.1rem">加算優先スコア順 ルーム別プロファイル</h3>${profilesHtml}${thinHtml}`;
+}
+
+// =========================================================
+// 自動化提案ページ生成
+// =========================================================
+function buildAutomationProposals(activeRooms) {
+  const validRooms = activeRooms.filter(r => r.total_messages >= 30);
+  const N = validRooms.length;
+
+  const stat = (cat) => {
+    const rates = validRooms.map(r => r[`${cat}_rate`]);
+    const hits = validRooms.map(r => r[`${cat}_hits`]);
+    return {
+      avg: (rates.reduce((s, v) => s + v, 0) / N).toFixed(1),
+      above20: validRooms.filter(r => r[`${cat}_rate`] >= 20).length,
+      above10: validRooms.filter(r => r[`${cat}_rate`] >= 10).length,
+      above5:  validRooms.filter(r => r[`${cat}_rate`] >= 5).length,
+      totalHits: hits.reduce((s, v) => s + v, 0),
+      topRooms: [...validRooms].sort((a, b) => b[`${cat}_rate`] - a[`${cat}_rate`]).slice(0, 6).map(r => r.label),
+    };
+  };
+
+  const s1 = stat('c1'), s2 = stat('c2'), s3 = stat('c3'), s4 = stat('c4');
+
+  const proposals = [
+    {
+      priority: '最優先',
+      priorityBg: '#dc2626',
+      catColor: 'cat2',
+      catLabel: '②消費税',
+      title: '消費税判定フロー・自動ガイド',
+      why: `全${N}ルームで平均${s2.avg}%・${s2.above10}/${N}ルームが10%超。消費税の判定・選択誤りは後から修正できないリスクもあり、確認コストが集中している。`,
+      what: [
+        '免税→課税事業者への移行タイミング判定チャート（登録期限逆算付き）',
+        '簡易課税 / 本則課税 / 2割特例の3択シミュレーションシート',
+        'マイコモンのAI質問機能と連携し「消費税選択」を自己解決可能に',
+      ],
+      who: s2.topRooms,
+      totalHits: s2.totalHits,
+      reduction: Math.round(s2.totalHits * 0.4),
+    },
+    {
+      priority: '優先',
+      priorityBg: '#d97706',
+      catColor: 'cat1',
+      catLabel: '①会計ソフト',
+      title: 'MFチェック・初期設定 標準手順書',
+      why: `全ルームで平均${s1.avg}%・${s1.above10}/${N}ルームが10%超。MFの初期設定・仕訳確認・科目設定の質問が恒常的に発生しており、回答パターンが固定化している。`,
+      what: [
+        'MF初期セットアップ〜科目マッピング〜仕訳確認の標準手順書（スクショ付き）',
+        '法人成り・マイクロ法人設立時の設定チェックリスト',
+        '主担当が自己解決できる範囲を明示し、税理士チームへの質問件数を削減',
+      ],
+      who: s1.topRooms,
+      totalHits: s1.totalHits,
+      reduction: Math.round(s1.totalHits * 0.5),
+    },
+    {
+      priority: '優先',
+      priorityBg: '#d97706',
+      catColor: 'cat3',
+      catLabel: '③管理・労務',
+      title: '給与・年末調整 自動リマインド＆テンプレ',
+      why: `平均${s3.avg}%・${s3.above5}/${N}ルームに発生。年末調整（12月）・給与計算・源泉納付・法定調書（1月）など、時期が決まっているのに毎年同じ質問が繰り返されている。`,
+      what: [
+        '毎年のスケジュール表（月ごとのやること）をCW自動送信',
+        '年末調整・源泉徴収の確認依頼テンプレを標準化（送信文・チェックリスト付き）',
+        '届出書（住民税異動届・源泉所得税納付書等）の提出期限アラートをマイコモンに追加',
+      ],
+      who: s3.topRooms,
+      totalHits: s3.totalHits,
+      reduction: Math.round(s3.totalHits * 0.35),
+    },
+    {
+      priority: '中期',
+      priorityBg: '#6b7280',
+      catColor: 'cat4',
+      catLabel: '④付加価値',
+      title: '役員報酬・節税シミュレーション テンプレ整備',
+      why: `平均${s4.avg}%だが${s4.above10}/${N}ルームが10%超で一部に集中。役員報酬設計・減価償却・節税シミュレーションは付加価値が高い一方、毎回ゼロから計算している可能性が高い。`,
+      what: [
+        '役員報酬最適額シミュレーションExcelテンプレ（社保・所得税対比）',
+        '減価償却・償却資産税シミュレーションシート',
+        '加算業務として明示し「このシミュレーション料込みで追加○○円」の提案文テンプレ',
+      ],
+      who: s4.topRooms,
+      totalHits: s4.totalHits,
+      reduction: Math.round(s4.totalHits * 0.3),
+    },
+  ];
+
+  // インパクトサマリー
+  const totalReduction = proposals.reduce((s, p) => s + p.reduction, 0);
+  const summaryHtml = `
+  <div class="impact-summary">
+    <div class="impact-number">${totalReduction}<span style="font-size:1rem;font-weight:400">件/月</span></div>
+    <div class="impact-label">4施策で削減できる相談件数の推定（削減率30〜50%で算出）</div>
+    <div style="font-size:0.82rem;color:var(--gray-500);margin-top:0.5rem">※実際の削減効果は習熟度・ツール定着率により変動します</div>
+  </div>`;
+
+  const cardsHtml = proposals.map((p, i) => {
+    const whoHtml = p.who.slice(0, 6).map(l => `<span class="person-tag">${l}</span>`).join(' ');
+    const whatHtml = p.what.map(w => `<li>${w}</li>`).join('');
+    return `
+  <div class="proposal-card">
+    <div class="proposal-header">
+      <span class="priority-badge" style="background:${p.priorityBg}">${p.priority}</span>
+      <span class="cat-dot" style="background:var(--${p.catColor});margin:0 0.3rem"></span>
+      <span style="color:var(--gray-500);font-size:0.85rem">${p.catLabel}</span>
+      <h3 style="flex:1">${i + 1}. ${p.title}</h3>
+      <span class="reduction-badge">推定 -${p.reduction}件/月</span>
+    </div>
+    <div class="proposal-body">
+      <div class="proposal-why"><strong>なぜ必要か</strong> ${p.why}</div>
+      <div class="proposal-what"><strong>具体的な施策</strong><ul>${whatHtml}</ul></div>
+      <div class="proposal-who"><strong>対象（ヒット率上位）:</strong> ${whoHtml}</div>
+    </div>
+  </div>`;
+  }).join('\n');
+
+  return summaryHtml + cardsHtml;
+}
+
+// =========================================================
 // index.html 生成
 // =========================================================
 function generateIndexHtml(data) {
@@ -345,6 +580,8 @@ function generateIndexHtml(data) {
 
   const trendHtml = buildTrendTable(rooms_all, months);
   const activeRooms = rooms_individual.filter(r => !r.closed);
+  const aiInsightsHtml = buildAiInsights(activeRooms);
+  const automationHtml = buildAutomationProposals(activeRooms);
 
   const html = `<!DOCTYPE html>
 <html lang="ja">
@@ -395,9 +632,38 @@ tr:hover td{background:#f0f4ff}
 .insight-box{background:#fffbeb;border-left:4px solid var(--warning);padding:1rem 1.5rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem}
 .insight-box.primary{background:var(--primary-light);border-left-color:var(--primary)}
 .insight-box strong{display:block;margin-bottom:0.3rem}
-.cat-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.cat-dot{width:12px;height:12px;border-radius:50%;display:inline-block;vertical-align:middle}
 .note{font-size:0.82rem;color:var(--gray-500);font-style:italic;margin-bottom:1rem}
 footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
+/* AI分析 */
+.ai-summary{background:linear-gradient(135deg,#f0f4ff,#faf5ff);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem}
+.ai-summary h3{font-size:1rem;font-weight:700;margin-bottom:1rem;color:var(--gray-700)}
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:0.8rem}
+.pattern-item{background:white;border-radius:8px;padding:0.8rem 1rem;display:flex;flex-direction:column;gap:0.2rem;font-size:0.85rem}
+.pattern-item strong{font-size:0.95rem}
+.pattern-item span{color:var(--gray-500)}
+.profile-card{background:white;border-radius:10px;padding:1.2rem 1.5rem;margin-bottom:0.8rem;box-shadow:0 1px 3px rgba(0,0,0,.06);border-left:3px solid var(--primary-light)}
+.profile-header{display:flex;align-items:center;gap:0.8rem;flex-wrap:wrap;margin-bottom:0.5rem}
+.profile-name{font-weight:700;font-size:1rem;min-width:80px}
+.profile-score{background:var(--primary);color:white;border-radius:20px;padding:2px 10px;font-size:0.8rem;font-weight:600;white-space:nowrap}
+.profile-stats{display:flex;gap:0.6rem;font-size:0.82rem;flex-wrap:wrap}
+.profile-body{font-size:0.88rem;color:var(--gray-700);line-height:1.6}
+.action-tag{display:inline-block;background:#dbeafe;color:#1d4ed8;border-radius:12px;padding:2px 10px;font-size:0.78rem;margin:2px 2px 2px 0}
+/* 自動化提案 */
+.impact-summary{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;border-radius:12px;padding:2rem;text-align:center;margin-bottom:2rem}
+.impact-number{font-size:3rem;font-weight:700;line-height:1}
+.impact-label{font-size:0.95rem;opacity:0.9;margin-top:0.3rem}
+.proposal-card{background:white;border-radius:12px;padding:0;margin-bottom:1.5rem;box-shadow:0 2px 8px rgba(0,0,0,.08);overflow:hidden}
+.proposal-header{display:flex;align-items:center;gap:0.6rem;padding:1rem 1.5rem;background:var(--gray-50);border-bottom:1px solid var(--gray-200);flex-wrap:wrap}
+.proposal-header h3{font-size:1rem;font-weight:700;margin:0;flex:1;min-width:180px}
+.priority-badge{color:white;border-radius:4px;padding:2px 10px;font-size:0.78rem;font-weight:700;white-space:nowrap}
+.reduction-badge{background:#ecfdf5;color:var(--success);border-radius:6px;padding:3px 10px;font-size:0.82rem;font-weight:600;white-space:nowrap}
+.proposal-body{padding:1.2rem 1.5rem}
+.proposal-why{background:#fffbeb;border-left:3px solid var(--warning);padding:0.8rem 1rem;margin-bottom:1rem;border-radius:0 6px 6px 0;font-size:0.87rem}
+.proposal-why strong,.proposal-what strong{display:block;margin-bottom:0.3rem;font-size:0.82rem;color:var(--gray-500);text-transform:uppercase;letter-spacing:0.05em}
+.proposal-what ul{margin:0.5rem 0 1rem 1.2rem;font-size:0.87rem;line-height:1.8}
+.proposal-who{font-size:0.85rem;color:var(--gray-700)}
+.person-tag{display:inline-block;background:var(--gray-100);border-radius:12px;padding:2px 10px;font-size:0.78rem;margin:2px}
 </style>
 </head>
 <body>
@@ -428,6 +694,8 @@ footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
   <button class="tab" onclick="showTab('c3')">③管理・労務</button>
   <button class="tab" onclick="showTab('c4')">④付加価値</button>
   <button class="tab" onclick="showTab('trend')">月次トレンド</button>
+  <button class="tab" onclick="showTab('ai')" style="background:#f0f4ff;border-color:#93c5fd">AIインサイト</button>
+  <button class="tab" onclick="showTab('automation')" style="background:#fef3c7;border-color:#fcd34d">自動化提案</button>
 </div>
 
 <!-- マトリクス -->
@@ -503,6 +771,24 @@ ${buildMatrixRows(activeRooms)}
 </div>
 </div>
 
+<!-- AIインサイト -->
+<div class="tab-content" id="tab-ai">
+<div class="section">
+  <h2>AIインサイト ― ルーム別プロファイル＆加算優先スコア</h2>
+  <p class="note">消費税×2 + 付加価値×1.5 + 管理労務 + 会計ソフト×0.5 でスコアリング。数値はNotionのCWログ（直近数ヶ月）から自動算出。</p>
+  ${aiInsightsHtml}
+</div>
+</div>
+
+<!-- 自動化提案 -->
+<div class="tab-content" id="tab-automation">
+<div class="section">
+  <h2>自動化提案 ― 実データに基づく優先施策</h2>
+  <p class="note">ヒット率・件数・影響ルーム数から自動算出した削減見込みです。月次 generate-report.mjs 実行のたびに最新データで更新されます。</p>
+  ${automationHtml}
+</div>
+</div>
+
 <footer>Notionデータ自動生成 | ${generated_at} | <a href="insights.html">インサイトレポート</a></footer>
 
 </div>
@@ -541,6 +827,25 @@ function updateInsightsHeader(data) {
 async function main() {
   const startTime = Date.now();
   const today = new Date().toLocaleDateString('sv-SE', { timeZone: 'Asia/Tokyo' });
+  const htmlOnly = process.argv.includes('--html-only');
+
+  if (htmlOnly) {
+    // JSONから読み込んでHTML再生成のみ
+    const jsonPath = join(__dirname, 'room_analysis.json');
+    if (!existsSync(jsonPath)) {
+      console.error('❌ room_analysis.json が見つかりません。先に通常実行してください。');
+      process.exit(1);
+    }
+    const data = JSON.parse(readFileSync(jsonPath, 'utf-8'));
+    console.log(`\n📄 HTML再生成 (--html-only) | ${data.generated_at} のデータを使用`);
+    generateIndexHtml(data);
+    console.log('✅ index.html 生成');
+    updateInsightsHeader(data);
+    console.log('✅ insights.html 更新');
+    console.log(`🎉 完了 ${((Date.now() - startTime) / 1000).toFixed(1)}秒`);
+    return;
+  }
+
   console.log(`\n📊 generate-report.mjs 開始 (${today})`);
   console.log('━'.repeat(50));
 
