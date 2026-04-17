@@ -104,7 +104,7 @@ footer a { color: var(--primary); text-decoration: none; }
 
 <header>
   <h1>📊 リベ税 チャットログ分析レポート</h1>
-  <p>CWチャット3チャンネル（約6,400件）のログを分析し、よくあるやり取り・課題・自動化余地を可視化</p>
+  <p>CWチャット3チャンネル（約6,400件）のログを分析し、リベ大税理士法人の組織課題・自動化余地・改善ポイントを可視化</p>
   <div class="meta">
     <span>📅 分析日: 2026-04-17</span>
     <span>📁 対象: ディレクター / 税務部門運用相談 / 全体ざつだん</span>
@@ -137,7 +137,7 @@ footer a { color: var(--primary); text-decoration: none; }
 
 <div class="nav-tabs">
   <div class="nav-tab active" onclick="switchTab(this,'patterns')">🔁 よくあるやり取り</div>
-  <div class="nav-tab" onclick="switchTab(this,'automation')">⚡ 自動化候補</div>
+  <div class="nav-tab" onclick="switchTab(this,'automation')">⚡ リベ税の自動化候補</div>
   <div class="nav-tab" onclick="switchTab(this,'tantou')">👤 主担当の課題</div>
   <div class="nav-tab" onclick="switchTab(this,'zeirishi')">⚖️ 税理士チームの課題</div>
 </div>
@@ -251,15 +251,15 @@ footer a { color: var(--primary); text-decoration: none; }
   <div class="section">
     <div class="section-header">
       <div class="section-icon green">⚡</div>
-      <h2>Claude Codeで自動化できる業務 Top 8</h2>
+      <h2>リベ大税理士法人が導入できる自動化 Top 8</h2>
     </div>
+    <p style="font-size:0.875rem;color:var(--gray-700);margin-bottom:1rem;">チャットログに繰り返し現れる手作業・定型業務を抽出。組織として優先的に取り組むべき自動化候補。</p>
 
     <div class="bar-wrap">
-      <div class="bar-title">ひろの工数削減ポテンシャル（概算）</div>
-      <div class="bar-row"><div class="bar-label">オンボーディング自動化</div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:80px;flex-shrink:0">月2〜3h削減</span></div>
-      <div class="bar-row"><div class="bar-label">進捗報告自動集約</div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:80px;flex-shrink:0">月3〜4h削減</span></div>
-      <div class="bar-row"><div class="bar-label">アサイン半自動化</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:80px;flex-shrink:0">月2〜3h削減</span></div>
-      <div class="bar-row"><div class="bar-label">権限自動付与（GAS）</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:80px;flex-shrink:0">月1〜2h削減</span></div>
+      <div class="bar-title">リベ税チーム全体の工数削減効果（概算）</div>
+      <div class="bar-row"><div class="bar-label">岸田さん（事務局）</div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:90px;flex-shrink:0">月5〜8h削減</span></div>
+      <div class="bar-row"><div class="bar-label">主担当チーム全体</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:90px;flex-shrink:0">月10〜15h削減</span></div>
+      <div class="bar-row"><div class="bar-label">税理士チーム全体</div><div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span style="font-size:0.78rem;color:var(--gray-500);width:90px;flex-shrink:0">申告期に集中削減</span></div>
     </div>
 
     <div class="card-grid cols2">
@@ -285,7 +285,7 @@ footer a { color: var(--primary); text-decoration: none; }
           <div class="title">3. 担当アサイン 半自動推薦システム</div>
           <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
         </div>
-        <div class="auto-desc">新規クライアントの業種・決算月・個人/法人と、主担当/税理士の現在件数・決算月分布・スキルを突き合わせてアサイン候補を自動提案。ひろ・岸田さんの毎回の手動判断を補佐する。</div>
+        <div class="auto-desc">新規クライアントの業種・決算月・個人/法人と、主担当/税理士の現在件数・決算月分布・スキルレベルを突き合わせてアサイン候補を自動提案。事務局の都度調整・承認フローを効率化する。</div>
       </div>
 
       <div class="auto-card">
@@ -309,7 +309,7 @@ footer a { color: var(--primary); text-decoration: none; }
           <div class="title">6. 進捗管理表 個別リマインド自動化</div>
           <div class="badges"><span class="badge mid">難易度：中</span><span class="badge high">インパクト：高</span></div>
         </div>
-        <div class="auto-desc">MyKomonでチェックが入っていない項目を自動検知し、期限が近い/超過した担当者にCWで個別リマインドを自動送信。ひろが毎週手動で確認してリマインドする工数を削減。</div>
+        <div class="auto-desc">MyKomonでチェックが入っていない項目を自動検知し、期限が近い/超過した担当者にCWで個別リマインドを自動送信。チェック漏れを組織として仕組みで防ぐ体制をつくる。</div>
       </div>
 
       <div class="auto-card">
