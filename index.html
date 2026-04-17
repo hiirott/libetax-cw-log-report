@@ -4,58 +4,52 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow, noarchive">
-<title>加算候補業務 実態把握レポート - CWログ分析（全25チャット）</title>
+<title>加算候補業務 実態把握レポート</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
 :root {
-  --primary: #2563eb; --primary-light: #dbeafe;
-  --success: #059669; --warning: #d97706; --danger: #dc2626;
-  --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
-  --gray-500: #6b7280; --gray-700: #374151; --gray-900: #111827;
-  --cat1: #8b5cf6; --cat2: #ef4444; --cat3: #f59e0b; --cat4: #10b981;
+  --primary:#2563eb;--primary-light:#dbeafe;
+  --success:#059669;--warning:#d97706;--danger:#dc2626;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;
+  --gray-500:#6b7280;--gray-700:#374151;--gray-900:#111827;
+  --cat1:#8b5cf6;--cat2:#ef4444;--cat3:#f59e0b;--cat4:#10b981;
 }
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: 'Noto Sans JP', sans-serif; background: var(--gray-50); color: var(--gray-900); line-height: 1.7; }
-.container { max-width: 1200px; margin: 0 auto; padding: 2rem; }
-header { background: linear-gradient(135deg, #1e3a5f, #2563eb); color: white; padding: 3rem 2rem; margin-bottom: 2rem; border-radius: 12px; }
-header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: 0.5rem; }
-header p { opacity: 0.9; font-size: 0.95rem; }
-.summary-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-.summary-card { background: white; border-radius: 10px; padding: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border-left: 4px solid var(--primary); }
-.summary-card.c1 { border-left-color: var(--cat1); } .summary-card.c2 { border-left-color: var(--cat2); }
-.summary-card.c3 { border-left-color: var(--cat3); } .summary-card.c4 { border-left-color: var(--cat4); }
-.summary-card .label { font-size: 0.82rem; color: var(--gray-500); margin-bottom: 0.3rem; }
-.summary-card .value { font-size: 2rem; font-weight: 700; }
-.summary-card.c1 .value { color: var(--cat1); } .summary-card.c2 .value { color: var(--cat2); }
-.summary-card.c3 .value { color: var(--cat3); } .summary-card.c4 .value { color: var(--cat4); }
-.summary-card .sub { font-size: 0.8rem; color: var(--gray-500); margin-top: 0.3rem; }
-.section { background: white; border-radius: 10px; padding: 2rem; margin-bottom: 1.5rem; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-.section h2 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--primary-light); }
-.section h3 { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 0.8rem; color: var(--gray-700); }
-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
-th { background: var(--gray-100); padding: 0.6rem 0.8rem; text-align: left; font-weight: 600; white-space: nowrap; }
-td { padding: 0.5rem 0.8rem; border-bottom: 1px solid var(--gray-200); }
-tr:hover td { background: #f0f4ff; }
-.num { text-align: center; font-variant-numeric: tabular-nums; }
-.num.high { background: #fee2e2; color: var(--danger); font-weight: 700; }
-.num.mid { background: #fef3c7; color: var(--warning); font-weight: 600; }
-.num.low { background: #f0fdf4; color: var(--success); }
-.num.zero { color: #d1d5db; }
-.tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 500; }
-.insight-box { background: #fffbeb; border-left: 4px solid var(--warning); padding: 1rem 1.5rem; margin: 1rem 0; border-radius: 0 8px 8px 0; font-size: 0.9rem; }
-.insight-box.primary { background: var(--primary-light); border-left-color: var(--primary); }
-.insight-box.success { background: #ecfdf5; border-left-color: var(--success); }
-.insight-box.danger { background: #fef2f2; border-left-color: var(--danger); }
-.insight-box strong { display: block; margin-bottom: 0.3rem; }
-.evidence { background: var(--gray-50); border-radius: 6px; padding: 0.8rem 1rem; margin: 0.5rem 0; font-size: 0.82rem; border: 1px solid var(--gray-200); }
-.evidence .date { color: var(--gray-500); font-size: 0.75rem; }
-.evidence .sender { color: var(--primary); font-weight: 500; }
-.evidence .quote { color: var(--gray-700); margin-top: 0.3rem; }
-.cat-dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
-.copy-btn { position: fixed; bottom: 20px; right: 20px; background: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 8px; font-size: 0.9rem; cursor: pointer; box-shadow: 0 4px 12px rgba(37,99,235,0.3); z-index: 1000; font-family: 'Noto Sans JP', sans-serif; }
-.copy-btn:hover { background: #1d4ed8; } .copy-btn.copied { background: var(--success); }
-footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0.85rem; }
-.note { font-size: 0.82rem; color: var(--gray-500); font-style: italic; margin-bottom: 1rem; }
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gray-50);color:var(--gray-900);line-height:1.7}
+.container{max-width:1200px;margin:0 auto;padding:2rem}
+header{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;padding:3rem 2rem;margin-bottom:2rem;border-radius:12px}
+header h1{font-size:1.8rem;font-weight:700;margin-bottom:0.5rem}
+header p{opacity:0.9;font-size:0.95rem}
+.tabs{display:flex;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap}
+.tab{padding:0.5rem 1.2rem;border-radius:8px;border:2px solid var(--gray-200);background:white;cursor:pointer;font-family:'Noto Sans JP',sans-serif;font-size:0.9rem;font-weight:500;transition:all .2s}
+.tab.active{background:var(--primary);color:white;border-color:var(--primary)}
+.tab-content{display:none}.tab-content.active{display:block}
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem}
+.summary-card{background:white;border-radius:10px;padding:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.08);border-left:4px solid var(--primary)}
+.summary-card.c1{border-left-color:var(--cat1)}.summary-card.c2{border-left-color:var(--cat2)}
+.summary-card.c3{border-left-color:var(--cat3)}.summary-card.c4{border-left-color:var(--cat4)}
+.summary-card .label{font-size:0.82rem;color:var(--gray-500);margin-bottom:0.3rem}
+.summary-card .value{font-size:2rem;font-weight:700}
+.summary-card.c1 .value{color:var(--cat1)}.summary-card.c2 .value{color:var(--cat2)}
+.summary-card.c3 .value{color:var(--cat3)}.summary-card.c4 .value{color:var(--cat4)}
+.summary-card .sub{font-size:0.8rem;color:var(--gray-500);margin-top:0.3rem}
+.section{background:white;border-radius:10px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.section h2{font-size:1.3rem;font-weight:700;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--primary-light)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:var(--gray-100);padding:0.6rem 0.8rem;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:0.5rem 0.8rem;border-bottom:1px solid var(--gray-200)}
+tr:hover td{background:#f0f4ff}
+.num{text-align:center;font-variant-numeric:tabular-nums}
+.num.high{background:#fee2e2;color:var(--danger);font-weight:700}
+.num.mid{background:#fef3c7;color:var(--warning);font-weight:600}
+.num.low{background:#f0fdf4;color:var(--success)}
+.num.zero{color:#d1d5db}
+.insight-box{background:#fffbeb;border-left:4px solid var(--warning);padding:1rem 1.5rem;margin:1rem 0;border-radius:0 8px 8px 0;font-size:0.9rem}
+.insight-box.primary{background:var(--primary-light);border-left-color:var(--primary)}
+.insight-box strong{display:block;margin-bottom:0.3rem}
+.cat-dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.note{font-size:0.82rem;color:var(--gray-500);font-style:italic;margin-bottom:1rem}
+footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
 </style>
 </head>
 <body>
@@ -63,301 +57,1151 @@ footer { text-align: center; padding: 2rem; color: var(--gray-500); font-size: 0
 
 <header>
   <h1>加算候補業務 実態把握レポート</h1>
-  <p>主担当×税理士チームCWチャット全25ルーム（27,323メッセージ）を再分析 | 2026-04-17</p>
-  <p style="margin-top:0.3rem; opacity:0.8;">顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ</p>
+  <p>主担当×税理士チームCWチャット全31ルーム（2,912メッセージ）| 生成: 2026-04-18</p>
+  <p style="margin-top:0.3rem;opacity:0.8">顧問料・加算料金 基準整備プロジェクト | <a href="insights.html" style="color:#93c5fd">インサイトレポート →</a></p>
 </header>
 
 <div class="summary-grid">
-  <div class="summary-card c1">
-    <div class="label">①会計ソフト初期対応</div>
-    <div class="value">25</div>
-    <div class="sub">全ルームで検出（最大: 引地19.2%）</div>
-  </div>
-  <div class="summary-card c2">
-    <div class="label">②消費税（複雑）</div>
-    <div class="value">25</div>
-    <div class="sub">全ルームで検出（最大: 谷41.9%）</div>
-  </div>
-  <div class="summary-card c3">
-    <div class="label">③管理会計・多拠点・労務</div>
-    <div class="value">25</div>
-    <div class="sub">全ルームで検出（最大: 谷28.6%）</div>
-  </div>
-  <div class="summary-card c4">
-    <div class="label">④付加価値業務・リスク判定</div>
-    <div class="value">25</div>
-    <div class="sub">全ルームで検出（最大: 太田綾17.8%）</div>
-  </div>
+  <div class="summary-card c1"><div class="label">①会計ソフト初期対応</div><div class="value">31</div><div class="sub">全ルーム検出（最大: 風巻さん 20.9%）</div></div>
+  <div class="summary-card c2"><div class="label">②消費税（複雑）</div><div class="value">31</div><div class="sub">全ルーム検出（最大: 谷さん 45%）</div></div>
+  <div class="summary-card c3"><div class="label">③管理会計・多拠点・労務</div><div class="value">31</div><div class="sub">全ルーム検出（最大: 中村さん 17.5%）</div></div>
+  <div class="summary-card c4"><div class="label">④付加価値業務・リスク判定</div><div class="value">31</div><div class="sub">全ルーム検出（最大: 髙本さん 15.7%）</div></div>
 </div>
 
 <div class="insight-box primary">
   <strong>読み方の注意</strong>
-  本レポートはCWチャットのキーワード検出に基づく補助データです。「チャットで話題に出た」ことを示すもので、実際に業務が発生したかどうかの最終判断には達人データとの突合が必要です。ヒット率 = 該当キーワードを含むメッセージ数 ÷ 総メッセージ数。色: 赤=20%以上 / 黄=8%以上 / 緑=2%以上。
+  本レポートはCWチャットのキーワード検出に基づく補助データです。ヒット率 = 該当キーワードを含むメッセージ数 ÷ 総メッセージ数。色: 赤=20%以上 / 黄=8%以上 / 緑=2%以上。
 </div>
 
-<!-- Cross-tab Matrix -->
+<div class="tabs">
+  <button class="tab active" onclick="showTab('matrix')">マトリクス</button>
+  <button class="tab" onclick="showTab('c1')">①会計ソフト</button>
+  <button class="tab" onclick="showTab('c2')">②消費税</button>
+  <button class="tab" onclick="showTab('c3')">③管理・労務</button>
+  <button class="tab" onclick="showTab('c4')">④付加価値</button>
+  <button class="tab" onclick="showTab('trend')">月次トレンド</button>
+</div>
+
+<!-- マトリクス -->
+<div class="tab-content active" id="tab-matrix">
 <div class="section">
   <h2>主担当 × 加算候補 マトリクス</h2>
-  <p class="note">数値 = ヒット率（該当キーワードを含むメッセージ数 ÷ 総メッセージ数）。合計スコア降順で表示。</p>
-  <div style="overflow-x:auto;">
+  <p class="note">数値 = ヒット率。合計スコア降順。</p>
+  <div style="overflow-x:auto">
   <table>
-    <thead>
-      <tr>
-        <th>主担当</th>
-        <th class="num" style="background:#f3e8ff;">①会計ソフト</th>
-        <th class="num" style="background:#fee2e2;">②消費税</th>
-        <th class="num" style="background:#fef3c7;">③管理・拠点</th>
-        <th class="num" style="background:#d1fae5;">④付加価値</th>
-        <th class="num">合計</th>
-        <th>要注目ポイント</th>
-      </tr>
-    </thead>
-    <tbody id="matrix-body"></tbody>
+    <thead><tr>
+      <th>主担当</th>
+      <th class="num" style="background:#f3e8ff">①会計ソフト</th>
+      <th class="num" style="background:#fee2e2">②消費税</th>
+      <th class="num" style="background:#fef3c7">③管理・拠点</th>
+      <th class="num" style="background:#d1fae5">④付加価値</th>
+      <th class="num">合計</th>
+      <th>要注目</th>
+    </tr></thead>
+    <tbody>
+<tr>
+      <td>中村さん</td>
+      <td class="num mid">16.5%</td>
+      <td class="num mid">11.7%</td>
+      <td class="num mid">17.5%</td>
+      <td class="num mid">14.6%</td>
+      <td class="num" style="font-weight:600">60.3%</td>
+      <td style="font-size:0.82rem">③管理・労務 17.5%</td>
+    </tr>
+<tr>
+      <td>風巻さん</td>
+      <td class="num high">20.9%</td>
+      <td class="num high">32.6%</td>
+      <td class="num zero">0%</td>
+      <td class="num low">2.3%</td>
+      <td class="num" style="font-weight:600">55.8%</td>
+      <td style="font-size:0.82rem">②消費税 32.6%</td>
+    </tr>
+<tr>
+      <td>小栗さん</td>
+      <td class="num mid">9.3%</td>
+      <td class="num high">21.2%</td>
+      <td class="num mid">10.2%</td>
+      <td class="num mid">11.9%</td>
+      <td class="num" style="font-weight:600">52.6%</td>
+      <td style="font-size:0.82rem">②消費税 21.2%</td>
+    </tr>
+<tr>
+      <td>谷さん</td>
+      <td class="num low">3%</td>
+      <td class="num high">45%</td>
+      <td class="num low">3%</td>
+      <td class="num zero">1%</td>
+      <td class="num" style="font-weight:600">52.0%</td>
+      <td style="font-size:0.82rem">②消費税 45%</td>
+    </tr>
+<tr>
+      <td>中谷さん</td>
+      <td class="num mid">9.5%</td>
+      <td class="num mid">18.1%</td>
+      <td class="num mid">13.3%</td>
+      <td class="num mid">10.5%</td>
+      <td class="num" style="font-weight:600">51.4%</td>
+      <td style="font-size:0.82rem">②消費税 18.1%</td>
+    </tr>
+<tr>
+      <td>柿島さん</td>
+      <td class="num mid">12.5%</td>
+      <td class="num mid">16.3%</td>
+      <td class="num mid">11.5%</td>
+      <td class="num low">6.7%</td>
+      <td class="num" style="font-weight:600">47.0%</td>
+      <td style="font-size:0.82rem">②消費税 16.3%</td>
+    </tr>
+<tr>
+      <td>上野さん</td>
+      <td class="num mid">11.7%</td>
+      <td class="num mid">16.5%</td>
+      <td class="num mid">11.7%</td>
+      <td class="num low">5.8%</td>
+      <td class="num" style="font-weight:600">45.7%</td>
+      <td style="font-size:0.82rem">②消費税 16.5%</td>
+    </tr>
+<tr>
+      <td>照井さん</td>
+      <td class="num mid">12.5%</td>
+      <td class="num mid">19.6%</td>
+      <td class="num low">6.3%</td>
+      <td class="num low">5.4%</td>
+      <td class="num" style="font-weight:600">43.8%</td>
+      <td style="font-size:0.82rem">②消費税 19.6%</td>
+    </tr>
+<tr>
+      <td>上田さん</td>
+      <td class="num mid">8.7%</td>
+      <td class="num mid">13.6%</td>
+      <td class="num mid">8.7%</td>
+      <td class="num mid">12.6%</td>
+      <td class="num" style="font-weight:600">43.6%</td>
+      <td style="font-size:0.82rem">②消費税 13.6%</td>
+    </tr>
+<tr>
+      <td>宮田さん</td>
+      <td class="num mid">8.9%</td>
+      <td class="num mid">18.8%</td>
+      <td class="num mid">12.5%</td>
+      <td class="num low">2.7%</td>
+      <td class="num" style="font-weight:600">42.9%</td>
+      <td style="font-size:0.82rem">②消費税 18.8%</td>
+    </tr>
+<tr>
+      <td>鎌田さん</td>
+      <td class="num low">5.2%</td>
+      <td class="num high">21.7%</td>
+      <td class="num mid">11.3%</td>
+      <td class="num low">4.3%</td>
+      <td class="num" style="font-weight:600">42.5%</td>
+      <td style="font-size:0.82rem">②消費税 21.7%</td>
+    </tr>
+<tr>
+      <td>権田さん</td>
+      <td class="num mid">9%</td>
+      <td class="num high">20%</td>
+      <td class="num mid">8%</td>
+      <td class="num low">4%</td>
+      <td class="num" style="font-weight:600">41.0%</td>
+      <td style="font-size:0.82rem">②消費税 20%</td>
+    </tr>
+<tr>
+      <td>陳さん</td>
+      <td class="num mid">11%</td>
+      <td class="num mid">14%</td>
+      <td class="num mid">9%</td>
+      <td class="num low">7%</td>
+      <td class="num" style="font-weight:600">41.0%</td>
+      <td style="font-size:0.82rem">②消費税 14%</td>
+    </tr>
+<tr>
+      <td>田路さん</td>
+      <td class="num mid">8%</td>
+      <td class="num mid">17%</td>
+      <td class="num low">7%</td>
+      <td class="num mid">8%</td>
+      <td class="num" style="font-weight:600">40.0%</td>
+      <td style="font-size:0.82rem">②消費税 17%</td>
+    </tr>
+<tr>
+      <td>酒巻さん</td>
+      <td class="num low">4%</td>
+      <td class="num high">24%</td>
+      <td class="num mid">11%</td>
+      <td class="num zero">1%</td>
+      <td class="num" style="font-weight:600">40.0%</td>
+      <td style="font-size:0.82rem">②消費税 24%</td>
+    </tr>
+<tr>
+      <td>梅木さん</td>
+      <td class="num mid">12%</td>
+      <td class="num mid">16%</td>
+      <td class="num mid">8%</td>
+      <td class="num low">2%</td>
+      <td class="num" style="font-weight:600">38.0%</td>
+      <td style="font-size:0.82rem">②消費税 16%</td>
+    </tr>
+<tr>
+      <td>髙本さん</td>
+      <td class="num low">4.1%</td>
+      <td class="num mid">10.7%</td>
+      <td class="num low">7.4%</td>
+      <td class="num mid">15.7%</td>
+      <td class="num" style="font-weight:600">37.9%</td>
+      <td style="font-size:0.82rem">②消費税 10.7%</td>
+    </tr>
+<tr>
+      <td>西島さん</td>
+      <td class="num mid">11%</td>
+      <td class="num mid">18%</td>
+      <td class="num low">2%</td>
+      <td class="num low">4%</td>
+      <td class="num" style="font-weight:600">35.0%</td>
+      <td style="font-size:0.82rem">②消費税 18%</td>
+    </tr>
+<tr>
+      <td>太田綾さん</td>
+      <td class="num low">3.7%</td>
+      <td class="num high">25.2%</td>
+      <td class="num low">2.8%</td>
+      <td class="num low">2.8%</td>
+      <td class="num" style="font-weight:600">34.5%</td>
+      <td style="font-size:0.82rem">②消費税 25.2%</td>
+    </tr>
+<tr>
+      <td>引地さん</td>
+      <td class="num low">4.5%</td>
+      <td class="num mid">10.7%</td>
+      <td class="num mid">15.2%</td>
+      <td class="num low">3.6%</td>
+      <td class="num" style="font-weight:600">34.0%</td>
+      <td style="font-size:0.82rem">③管理・労務 15.2%</td>
+    </tr>
+<tr>
+      <td>大谷さん</td>
+      <td class="num low">3.8%</td>
+      <td class="num low">7.6%</td>
+      <td class="num low">7.6%</td>
+      <td class="num mid">10.5%</td>
+      <td class="num" style="font-weight:600">29.5%</td>
+      <td style="font-size:0.82rem">②消費税 7.6%</td>
+    </tr>
+<tr>
+      <td>Ryuさん</td>
+      <td class="num low">5%</td>
+      <td class="num mid">14%</td>
+      <td class="num low">6%</td>
+      <td class="num low">3%</td>
+      <td class="num" style="font-weight:600">28.0%</td>
+      <td style="font-size:0.82rem">②消費税 14%</td>
+    </tr>
+<tr>
+      <td>伊藤さん</td>
+      <td class="num low">5%</td>
+      <td class="num mid">15%</td>
+      <td class="num low">3%</td>
+      <td class="num low">5%</td>
+      <td class="num" style="font-weight:600">28.0%</td>
+      <td style="font-size:0.82rem">②消費税 15%</td>
+    </tr>
+<tr>
+      <td>堀江さん</td>
+      <td class="num mid">16.3%</td>
+      <td class="num low">4.8%</td>
+      <td class="num zero">1%</td>
+      <td class="num low">2.9%</td>
+      <td class="num" style="font-weight:600">25.0%</td>
+      <td style="font-size:0.82rem">②消費税 4.8%</td>
+    </tr>
+<tr>
+      <td>海島さん</td>
+      <td class="num low">2%</td>
+      <td class="num mid">9%</td>
+      <td class="num mid">8%</td>
+      <td class="num low">3%</td>
+      <td class="num" style="font-weight:600">22.0%</td>
+      <td style="font-size:0.82rem">②消費税 9%</td>
+    </tr>
+<tr>
+      <td>井上さん</td>
+      <td class="num low">3.3%</td>
+      <td class="num low">6.6%</td>
+      <td class="num mid">9%</td>
+      <td class="num zero">0%</td>
+      <td class="num" style="font-weight:600">18.9%</td>
+      <td style="font-size:0.82rem">③管理・労務 9%</td>
+    </tr>
+<tr>
+      <td>真木さん</td>
+      <td class="num low">6%</td>
+      <td class="num low">3%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num" style="font-weight:600">9.0%</td>
+      <td style="font-size:0.82rem">②消費税 3%</td>
+    </tr>
+<tr>
+      <td>岸田さん</td>
+      <td class="num zero">1%</td>
+      <td class="num low">2%</td>
+      <td class="num zero">0%</td>
+      <td class="num low">2%</td>
+      <td class="num" style="font-weight:600">5.0%</td>
+      <td style="font-size:0.82rem">②消費税 2%</td>
+    </tr>
+<tr>
+      <td>坂口さん</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num" style="font-weight:600">0.0%</td>
+      <td style="font-size:0.82rem">②消費税 0%</td>
+    </tr>
+<tr>
+      <td>大嶋さん</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num" style="font-weight:600">0.0%</td>
+      <td style="font-size:0.82rem">②消費税 0%</td>
+    </tr>
+<tr>
+      <td>小川さん</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num zero">0%</td>
+      <td class="num" style="font-weight:600">0.0%</td>
+      <td style="font-size:0.82rem">②消費税 0%</td>
+    </tr>
+    </tbody>
   </table>
   </div>
 </div>
-
-<!-- Category ① -->
-<div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat1);"></span> ①会計ソフト初期対応（全25ルーム）</h2>
-  <p class="note">科目設定・初期構築・仕訳確認・マイクロ法人設立・マネーフォワード導入・法人成り対応等</p>
-  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>引地さん</td><td class="num high">19.2%</td><td class="num">281</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、仕訳</td></tr>
-<tr><td>上田さん</td><td class="num mid">12.2%</td><td class="num">189</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、仕訳</td></tr>
-<tr><td>谷さん</td><td class="num mid">11.6%</td><td class="num">110</td><td style="font-size:0.82rem;">勘定科目、仕訳、法人成り</td></tr>
-<tr><td>髙本さん</td><td class="num mid">11.3%</td><td class="num">107</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、マネーフォワード</td></tr>
-<tr><td>Ryuさん</td><td class="num mid">10.3%</td><td class="num">123</td><td style="font-size:0.82rem;">帳簿、仕訳、マネーフォワード</td></tr>
-<tr><td>酒巻さん</td><td class="num mid">10.1%</td><td class="num">124</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、勘定科目</td></tr>
-<tr><td>中谷さん</td><td class="num mid">10.0%</td><td class="num">182</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、仕訳</td></tr>
-<tr><td>梅木さん</td><td class="num mid">9.9%</td><td class="num">216</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、帳簿</td></tr>
-<tr><td>海島さん</td><td class="num mid">9.7%</td><td class="num">31</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、法人成り</td></tr>
-<tr><td>中村さん</td><td class="num mid">9.5%</td><td class="num">78</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、法人成り</td></tr>
-<tr><td>田路さん</td><td class="num mid">9.1%</td><td class="num">74</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
-<tr><td>西島さん</td><td class="num mid">9.1%</td><td class="num">18</td><td style="font-size:0.82rem;">マイクロ法人、仕訳、法人成り</td></tr>
-<tr><td>陳さん</td><td class="num mid">8.9%</td><td class="num">87</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
-<tr><td>権田さん</td><td class="num mid">8.4%</td><td class="num">22</td><td style="font-size:0.82rem;">マネーフォワード、マイクロ法人、仕訳</td></tr>
-<tr><td>小栗さん</td><td class="num low">7.7%</td><td class="num">66</td><td style="font-size:0.82rem;">マネーフォワード、仕訳、マイクロ法人</td></tr>
-<tr><td>太田綾さん</td><td class="num low">7.5%</td><td class="num">65</td><td style="font-size:0.82rem;">仕訳、帳簿、マイクロ法人</td></tr>
-<tr><td>大谷さん</td><td class="num low">7.4%</td><td class="num">74</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、帳簿</td></tr>
-<tr><td>鎌田さん</td><td class="num low">6.6%</td><td class="num">123</td><td style="font-size:0.82rem;">帳簿、マネーフォワード、仕訳</td></tr>
-<tr><td>照井さん</td><td class="num low">6.4%</td><td class="num">166</td><td style="font-size:0.82rem;">マイクロ法人、法人成り、勘定科目</td></tr>
-<tr><td>岸田さん</td><td class="num low">5.4%</td><td class="num">27</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
-<tr><td>柿島さん</td><td class="num low">5.1%</td><td class="num">83</td><td style="font-size:0.82rem;">マイクロ法人、仕訳、マネーフォワード</td></tr>
-<tr><td>上野さん</td><td class="num low">4.3%</td><td class="num">44</td><td style="font-size:0.82rem;">仕訳、マイクロ法人、帳簿</td></tr>
-<tr><td>宮田さん</td><td class="num low">4.0%</td><td class="num">37</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
-<tr><td>伊藤さん</td><td class="num mid">10.5%</td><td class="num">58</td><td style="font-size:0.82rem;">マイクロ法人、仕訳、マネーフォワード</td></tr>
-<tr><td>井上さん</td><td class="num low">3.3%</td><td class="num">26</td><td style="font-size:0.82rem;">仕訳、マネーフォワード、マイクロ法人</td></tr>
-</tbody></table>
-  <div class="insight-box" style="margin-top:1rem;">
-    <div class="evidence"><span class="sender">梅木さん → 税理士チーム</span><div class="quote">3月決算のアオゲバさんの会計が固まりましたので、MFチェックをお願いいたします</div></div>
-    <div class="evidence"><span class="sender">中村さん → 税理士チーム</span><div class="quote">今の一番の懸念点は、マネーフォワードに全く触れたことがないことです</div></div>
-  </div>
 </div>
 
-<!-- Category ② -->
+<!-- ①会計ソフト -->
+<div class="tab-content" id="tab-c1">
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat2);"></span> ②消費税（複雑）（全25ルーム）</h2>
+  <h2><span class="cat-dot" style="background:var(--cat1)"></span> ①会計ソフト初期対応（全31ルーム）</h2>
+  <p class="note">科目設定・初期構築・仕訳確認・マイクロ法人設立・MF導入・法人成り対応等</p>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>キーワード</th></tr></thead>
+  <tbody><tr>
+    <td>風巻さん</td>
+    <td class="num high">20.9%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>中村さん</td>
+    <td class="num mid">16.5%</td>
+    <td class="num">17</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>堀江さん</td>
+    <td class="num mid">16.3%</td>
+    <td class="num">17</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>柿島さん</td>
+    <td class="num mid">12.5%</td>
+    <td class="num">13</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>照井さん</td>
+    <td class="num mid">12.5%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>梅木さん</td>
+    <td class="num mid">12%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>上野さん</td>
+    <td class="num mid">11.7%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>西島さん</td>
+    <td class="num mid">11%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>陳さん</td>
+    <td class="num mid">11%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>中谷さん</td>
+    <td class="num mid">9.5%</td>
+    <td class="num">10</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>小栗さん</td>
+    <td class="num mid">9.3%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>権田さん</td>
+    <td class="num mid">9%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>宮田さん</td>
+    <td class="num mid">8.9%</td>
+    <td class="num">10</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>上田さん</td>
+    <td class="num mid">8.7%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>田路さん</td>
+    <td class="num mid">8%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>真木さん</td>
+    <td class="num low">6%</td>
+    <td class="num">6</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>鎌田さん</td>
+    <td class="num low">5.2%</td>
+    <td class="num">6</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>Ryuさん</td>
+    <td class="num low">5%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>伊藤さん</td>
+    <td class="num low">5%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>引地さん</td>
+    <td class="num low">4.5%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>髙本さん</td>
+    <td class="num low">4.1%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>酒巻さん</td>
+    <td class="num low">4%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>大谷さん</td>
+    <td class="num low">3.8%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>太田綾さん</td>
+    <td class="num low">3.7%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>井上さん</td>
+    <td class="num low">3.3%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>谷さん</td>
+    <td class="num low">3%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>海島さん</td>
+    <td class="num low">2%</td>
+    <td class="num">2</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>岸田さん</td>
+    <td class="num zero">1%</td>
+    <td class="num">1</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>坂口さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>大嶋さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr>
+<tr>
+    <td>小川さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">マネーフォワード、MF、弥生</td>
+  </tr></tbody></table>
+</div>
+</div>
+
+<!-- ②消費税 -->
+<div class="tab-content" id="tab-c2">
+<div class="section">
+  <h2><span class="cat-dot" style="background:var(--cat2)"></span> ②消費税（複雑）（全31ルーム）</h2>
   <p class="note">課税方式検討（2割特例・簡易・本則）・インボイス対応・課税事業者判定・還付申告・課税売上割合等</p>
-  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>谷さん</td><td class="num high">41.9%</td><td class="num">396</td><td style="font-size:0.82rem;">消費税、免税、2割特例</td></tr>
-<tr><td>太田綾さん</td><td class="num high">25.8%</td><td class="num">225</td><td style="font-size:0.82rem;">消費税、免税、簡易課税</td></tr>
-<tr><td>梅木さん</td><td class="num high">22.3%</td><td class="num">486</td><td style="font-size:0.82rem;">消費税、インボイス、免税</td></tr>
-<tr><td>宮田さん</td><td class="num high">21.6%</td><td class="num">198</td><td style="font-size:0.82rem;">消費税、免税、課税事業者</td></tr>
-<tr><td>引地さん</td><td class="num high">21.1%</td><td class="num">309</td><td style="font-size:0.82rem;">消費税、免税、本則課税</td></tr>
-<tr><td>髙本さん</td><td class="num mid">19.6%</td><td class="num">186</td><td style="font-size:0.82rem;">消費税、インボイス、課税事業者</td></tr>
-<tr><td>西島さん</td><td class="num mid">18.7%</td><td class="num">37</td><td style="font-size:0.82rem;">消費税、免税、課税事業者</td></tr>
-<tr><td>酒巻さん</td><td class="num mid">17.9%</td><td class="num">220</td><td style="font-size:0.82rem;">消費税、インボイス、課税事業者</td></tr>
-<tr><td>田路さん</td><td class="num mid">16.6%</td><td class="num">135</td><td style="font-size:0.82rem;">消費税、インボイス、免税</td></tr>
-<tr><td>権田さん</td><td class="num mid">16.1%</td><td class="num">42</td><td style="font-size:0.82rem;">消費税、課税事業者、簡易課税</td></tr>
-<tr><td>中谷さん</td><td class="num mid">16.0%</td><td class="num">292</td><td style="font-size:0.82rem;">消費税、免税、インボイス</td></tr>
-<tr><td>中村さん</td><td class="num mid">16.0%</td><td class="num">131</td><td style="font-size:0.82rem;">消費税、インボイス、簡易課税</td></tr>
-<tr><td>照井さん</td><td class="num mid">15.6%</td><td class="num">405</td><td style="font-size:0.82rem;">消費税、免税、2割特例</td></tr>
-<tr><td>上野さん</td><td class="num mid">14.7%</td><td class="num">152</td><td style="font-size:0.82rem;">消費税、課税事業者、免税</td></tr>
-<tr><td>柿島さん</td><td class="num mid">14.7%</td><td class="num">239</td><td style="font-size:0.82rem;">消費税、簡易課税、インボイス</td></tr>
-<tr><td>小栗さん</td><td class="num mid">14.0%</td><td class="num">120</td><td style="font-size:0.82rem;">消費税、簡易課税、課税事業者</td></tr>
-<tr><td>海島さん</td><td class="num mid">13.8%</td><td class="num">44</td><td style="font-size:0.82rem;">消費税、対象外、簡易課税</td></tr>
-<tr><td>伊藤さん</td><td class="num mid">13.3%</td><td class="num">74</td><td style="font-size:0.82rem;">消費税、免税、2割特例</td></tr>
-<tr><td>井上さん</td><td class="num mid">13.2%</td><td class="num">103</td><td style="font-size:0.82rem;">消費税、インボイス、非課税</td></tr>
-<tr><td>上田さん</td><td class="num mid">12.9%</td><td class="num">199</td><td style="font-size:0.82rem;">消費税、免税、課税売上</td></tr>
-<tr><td>Ryuさん</td><td class="num mid">11.3%</td><td class="num">135</td><td style="font-size:0.82rem;">消費税、インボイス、課税事業者</td></tr>
-<tr><td>大谷さん</td><td class="num mid">11.2%</td><td class="num">111</td><td style="font-size:0.82rem;">消費税、免税、簡易課税</td></tr>
-<tr><td>陳さん</td><td class="num mid">9.6%</td><td class="num">94</td><td style="font-size:0.82rem;">消費税、課税事業者、免税</td></tr>
-<tr><td>鎌田さん</td><td class="num mid">9.4%</td><td class="num">176</td><td style="font-size:0.82rem;">消費税、課税事業者、免税</td></tr>
-<tr><td>岸田さん</td><td class="num low">2.0%</td><td class="num">10</td><td style="font-size:0.82rem;">消費税、課税事業者、インボイス</td></tr>
-</tbody></table>
-  <div class="insight-box" style="margin-top:1rem;">
-    <div class="evidence"><span class="sender">主担当 → 税理士チーム（複数ルームで同様の相談）</span><div class="quote">農家＋輸出物販の方の消費税検討なのですが、来期から簡易課税で計算した方が消費税少なくできるのかなと思い相談させていただきたいです</div></div>
-    <div class="evidence"><span class="sender">主担当 → 税理士チーム</span><div class="quote">令和8年から消費税課税事業者になります。インボイス登録の予定は無いでしょうか？簡易課税の選択するかどうかの検討が必要なので、消費税関係のタイミングが重要です</div></div>
-  </div>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>キーワード</th></tr></thead>
+  <tbody><tr>
+    <td>谷さん</td>
+    <td class="num high">45%</td>
+    <td class="num">45</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>風巻さん</td>
+    <td class="num high">32.6%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>太田綾さん</td>
+    <td class="num high">25.2%</td>
+    <td class="num">27</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>酒巻さん</td>
+    <td class="num high">24%</td>
+    <td class="num">24</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>鎌田さん</td>
+    <td class="num high">21.7%</td>
+    <td class="num">25</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>小栗さん</td>
+    <td class="num high">21.2%</td>
+    <td class="num">25</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>権田さん</td>
+    <td class="num high">20%</td>
+    <td class="num">20</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>照井さん</td>
+    <td class="num mid">19.6%</td>
+    <td class="num">22</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>宮田さん</td>
+    <td class="num mid">18.8%</td>
+    <td class="num">21</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>中谷さん</td>
+    <td class="num mid">18.1%</td>
+    <td class="num">19</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>西島さん</td>
+    <td class="num mid">18%</td>
+    <td class="num">18</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>田路さん</td>
+    <td class="num mid">17%</td>
+    <td class="num">17</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>上野さん</td>
+    <td class="num mid">16.5%</td>
+    <td class="num">17</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>柿島さん</td>
+    <td class="num mid">16.3%</td>
+    <td class="num">17</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>梅木さん</td>
+    <td class="num mid">16%</td>
+    <td class="num">16</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>伊藤さん</td>
+    <td class="num mid">15%</td>
+    <td class="num">15</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>Ryuさん</td>
+    <td class="num mid">14%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>陳さん</td>
+    <td class="num mid">14%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>上田さん</td>
+    <td class="num mid">13.6%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>中村さん</td>
+    <td class="num mid">11.7%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>引地さん</td>
+    <td class="num mid">10.7%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>髙本さん</td>
+    <td class="num mid">10.7%</td>
+    <td class="num">13</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>海島さん</td>
+    <td class="num mid">9%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>大谷さん</td>
+    <td class="num low">7.6%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>井上さん</td>
+    <td class="num low">6.6%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>堀江さん</td>
+    <td class="num low">4.8%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>真木さん</td>
+    <td class="num low">3%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>岸田さん</td>
+    <td class="num low">2%</td>
+    <td class="num">2</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>坂口さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>大嶋さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr>
+<tr>
+    <td>小川さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">消費税、インボイス、適格</td>
+  </tr></tbody></table>
+</div>
 </div>
 
-<!-- Category ③ -->
+<!-- ③管理・労務 -->
+<div class="tab-content" id="tab-c3">
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat3);"></span> ③管理会計・多拠点・労務（全25ルーム）</h2>
+  <h2><span class="cat-dot" style="background:var(--cat3)"></span> ③管理会計・多拠点・労務（全31ルーム）</h2>
   <p class="note">給与計算・年末調整・源泉徴収・社会保険・届出書作成・住民税異動届・法定調書等</p>
-  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>谷さん</td><td class="num high">28.6%</td><td class="num">270</td><td style="font-size:0.82rem;">給与、地方税、届出書</td></tr>
-<tr><td>引地さん</td><td class="num mid">19.8%</td><td class="num">290</td><td style="font-size:0.82rem;">届出書、源泉所得税、給与</td></tr>
-<tr><td>酒巻さん</td><td class="num mid">19.8%</td><td class="num">244</td><td style="font-size:0.82rem;">給与、年末調整、届出書</td></tr>
-<tr><td>伊藤さん</td><td class="num mid">18.6%</td><td class="num">103</td><td style="font-size:0.82rem;">給与、源泉徴収、年末調整</td></tr>
-<tr><td>中谷さん</td><td class="num mid">17.4%</td><td class="num">317</td><td style="font-size:0.82rem;">給与、源泉所得税、届出書</td></tr>
-<tr><td>田路さん</td><td class="num mid">17.3%</td><td class="num">140</td><td style="font-size:0.82rem;">給与、法定調書、年末調整</td></tr>
-<tr><td>海島さん</td><td class="num mid">17.3%</td><td class="num">55</td><td style="font-size:0.82rem;">社会保険、給与、届出書</td></tr>
-<tr><td>井上さん</td><td class="num mid">17.3%</td><td class="num">135</td><td style="font-size:0.82rem;">給与、年末調整、住民税</td></tr>
-<tr><td>中村さん</td><td class="num mid">17.1%</td><td class="num">140</td><td style="font-size:0.82rem;">給与、法定調書、届出書</td></tr>
-<tr><td>大谷さん</td><td class="num mid">17.1%</td><td class="num">170</td><td style="font-size:0.82rem;">給与、社会保険、届出書</td></tr>
-<tr><td>照井さん</td><td class="num mid">15.9%</td><td class="num">413</td><td style="font-size:0.82rem;">給与、源泉税、年末調整</td></tr>
-<tr><td>Ryuさん</td><td class="num mid">15.4%</td><td class="num">184</td><td style="font-size:0.82rem;">届出書、給与、源泉所得税</td></tr>
-<tr><td>上野さん</td><td class="num mid">14.7%</td><td class="num">152</td><td style="font-size:0.82rem;">給与、源泉徴収、年末調整</td></tr>
-<tr><td>宮田さん</td><td class="num mid">13.9%</td><td class="num">128</td><td style="font-size:0.82rem;">届出書、給与、年末調整</td></tr>
-<tr><td>太田綾さん</td><td class="num mid">13.9%</td><td class="num">121</td><td style="font-size:0.82rem;">年末調整、給与、届出書</td></tr>
-<tr><td>権田さん</td><td class="num mid">13.4%</td><td class="num">35</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
-<tr><td>柿島さん</td><td class="num mid">13.3%</td><td class="num">216</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
-<tr><td>梅木さん</td><td class="num mid">12.4%</td><td class="num">270</td><td style="font-size:0.82rem;">届出書、給与、源泉徴収</td></tr>
-<tr><td>西島さん</td><td class="num mid">12.6%</td><td class="num">25</td><td style="font-size:0.82rem;">給与、届出書、年末調整</td></tr>
-<tr><td>上田さん</td><td class="num mid">12.1%</td><td class="num">188</td><td style="font-size:0.82rem;">給与、源泉徴収、年末調整</td></tr>
-<tr><td>小栗さん</td><td class="num mid">10.6%</td><td class="num">91</td><td style="font-size:0.82rem;">給与、年末調整、源泉所得税</td></tr>
-<tr><td>陳さん</td><td class="num mid">10.2%</td><td class="num">100</td><td style="font-size:0.82rem;">給与、年末調整、源泉徴収</td></tr>
-<tr><td>髙本さん</td><td class="num mid">10.1%</td><td class="num">96</td><td style="font-size:0.82rem;">給与、社会保険、届出書</td></tr>
-<tr><td>鎌田さん</td><td class="num mid">9.1%</td><td class="num">171</td><td style="font-size:0.82rem;">給与、届出書、源泉所得税</td></tr>
-<tr><td>岸田さん</td><td class="num low">2.2%</td><td class="num">11</td><td style="font-size:0.82rem;">年末調整、給与、地方税</td></tr>
-</tbody></table>
-  <div class="insight-box" style="margin-top:1rem;">
-    <div class="evidence"><span class="sender">酒巻さん → 税理士チーム</span><div class="quote">下記、異動届を作成しましたのでご確認をお願いいたします</div></div>
-    <div class="evidence"><span class="sender">中谷さん → 税理士チーム</span><div class="quote">合同会社太田製作所さんの決算申告書を作成しました。ご確認よろしくお願いいたします</div></div>
-  </div>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>キーワード</th></tr></thead>
+  <tbody><tr>
+    <td>中村さん</td>
+    <td class="num mid">17.5%</td>
+    <td class="num">18</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>引地さん</td>
+    <td class="num mid">15.2%</td>
+    <td class="num">17</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>中谷さん</td>
+    <td class="num mid">13.3%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>宮田さん</td>
+    <td class="num mid">12.5%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>上野さん</td>
+    <td class="num mid">11.7%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>柿島さん</td>
+    <td class="num mid">11.5%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>鎌田さん</td>
+    <td class="num mid">11.3%</td>
+    <td class="num">13</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>酒巻さん</td>
+    <td class="num mid">11%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>小栗さん</td>
+    <td class="num mid">10.2%</td>
+    <td class="num">12</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>井上さん</td>
+    <td class="num mid">9%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>陳さん</td>
+    <td class="num mid">9%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>上田さん</td>
+    <td class="num mid">8.7%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>梅木さん</td>
+    <td class="num mid">8%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>権田さん</td>
+    <td class="num mid">8%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>海島さん</td>
+    <td class="num mid">8%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>大谷さん</td>
+    <td class="num low">7.6%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>髙本さん</td>
+    <td class="num low">7.4%</td>
+    <td class="num">9</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>田路さん</td>
+    <td class="num low">7%</td>
+    <td class="num">7</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>照井さん</td>
+    <td class="num low">6.3%</td>
+    <td class="num">7</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>Ryuさん</td>
+    <td class="num low">6%</td>
+    <td class="num">6</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>伊藤さん</td>
+    <td class="num low">3%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>谷さん</td>
+    <td class="num low">3%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>太田綾さん</td>
+    <td class="num low">2.8%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>西島さん</td>
+    <td class="num low">2%</td>
+    <td class="num">2</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>堀江さん</td>
+    <td class="num zero">1%</td>
+    <td class="num">1</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>坂口さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>大嶋さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>小川さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>岸田さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>真木さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr>
+<tr>
+    <td>風巻さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">給与、源泉、社会保険</td>
+  </tr></tbody></table>
+</div>
 </div>
 
-<!-- Category ④ -->
+<!-- ④付加価値 -->
+<div class="tab-content" id="tab-c4">
 <div class="section">
-  <h2><span class="cat-dot" style="background:var(--cat4);"></span> ④付加価値業務・リスク判定（全25ルーム）</h2>
+  <h2><span class="cat-dot" style="background:var(--cat4)"></span> ④付加価値業務・リスク判定（全31ルーム）</h2>
   <p class="note">節税シミュレーション・役員報酬設計・議事録作成・償却資産・相続・税務調査・賃上げ税制・繰戻還付等</p>
-  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>頻出キーワード</th></tr></thead><tbody>
-<tr><td>太田綾さん</td><td class="num mid">17.8%</td><td class="num">155</td><td style="font-size:0.82rem;">シミュレーション、償却資産、減価償却</td></tr>
-<tr><td>大谷さん</td><td class="num mid">15.0%</td><td class="num">149</td><td style="font-size:0.82rem;">シミュレーション、減価償却、役員報酬</td></tr>
-<tr><td>髙本さん</td><td class="num mid">13.5%</td><td class="num">128</td><td style="font-size:0.82rem;">シミュレーション、議事録、役員報酬</td></tr>
-<tr><td>権田さん</td><td class="num mid">13.4%</td><td class="num">35</td><td style="font-size:0.82rem;">議事録、減価償却、税務調査</td></tr>
-<tr><td>伊藤さん</td><td class="num mid">13.3%</td><td class="num">74</td><td style="font-size:0.82rem;">役員報酬、シミュレーション、償却資産</td></tr>
-<tr><td>Ryuさん</td><td class="num mid">13.0%</td><td class="num">155</td><td style="font-size:0.82rem;">償却資産、試算、議事録</td></tr>
-<tr><td>上野さん</td><td class="num mid">12.3%</td><td class="num">127</td><td style="font-size:0.82rem;">償却資産、役員報酬、減価償却</td></tr>
-<tr><td>田路さん</td><td class="num mid">12.1%</td><td class="num">98</td><td style="font-size:0.82rem;">役員報酬、シミュレーション、議事録</td></tr>
-<tr><td>上田さん</td><td class="num mid">11.6%</td><td class="num">180</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、試算</td></tr>
-<tr><td>井上さん</td><td class="num mid">11.6%</td><td class="num">90</td><td style="font-size:0.82rem;">減価償却、役員報酬、試算</td></tr>
-<tr><td>酒巻さん</td><td class="num mid">11.6%</td><td class="num">143</td><td style="font-size:0.82rem;">償却資産、減価償却、試算</td></tr>
-<tr><td>中谷さん</td><td class="num mid">11.3%</td><td class="num">206</td><td style="font-size:0.82rem;">償却資産、シミュレーション、減価償却</td></tr>
-<tr><td>小栗さん</td><td class="num mid">10.9%</td><td class="num">93</td><td style="font-size:0.82rem;">議事録、役員報酬、償却資産</td></tr>
-<tr><td>照井さん</td><td class="num mid">10.8%</td><td class="num">280</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、償却資産</td></tr>
-<tr><td>陳さん</td><td class="num mid">9.5%</td><td class="num">93</td><td style="font-size:0.82rem;">役員報酬、償却資産、議事録</td></tr>
-<tr><td>柿島さん</td><td class="num mid">9.3%</td><td class="num">152</td><td style="font-size:0.82rem;">償却資産、シミュレーション、役員報酬</td></tr>
-<tr><td>梅木さん</td><td class="num mid">8.9%</td><td class="num">194</td><td style="font-size:0.82rem;">減価償却、償却資産、役員報酬</td></tr>
-<tr><td>中村さん</td><td class="num mid">8.8%</td><td class="num">72</td><td style="font-size:0.82rem;">シミュレーション、役員報酬、償却資産</td></tr>
-<tr><td>西島さん</td><td class="num mid">8.1%</td><td class="num">16</td><td style="font-size:0.82rem;">償却資産、役員報酬、試算</td></tr>
-<tr><td>海島さん</td><td class="num low">7.5%</td><td class="num">24</td><td style="font-size:0.82rem;">役員報酬、減価償却、償却資産</td></tr>
-<tr><td>引地さん</td><td class="num low">6.8%</td><td class="num">99</td><td style="font-size:0.82rem;">役員報酬、償却資産、相続</td></tr>
-<tr><td>宮田さん</td><td class="num low">6.1%</td><td class="num">56</td><td style="font-size:0.82rem;">償却資産、役員報酬、試算</td></tr>
-<tr><td>岸田さん</td><td class="num low">4.4%</td><td class="num">22</td><td style="font-size:0.82rem;">税務調査、相続、試算</td></tr>
-<tr><td>鎌田さん</td><td class="num low">4.3%</td><td class="num">81</td><td style="font-size:0.82rem;">役員報酬、償却資産、シミュレーション</td></tr>
-<tr><td>谷さん</td><td class="num low">3.4%</td><td class="num">32</td><td style="font-size:0.82rem;">減価償却、償却資産、役員報酬</td></tr>
-</tbody></table>
-  <div class="insight-box" style="margin-top:1rem;">
-    <div class="evidence"><span class="sender">髙本さん → 税理士チーム</span><div class="quote">売却時にどの程度の税負担が発生しそうかシミュレーションさせていただくことも可能です。その場合、複合的な論点になるため、1週間ほどお時間を頂戴できればと存じます</div></div>
-    <div class="evidence"><span class="sender">田路さん → 税理士チーム</span><div class="quote">西谷竜太郎様の法人化検討について、方向性のご相談です。西谷様は現在、個人事業で「不動産」と「物販」を営んでいらっしゃいます</div></div>
-  </div>
+  <table><thead><tr><th>主担当</th><th class="num">ヒット率</th><th class="num">件数</th><th>キーワード</th></tr></thead>
+  <tbody><tr>
+    <td>髙本さん</td>
+    <td class="num mid">15.7%</td>
+    <td class="num">19</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>中村さん</td>
+    <td class="num mid">14.6%</td>
+    <td class="num">15</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>上田さん</td>
+    <td class="num mid">12.6%</td>
+    <td class="num">13</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>小栗さん</td>
+    <td class="num mid">11.9%</td>
+    <td class="num">14</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>中谷さん</td>
+    <td class="num mid">10.5%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>大谷さん</td>
+    <td class="num mid">10.5%</td>
+    <td class="num">11</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>田路さん</td>
+    <td class="num mid">8%</td>
+    <td class="num">8</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>陳さん</td>
+    <td class="num low">7%</td>
+    <td class="num">7</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>柿島さん</td>
+    <td class="num low">6.7%</td>
+    <td class="num">7</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>上野さん</td>
+    <td class="num low">5.8%</td>
+    <td class="num">6</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>照井さん</td>
+    <td class="num low">5.4%</td>
+    <td class="num">6</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>伊藤さん</td>
+    <td class="num low">5%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>鎌田さん</td>
+    <td class="num low">4.3%</td>
+    <td class="num">5</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>権田さん</td>
+    <td class="num low">4%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>西島さん</td>
+    <td class="num low">4%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>引地さん</td>
+    <td class="num low">3.6%</td>
+    <td class="num">4</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>Ryuさん</td>
+    <td class="num low">3%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>海島さん</td>
+    <td class="num low">3%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>堀江さん</td>
+    <td class="num low">2.9%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>太田綾さん</td>
+    <td class="num low">2.8%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>宮田さん</td>
+    <td class="num low">2.7%</td>
+    <td class="num">3</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>風巻さん</td>
+    <td class="num low">2.3%</td>
+    <td class="num">1</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>岸田さん</td>
+    <td class="num low">2%</td>
+    <td class="num">2</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>梅木さん</td>
+    <td class="num low">2%</td>
+    <td class="num">2</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>谷さん</td>
+    <td class="num zero">1%</td>
+    <td class="num">1</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>酒巻さん</td>
+    <td class="num zero">1%</td>
+    <td class="num">1</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>井上さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>坂口さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>大嶋さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>小川さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr>
+<tr>
+    <td>真木さん</td>
+    <td class="num zero">0%</td>
+    <td class="num">0</td>
+    <td style="font-size:0.82rem">節税、役員報酬、議事録</td>
+  </tr></tbody></table>
+</div>
 </div>
 
-<!-- Top 10 -->
+<!-- 月次トレンド -->
+<div class="tab-content" id="tab-trend">
 <div class="section">
-  <h2>加算検討 優先ルーム（合計スコア上位10）</h2>
-  <p class="note">4カテゴリのヒット率合計でソート。スコアが高いほど「標準を超える業務が多い可能性」が高い。</p>
+  <h2>月次トレンド（全ルーム合算）</h2>
+  <p class="note">毎月 generate-report.mjs を実行することで蓄積されます。前月比の改善・悪化が追跡可能です。</p>
+  
+  <div style="overflow-x:auto">
   <table>
-<thead>
-  <tr><th>#</th><th>主担当</th><th class="num">①会計<br><small>率%</small></th><th class="num">②消費税<br><small>率%</small></th><th class="num">③管理<br><small>率%</small></th><th class="num">④付加<br><small>率%</small></th><th class="num">総合率%</th><th class="num">総件数</th><th>所見</th></tr>
-</thead>
-<tbody>
-<tr><td>1</td><td><strong>谷さん</strong><br><small style="color:#9ca3af;">945件</small></td><td class="num mid">11.6%</td><td class="num high">41.9%</td><td class="num high">28.6%</td><td class="num low">3.4%</td><td class="num high">85.5%</td><td class="num">808</td><td style="font-size:0.8rem;">②消費税(41.9%) [消費税・免税] / ③管理会計(28.6%) [給与・地方税]</td></tr>
-<tr><td>2</td><td><strong>引地さん</strong><br><small style="color:#9ca3af;">1,466件</small></td><td class="num high">19.2%</td><td class="num high">21.1%</td><td class="num mid">19.8%</td><td class="num low">6.8%</td><td class="num high">66.9%</td><td class="num">979</td><td style="font-size:0.8rem;">②消費税(21.1%) [消費税・免税] / ③管理会計(19.8%) [届出書・源泉所得税]</td></tr>
-<tr><td>3</td><td><strong>太田綾さん</strong><br><small style="color:#9ca3af;">872件</small></td><td class="num low">7.5%</td><td class="num high">25.8%</td><td class="num mid">13.9%</td><td class="num mid">17.8%</td><td class="num high">65.0%</td><td class="num">566</td><td style="font-size:0.8rem;">②消費税(25.8%) [消費税・免税] / ④付加価値(17.8%) [シミュレーション・償却資産]</td></tr>
-<tr><td>4</td><td><strong>酒巻さん</strong><br><small style="color:#9ca3af;">1,230件</small></td><td class="num mid">10.1%</td><td class="num mid">17.9%</td><td class="num mid">19.8%</td><td class="num mid">11.6%</td><td class="num high">59.4%</td><td class="num">731</td><td style="font-size:0.8rem;">③管理会計(19.8%) [給与・年末調整] / ②消費税(17.9%) [消費税・インボイス]</td></tr>
-<tr><td>5</td><td><strong>伊藤さん</strong><br><small style="color:#9ca3af;">555件</small></td><td class="num mid">10.5%</td><td class="num mid">13.3%</td><td class="num mid">18.6%</td><td class="num mid">13.3%</td><td class="num high">55.7%</td><td class="num">309</td><td style="font-size:0.8rem;">③管理会計(18.6%) [給与・源泉徴収] / ②消費税(13.3%) [消費税・免税]</td></tr>
-<tr><td>6</td><td><strong>田路さん</strong><br><small style="color:#9ca3af;">811件</small></td><td class="num mid">9.1%</td><td class="num mid">16.6%</td><td class="num mid">17.3%</td><td class="num mid">12.1%</td><td class="num high">55.1%</td><td class="num">447</td><td style="font-size:0.8rem;">③管理会計(17.3%) [給与・法定調書] / ②消費税(16.6%) [消費税・インボイス]</td></tr>
-<tr><td>7</td><td><strong>中谷さん</strong><br><small style="color:#9ca3af;">1,826件</small></td><td class="num mid">10.0%</td><td class="num mid">16.0%</td><td class="num mid">17.4%</td><td class="num mid">11.3%</td><td class="num high">54.7%</td><td class="num">997</td><td style="font-size:0.8rem;">③管理会計(17.4%) [給与・源泉所得税] / ②消費税(16.0%) [消費税・免税]</td></tr>
-<tr><td>8</td><td><strong>髙本さん</strong><br><small style="color:#9ca3af;">951件</small></td><td class="num mid">11.3%</td><td class="num mid">19.6%</td><td class="num mid">10.1%</td><td class="num mid">13.5%</td><td class="num high">54.5%</td><td class="num">517</td><td style="font-size:0.8rem;">②消費税(19.6%) [消費税・インボイス] / ④付加価値(13.5%) [シミュレーション・議事録]</td></tr>
-<tr><td>9</td><td><strong>梅木さん</strong><br><small style="color:#9ca3af;">2,184件</small></td><td class="num mid">9.9%</td><td class="num high">22.3%</td><td class="num mid">12.4%</td><td class="num mid">8.9%</td><td class="num high">53.5%</td><td class="num">1166</td><td style="font-size:0.8rem;">②消費税(22.3%) [消費税・インボイス] / ③管理会計(12.4%) [届出書・給与]</td></tr>
-<tr><td>10</td><td><strong>中村さん</strong><br><small style="color:#9ca3af;">820件</small></td><td class="num mid">9.5%</td><td class="num mid">16.0%</td><td class="num mid">17.1%</td><td class="num mid">8.8%</td><td class="num high">51.4%</td><td class="num">421</td><td style="font-size:0.8rem;">③管理会計(17.1%) [給与・法定調書] / ②消費税(16.0%) [消費税・インボイス]</td></tr>
-</tbody></table>
-</div>
-
-<!-- Data status -->
-<div class="section">
-  <h2>データ概要 / 補足</h2>
-  <div class="insight-box">
-    <strong>データソース</strong>
-    主担当25名×税理士チームのCWチャット全ルーム（27,323メッセージ、2021-04〜2026-04）をキーワード分析。前回（15,002件・38ルーム）から全件再分析。
+    <thead><tr><th>項目</th><th>2023-02</th><th>2025-02</th><th>2025-03</th><th>2025-04</th><th>2025-05</th><th>2025-06</th><th>2025-07</th><th>2025-08</th><th>2025-09</th><th>2025-10</th><th>2025-11</th><th>2025-12</th><th>2026-01</th><th>2026-02</th><th>2026-03</th><th>2026-04</th><th>2026-11</th><th>2026-12</th></tr></thead>
+    <tbody><tr><td style="font-weight:500">総メッセージ数</td><td class="num">5</td><td class="num">27</td><td class="num">32</td><td class="num">3</td><td class="num">3</td><td class="num">3</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">5</td><td class="num">2</td><td class="num">91</td><td class="num">281</td><td class="num">2,000</td><td class="num">516</td><td class="num">0</td><td class="num">0</td></tr>
+<tr><td style="font-weight:500">①会計ソフト</td><td class="num">0.0%</td><td class="num">22.2%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">5.5%</td><td class="num">12.1%</td><td class="num">7.5%</td><td class="num">6.6%</td><td class="num">-</td><td class="num">-</td></tr>
+<tr><td style="font-weight:500">②消費税</td><td class="num">0.0%</td><td class="num">3.7%</td><td class="num">6.3%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">4.4%</td><td class="num">18.9%</td><td class="num">16.1%</td><td class="num">14.7%</td><td class="num">-</td><td class="num">-</td></tr>
+<tr><td style="font-weight:500">③管理・労務</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">4.4%</td><td class="num">3.6%</td><td class="num">8.4%</td><td class="num">8.5%</td><td class="num">-</td><td class="num">-</td></tr>
+<tr><td style="font-weight:500">④付加価値</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">0.0%</td><td class="num">2.2%</td><td class="num">2.5%</td><td class="num">5.8%</td><td class="num">7.8%</td><td class="num">-</td><td class="num">-</td></tr></tbody>
+  </table>
   </div>
-  <div class="insight-box success">
-    <strong>CWログで見えること / 見えないこと</strong>
-    <ul style="padding-left:1.2rem; margin-top:0.5rem; font-size:0.88rem;">
-      <li>✅ シミュレーション・消費税判定・届出書等の発生事実（チャットで話題になったか）</li>
-      <li>✅ 主担当ごとの業務傾向・優先順位付け</li>
-      <li>❌ 各クライアントの所得層・顧問料との突合（達人データが必要）</li>
-      <li>❌ 課税売上高・個別対応方式の採用有無（申告書データが必要）</li>
-    </ul>
-  </div>
+  
+    <div class="insight-box" style="margin-top:1rem">
+      <strong>2026-11 → 2026-12 前月比</strong>
+      <div style="display:flex;gap:1.5rem;margin-top:0.5rem;flex-wrap:wrap">
+        <span>①会計ソフト <span style="color:#6b7280">→0pt</span></span>
+        <span>②消費税 <span style="color:#6b7280">→0pt</span></span>
+        <span>③管理・労務 <span style="color:#6b7280">→0pt</span></span>
+        <span>④付加価値 <span style="color:#6b7280">→0pt</span></span>
+      </div>
+    </div>
+</div>
 </div>
 
-<footer>
-  Generated by HiROBOT AI | 2026-04-17 | データ: 25ルーム・27,323件（2021-04〜2026-04）<br>
-  顧問料・加算料金 基準整備プロジェクト Phase 1 補助データ<br>
-  <a href="insights.html" style="color:var(--primary)">→ チャットログ分析レポート（役割別・時間コスト・自動化候補）</a>
-</footer>
+<footer>Notionデータ自動生成 | 2026-04-18 | <a href="insights.html">インサイトレポート</a></footer>
 
 </div>
-<button class="copy-btn" onclick="copyAll()">全てをコピー</button>
-
 <script>
-const matrix = [
-  {name:"谷",c1:11.6,c2:41.9,c3:28.6,c4:3.4,msgs:945,note:"②消費税(41.9%) [消費税・免税] / ③管理会計(28.6%) [給与・地方税]"},
-  {name:"引地",c1:19.2,c2:21.1,c3:19.8,c4:6.8,msgs:1466,note:"②消費税(21.1%) [消費税・免税] / ③管理会計(19.8%) [届出書・源泉所得税]"},
-  {name:"太田綾",c1:7.5,c2:25.8,c3:13.9,c4:17.8,msgs:872,note:"②消費税(25.8%) [消費税・免税] / ④付加価値(17.8%) [シミュレーション・償却資産]"},
-  {name:"酒巻",c1:10.1,c2:17.9,c3:19.8,c4:11.6,msgs:1230,note:"③管理会計(19.8%) [給与・年末調整] / ②消費税(17.9%) [消費税・インボイス]"},
-  {name:"伊藤",c1:10.5,c2:13.3,c3:18.6,c4:13.3,msgs:555,note:"③管理会計(18.6%) [給与・源泉徴収] / ②消費税(13.3%) [消費税・免税]"},
-  {name:"田路",c1:9.1,c2:16.6,c3:17.3,c4:12.1,msgs:811,note:"③管理会計(17.3%) [給与・法定調書] / ②消費税(16.6%) [消費税・インボイス]"},
-  {name:"中谷",c1:10.0,c2:16.0,c3:17.4,c4:11.3,msgs:1826,note:"③管理会計(17.4%) [給与・源泉所得税] / ②消費税(16.0%) [消費税・免税]"},
-  {name:"髙本",c1:11.3,c2:19.6,c3:10.1,c4:13.5,msgs:951,note:"②消費税(19.6%) [消費税・インボイス] / ④付加価値(13.5%) [シミュレーション・議事録]"},
-  {name:"梅木",c1:9.9,c2:22.3,c3:12.4,c4:8.9,msgs:2184,note:"②消費税(22.3%) [消費税・インボイス] / ③管理会計(12.4%) [届出書・給与]"},
-  {name:"中村",c1:9.5,c2:16.0,c3:17.1,c4:8.8,msgs:820,note:"③管理会計(17.1%) [給与・法定調書] / ②消費税(16.0%) [消費税・インボイス]"},
-  {name:"大谷",c1:7.4,c2:11.2,c3:17.1,c4:15.0,msgs:994,note:"③管理会計(17.1%) [給与・社会保険] / ④付加価値(15.0%) [シミュレーション・減価償却]"},
-  {name:"Ryu",c1:10.3,c2:11.3,c3:15.4,c4:13.0,msgs:1192,note:"③管理会計(15.4%) [届出書・給与] / ④付加価値(13.0%) [償却資産・試算]"},
-  {name:"権田",c1:8.4,c2:16.1,c3:13.4,c4:13.4,msgs:261,note:"②消費税(16.1%) [消費税・課税事業者] / ③管理会計(13.4%) [給与・届出書]"},
-  {name:"上野",c1:4.3,c2:14.7,c3:14.7,c4:12.3,msgs:1031,note:"②消費税(14.7%) [消費税・課税事業者] / ③管理会計(14.7%) [給与・源泉徴収]"},
-  {name:"照井",c1:6.4,c2:15.6,c3:15.9,c4:10.8,msgs:2593,note:"③管理会計(15.9%) [給与・源泉税] / ②消費税(15.6%) [消費税・免税]"},
-  {name:"上田",c1:12.2,c2:12.9,c3:12.1,c4:11.6,msgs:1548,note:"②消費税(12.9%) [消費税・免税] / ①会計ソフト(12.2%) [帳簿・マネーフォワード]"},
-  {name:"宮田",c1:4.0,c2:21.6,c3:13.9,c4:6.1,msgs:918,note:"②消費税(21.6%) [消費税・免税] / ③管理会計(13.9%) [届出書・給与]"},
-  {name:"井上",c1:3.3,c2:13.2,c3:17.3,c4:11.6,msgs:779,note:"③管理会計(17.3%) [給与・年末調整] / ②消費税(13.2%) [消費税・インボイス]"},
-  {name:"小栗",c1:7.7,c2:14.0,c3:10.6,c4:10.9,msgs:855,note:"②消費税(14.0%) [消費税・簡易課税] / ④付加価値(10.9%) [議事録・役員報酬]"},
-  {name:"海島",c1:9.7,c2:13.8,c3:17.3,c4:7.5,msgs:318,note:"③管理会計(17.3%) [社会保険・給与] / ②消費税(13.8%) [消費税・対象外]"},
-  {name:"西島",c1:9.1,c2:18.7,c3:12.6,c4:8.1,msgs:198,note:"②消費税(18.7%) [消費税・免税] / ③管理会計(12.6%) [給与・届出書]"},
-  {name:"柿島",c1:5.1,c2:14.7,c3:13.3,c4:9.3,msgs:1630,note:"②消費税(14.7%) [消費税・簡易課税] / ③管理会計(13.3%) [給与・届出書]"},
-  {name:"陳",c1:8.9,c2:9.6,c3:10.2,c4:9.5,msgs:977,note:"③管理会計(10.2%) [給与・年末調整] / ②消費税(9.6%) [消費税・課税事業者]"},
-  {name:"鎌田",c1:6.6,c2:9.4,c3:9.1,c4:4.3,msgs:1870,note:"②消費税(9.4%) [消費税・課税事業者] / ③管理会計(9.1%) [給与・届出書]"},
-  {name:"岸田",c1:5.4,c2:2.0,c3:2.2,c4:4.4,msgs:499,note:"①会計ソフト(5.4%) [仕訳・マネーフォワード] / ④付加価値(4.4%) [税務調査・相続]"}
-];
-matrix.sort((a,b) => (b.c1+b.c2+b.c3+b.c4)-(a.c1+a.c2+a.c3+a.c4));
-const numClass = v => v>=20?'num high':v>=8?'num mid':v>=2?'num low':'num zero';
-const tbody = document.getElementById('matrix-body');
-matrix.forEach(r => {
-  const total = +(r.c1+r.c2+r.c3+r.c4).toFixed(1);
-  const tr = document.createElement('tr');
-  const fmt = v => v ? v+'%' : '-';
-  tr.innerHTML = `<td>${r.name}さん<br><small style="color:#9ca3af;">${r.msgs.toLocaleString()}件</small></td><td class="${numClass(r.c1)}">${fmt(r.c1)}</td><td class="${numClass(r.c2)}">${fmt(r.c2)}</td><td class="${numClass(r.c3)}">${fmt(r.c3)}</td><td class="${numClass(r.c4)}">${fmt(r.c4)}</td><td class="${numClass(total)}">${total}%</td><td style="font-size:0.8rem;color:#374151;">${r.note}</td>`;
-  tbody.appendChild(tr);
-});
-function copyAll() {
-  const btn = document.querySelector('.copy-btn');
-  navigator.clipboard.writeText(document.body.innerText).then(() => {
-    btn.textContent = 'コピーしました!'; btn.classList.add('copied');
-    setTimeout(()=>{btn.textContent='全てをコピー';btn.classList.remove('copied');},2000);
-  });
+function showTab(id) {
+  document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+  document.getElementById('tab-' + id).classList.add('active');
+  event.target.classList.add('active');
 }
 </script>
 </body>
