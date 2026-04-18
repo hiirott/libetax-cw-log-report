@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>過去レポート一覧</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#2563eb;--primary-light:#dbeafe;--gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-500:#6b7280;--gray-900:#111827;--cat1:#8b5cf6;--cat2:#ef4444;--cat3:#f59e0b;--cat4:#10b981}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gray-50);color:var(--gray-900);line-height:1.7}
+.container{max-width:960px;margin:0 auto;padding:2rem}
+header{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;padding:2.5rem 2rem;margin-bottom:2rem;border-radius:12px}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:0.3rem}
+header p{opacity:0.85;font-size:0.9rem}
+.section{background:white;border-radius:10px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.section h2{font-size:1.2rem;font-weight:700;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--primary-light)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:var(--gray-100);padding:0.6rem 0.8rem;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:0.6rem 0.8rem;border-bottom:1px solid var(--gray-200)}
+tr:hover td{background:#f0f4ff}
+.num{text-align:center}
+.note{font-size:0.82rem;color:var(--gray-500);font-style:italic;margin-bottom:1rem}
+footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
+</style>
+</head>
+<body><div class="container">
+<header>
+  <h1>過去レポート一覧</h1>
+  <p>月次実行のたびに自動追加 | <a href="index.html" style="color:#93c5fd">最新レポート →</a></p>
+</header>
+<div class="section">
+  <h2>月次スナップショット一覧</h2>
+  <p class="note">月名をクリックでその月のレポートを表示。数値は全ルーム（有効データあり）の平均ヒット率。</p>
+  <table><thead><tr>
+    <th>月</th><th class="num">総メッセージ</th><th class="num">ルーム数</th>
+    <th class="num" style="color:var(--cat1)">①会計</th>
+    <th class="num" style="color:var(--cat2)">②消費税</th>
+    <th class="num" style="color:var(--cat3)">③労務</th>
+    <th class="num" style="color:var(--cat4)">④付加価値</th>
+    <th class="num">avg合計</th>
+  </tr></thead><tbody><tr>
+      <td><a href="reports/2026-04.html" style="color:var(--primary);font-weight:600">2026-04</a></td>
+      <td class="num">2,912</td>
+      <td class="num">28</td>
+      <td class="num" style="color:var(--cat1)">8.2%</td>
+      <td class="num" style="color:var(--cat2)">16.2%</td>
+      <td class="num" style="color:var(--cat3)">7.5%</td>
+      <td class="num" style="color:var(--cat4)">5.4%</td>
+      <td class="num">37.3%</td>
+    </tr></tbody></table>
+</div>
+<div class="section"><p style="color:var(--gray-500)">2ヶ月分のデータが揃うと前月比を表示できます。</p></div>
+<footer>Notionデータ自動生成 | <a href="index.html">最新レポート</a> | <a href="insights.html">インサイトレポート</a></footer>
+</div></body></html>

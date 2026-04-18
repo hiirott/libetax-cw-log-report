@@ -1,0 +1,41 @@
+{
+  "snapshots": {
+    "2026-04": {
+      "generated_at": "2026-04-18",
+      "total_messages": 2912,
+      "room_count": 28,
+      "avg_c1": 8.2,
+      "avg_c2": 16.2,
+      "avg_c3": 7.5,
+      "avg_c4": 5.4,
+      "top_c2": [
+        {
+          "label": "谷さん",
+          "rate": 45
+        },
+        {
+          "label": "風巻さん",
+          "rate": 32.6
+        },
+        {
+          "label": "太田綾さん",
+          "rate": 25.2
+        }
+      ],
+      "top_c4": [
+        {
+          "label": "髙本さん",
+          "rate": 15.7
+        },
+        {
+          "label": "中村さん",
+          "rate": 14.6
+        },
+        {
+          "label": "上田さん",
+          "rate": 12.6
+        }
+      ]
+    }
+  }
+}

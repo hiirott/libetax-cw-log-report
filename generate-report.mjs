@@ -4,7 +4,7 @@
  * Notion CWログ → キーワード分析 → index.html + monthly_trends.json 生成
  * 使い方: node --env-file .env generate-report.mjs
  */
-import { writeFileSync, readFileSync, existsSync } from 'fs';
+import { writeFileSync, readFileSync, existsSync, mkdirSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
@@ -672,7 +672,7 @@ footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
 <header>
   <h1>加算候補業務 実態把握レポート</h1>
   <p>主担当×税理士チームCWチャット全${roomCount}ルーム（${total_messages_all.toLocaleString()}メッセージ）| 生成: ${generated_at}</p>
-  <p style="margin-top:0.3rem;opacity:0.8">顧問料・加算料金 基準整備プロジェクト | <a href="insights.html" style="color:#93c5fd">インサイトレポート →</a></p>
+  <p style="margin-top:0.3rem;opacity:0.8">顧問料・加算料金 基準整備プロジェクト | <a href="insights.html" style="color:#93c5fd">インサイトレポート →</a> | <a href="archive.html" style="color:#93c5fd">過去レポート →</a></p>
 </header>
 
 <div class="summary-grid">
@@ -822,6 +822,235 @@ function updateInsightsHeader(data) {
 }
 
 // =========================================================
+// アーカイブ保存 (reports/YYYY-MM.html)
+// =========================================================
+function saveArchive(data) {
+  const archiveDir = join(__dirname, 'reports');
+  mkdirSync(archiveDir, { recursive: true });
+  const month = data.generated_at.slice(0, 7);
+  // index.html を読んでパスを相対調整してアーカイブ保存
+  let html = readFileSync(join(__dirname, 'index.html'), 'utf-8');
+  html = html
+    .replace(/href="insights\.html"/g, 'href="../insights.html"')
+    .replace(/href="archive\.html"/g, 'href="../archive.html"')
+    .replace(/<title>/, `<title>[${month}アーカイブ] `)
+    .replace(
+      /<\/header>/,
+      `<div style="background:#fef3c7;text-align:center;padding:0.5rem 1rem;font-size:0.85rem;margin-top:1rem;border-radius:6px">
+        これは <strong>${month}</strong> 時点のアーカイブです。<a href="../index.html" style="color:var(--primary)">最新レポート →</a>
+      </div></header>`
+    );
+  writeFileSync(join(archiveDir, `${month}.html`), html, 'utf-8');
+  return month;
+}
+
+// =========================================================
+// history.json 累積更新
+// =========================================================
+function updateHistoryJson(data) {
+  const histPath = join(__dirname, 'reports', 'history.json');
+  const history = existsSync(histPath)
+    ? JSON.parse(readFileSync(histPath, 'utf-8'))
+    : { snapshots: {} };
+
+  const month = data.generated_at.slice(0, 7);
+  const actives = data.rooms_individual.filter(r => !r.closed && r.total_messages >= 30);
+  const N = actives.length;
+  const avg = cat => N > 0 ? +(actives.reduce((s, r) => s + r[`${cat}_rate`], 0) / N).toFixed(1) : 0;
+
+  // 既存エントリのnotion_page_idは引き継ぐ
+  const existing = history.snapshots[month] || {};
+  history.snapshots[month] = {
+    ...existing,
+    generated_at: data.generated_at,
+    total_messages: data.total_messages_all,
+    room_count: N,
+    avg_c1: avg('c1'), avg_c2: avg('c2'), avg_c3: avg('c3'), avg_c4: avg('c4'),
+    top_c2: actives.sort((a, b) => b.c2_rate - a.c2_rate).slice(0, 3).map(r => ({ label: r.label, rate: r.c2_rate })),
+    top_c4: [...actives].sort((a, b) => b.c4_rate - a.c4_rate).slice(0, 3).map(r => ({ label: r.label, rate: r.c4_rate })),
+  };
+
+  writeFileSync(histPath, JSON.stringify(history, null, 2), 'utf-8');
+  return history;
+}
+
+// =========================================================
+// archive.html 生成
+// =========================================================
+function generateArchivePage(history) {
+  const snapshots = Object.entries(history.snapshots).sort((a, b) => b[0].localeCompare(a[0]));
+
+  const rows = snapshots.map(([month, s]) => {
+    const avgTotal = (s.avg_c1 + s.avg_c2 + s.avg_c3 + s.avg_c4).toFixed(1);
+    return `<tr>
+      <td><a href="reports/${month}.html" style="color:var(--primary);font-weight:600">${month}</a></td>
+      <td class="num">${(s.total_messages || 0).toLocaleString()}</td>
+      <td class="num">${s.room_count}</td>
+      <td class="num" style="color:var(--cat1)">${s.avg_c1}%</td>
+      <td class="num" style="color:var(--cat2)">${s.avg_c2}%</td>
+      <td class="num" style="color:var(--cat3)">${s.avg_c3}%</td>
+      <td class="num" style="color:var(--cat4)">${s.avg_c4}%</td>
+      <td class="num">${avgTotal}%</td>
+    </tr>`;
+  }).join('\n');
+
+  // 月次変化（2ヶ月以上あれば表示）
+  let changeHtml = '';
+  if (snapshots.length >= 2) {
+    const changes = [];
+    for (let i = 0; i < snapshots.length - 1; i++) {
+      const [cm, curr] = snapshots[i];
+      const [, prev] = snapshots[i + 1];
+      const diff = cat => {
+        const d = (curr[`avg_${cat}`] - prev[`avg_${cat}`]).toFixed(1);
+        const col = d > 0 ? '#dc2626' : d < 0 ? '#059669' : '#6b7280';
+        return `<span style="color:${col}">${d > 0 ? '▲' : d < 0 ? '▼' : '→'}${Math.abs(d)}pt</span>`;
+      };
+      const notionLink = curr.notion_page_id
+        ? ` <a href="https://www.notion.so/${curr.notion_page_id.replace(/-/g,'')}" style="font-size:0.78rem;color:#6b7280" target="_blank">Notion</a>`
+        : '';
+      changes.push(`<tr>
+        <td>${snapshots[i+1][0]} → ${cm}${notionLink}</td>
+        <td class="num">${diff('c1')}</td><td class="num">${diff('c2')}</td>
+        <td class="num">${diff('c3')}</td><td class="num">${diff('c4')}</td>
+      </tr>`);
+    }
+    changeHtml = `
+    <div class="section">
+      <h2>月次変化（前月比）</h2>
+      <p class="note">▼は相談頻度の減少（施策効果の可能性あり）。▲は増加（対応が必要な領域）。</p>
+      <table><thead><tr>
+        <th>期間</th>
+        <th class="num" style="color:var(--cat1)">①会計</th>
+        <th class="num" style="color:var(--cat2)">②消費税</th>
+        <th class="num" style="color:var(--cat3)">③労務</th>
+        <th class="num" style="color:var(--cat4)">④付加価値</th>
+      </tr></thead><tbody>${changes.join('\n')}</tbody></table>
+    </div>`;
+  } else {
+    changeHtml = `<div class="section"><p style="color:var(--gray-500)">2ヶ月分のデータが揃うと前月比を表示できます。</p></div>`;
+  }
+
+  const html = `<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive">
+<title>過去レポート一覧</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--primary:#2563eb;--primary-light:#dbeafe;--gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-500:#6b7280;--gray-900:#111827;--cat1:#8b5cf6;--cat2:#ef4444;--cat3:#f59e0b;--cat4:#10b981}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--gray-50);color:var(--gray-900);line-height:1.7}
+.container{max-width:960px;margin:0 auto;padding:2rem}
+header{background:linear-gradient(135deg,#1e3a5f,#2563eb);color:white;padding:2.5rem 2rem;margin-bottom:2rem;border-radius:12px}
+header h1{font-size:1.6rem;font-weight:700;margin-bottom:0.3rem}
+header p{opacity:0.85;font-size:0.9rem}
+.section{background:white;border-radius:10px;padding:2rem;margin-bottom:1.5rem;box-shadow:0 1px 3px rgba(0,0,0,.08)}
+.section h2{font-size:1.2rem;font-weight:700;margin-bottom:1rem;padding-bottom:0.5rem;border-bottom:2px solid var(--primary-light)}
+table{width:100%;border-collapse:collapse;font-size:0.85rem}
+th{background:var(--gray-100);padding:0.6rem 0.8rem;text-align:left;font-weight:600;white-space:nowrap}
+td{padding:0.6rem 0.8rem;border-bottom:1px solid var(--gray-200)}
+tr:hover td{background:#f0f4ff}
+.num{text-align:center}
+.note{font-size:0.82rem;color:var(--gray-500);font-style:italic;margin-bottom:1rem}
+footer{text-align:center;padding:2rem;color:var(--gray-500);font-size:0.85rem}
+</style>
+</head>
+<body><div class="container">
+<header>
+  <h1>過去レポート一覧</h1>
+  <p>月次実行のたびに自動追加 | <a href="index.html" style="color:#93c5fd">最新レポート →</a></p>
+</header>
+<div class="section">
+  <h2>月次スナップショット一覧</h2>
+  <p class="note">月名をクリックでその月のレポートを表示。数値は全ルーム（有効データあり）の平均ヒット率。</p>
+  <table><thead><tr>
+    <th>月</th><th class="num">総メッセージ</th><th class="num">ルーム数</th>
+    <th class="num" style="color:var(--cat1)">①会計</th>
+    <th class="num" style="color:var(--cat2)">②消費税</th>
+    <th class="num" style="color:var(--cat3)">③労務</th>
+    <th class="num" style="color:var(--cat4)">④付加価値</th>
+    <th class="num">avg合計</th>
+  </tr></thead><tbody>${rows}</tbody></table>
+</div>
+${changeHtml}
+<footer>Notionデータ自動生成 | <a href="index.html">最新レポート</a> | <a href="insights.html">インサイトレポート</a></footer>
+</div></body></html>`;
+
+  writeFileSync(join(__dirname, 'archive.html'), html, 'utf-8');
+}
+
+// =========================================================
+// Notionへ月次サマリーを書き戻す
+// =========================================================
+async function logToNotion(data) {
+  const month = data.generated_at.slice(0, 7);
+  const histPath = join(__dirname, 'reports', 'history.json');
+  const history = JSON.parse(readFileSync(histPath, 'utf-8'));
+
+  // 既に書き込み済みならスキップ
+  if (history.snapshots[month]?.notion_page_id) {
+    console.log(`  Notion: ${month} は書き込み済み → スキップ`);
+    return;
+  }
+
+  const actives = data.rooms_individual.filter(r => !r.closed && r.total_messages >= 30);
+  const N = actives.length;
+  const avg = cat => N > 0 ? +(actives.reduce((s, r) => s + r[`${cat}_rate`], 0) / N).toFixed(1) : 0;
+
+  const topRooms = cat => [...actives]
+    .sort((a, b) => b[`${cat}_rate`] - a[`${cat}_rate`])
+    .slice(0, 3).map(r => `${r.label}(${r[`${cat}_rate`]}%)`).join('、');
+
+  const scored = actives
+    .map(r => ({ ...r, score: +(r.c2_rate * 2 + r.c4_rate * 1.5 + r.c3_rate + r.c1_rate * 0.5).toFixed(1) }))
+    .sort((a, b) => b.score - a.score).slice(0, 5);
+
+  const rt = (text) => [{ type: 'text', text: { content: text } }];
+
+  const children = [
+    { type: 'paragraph', paragraph: { rich_text: rt(`生成日: ${data.generated_at} | 対象: ${N}ルーム | 総メッセージ: ${data.total_messages_all.toLocaleString()}件`) } },
+    { type: 'heading_3', heading_3: { rich_text: rt('全体平均ヒット率') } },
+    { type: 'bulleted_list_item', bulleted_list_item: { rich_text: rt(`①会計ソフト: ${avg('c1')}%`) } },
+    { type: 'bulleted_list_item', bulleted_list_item: { rich_text: rt(`②消費税: ${avg('c2')}%（上位: ${topRooms('c2')}）`) } },
+    { type: 'bulleted_list_item', bulleted_list_item: { rich_text: rt(`③管理・労務: ${avg('c3')}%`) } },
+    { type: 'bulleted_list_item', bulleted_list_item: { rich_text: rt(`④付加価値: ${avg('c4')}%（上位: ${topRooms('c4')}）`) } },
+    { type: 'heading_3', heading_3: { rich_text: rt('加算優先スコア TOP5') } },
+    ...scored.map(r => ({
+      type: 'bulleted_list_item',
+      bulleted_list_item: { rich_text: rt(`${r.label}: スコア${r.score} (①${r.c1_rate}% ②${r.c2_rate}% ③${r.c3_rate}% ④${r.c4_rate}%)`) },
+    })),
+    { type: 'paragraph', paragraph: { rich_text: rt(`レポート: https://hiirott.github.io/libetax-cw-log-report/reports/${month}.html`) } },
+  ];
+
+  const res = await fetch(`${NOTION_API}/pages`, {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${NOTION_TOKEN}`,
+      'Notion-Version': '2022-06-28',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      parent: { page_id: '339688de-25d8-8179-aa6b-d49693b0a731' },
+      properties: { title: { title: rt(`月次分析レポート ${month}`) } },
+      children,
+    }),
+  });
+
+  if (!res.ok) {
+    const err = await res.text().catch(() => '');
+    throw new Error(`Notion書き込み失敗: ${res.status} ${err.slice(0, 200)}`);
+  }
+  const page = await res.json();
+
+  // IDを保存（次回スキップ用）
+  history.snapshots[month].notion_page_id = page.id;
+  writeFileSync(histPath, JSON.stringify(history, null, 2), 'utf-8');
+  console.log(`  Notion: ページ作成 → ${page.url}`);
+}
+
+// =========================================================
 // メイン
 // =========================================================
 async function main() {
@@ -830,7 +1059,6 @@ async function main() {
   const htmlOnly = process.argv.includes('--html-only');
 
   if (htmlOnly) {
-    // JSONから読み込んでHTML再生成のみ
     const jsonPath = join(__dirname, 'room_analysis.json');
     if (!existsSync(jsonPath)) {
       console.error('❌ room_analysis.json が見つかりません。先に通常実行してください。');
@@ -842,6 +1070,11 @@ async function main() {
     console.log('✅ index.html 生成');
     updateInsightsHeader(data);
     console.log('✅ insights.html 更新');
+    const month = saveArchive(data);
+    console.log(`✅ reports/${month}.html 保存`);
+    const history = updateHistoryJson(data);
+    generateArchivePage(history);
+    console.log('✅ archive.html 更新');
     console.log(`🎉 完了 ${((Date.now() - startTime) / 1000).toFixed(1)}秒`);
     return;
   }
@@ -908,7 +1141,23 @@ async function main() {
 
   // insights.html ヘッダー更新
   updateInsightsHeader(output);
-  console.log('✅ insights.html ヘッダー更新');
+  console.log('✅ insights.html 更新');
+
+  // アーカイブ保存
+  const archiveMonth = saveArchive(output);
+  console.log(`✅ reports/${archiveMonth}.html 保存`);
+
+  // history.json 更新 + archive.html 生成
+  const history = updateHistoryJson(output);
+  generateArchivePage(history);
+  console.log('✅ archive.html 更新');
+
+  // Notionへ書き戻し
+  try {
+    await logToNotion(output);
+  } catch (err) {
+    console.error(`⚠️  Notion書き込みエラー: ${err.message}`);
+  }
 
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
   console.log(`\n🎉 完了！ ${elapsed}秒 / Notion APIリクエスト ${reqCount}回`);
