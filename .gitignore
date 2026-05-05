@@ -1,1 +1,4 @@
 .env
+
+# OMC (oh-my-claudecode) plan-execute / autopilot / ralph state
+.omc/
